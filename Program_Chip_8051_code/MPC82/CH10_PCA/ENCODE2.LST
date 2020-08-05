@@ -1,0 +1,94 @@
+C51 COMPILER V9.03   ENCODE2                                                               11/27/2011 16:23:53 PAGE 1   
+
+
+C51 COMPILER V9.03, COMPILATION OF MODULE ENCODE2
+OBJECT MODULE PLACED IN ENCODE2.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ENCODE2.C OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********** ENCODE2.c ********四倍解析編碼器實習範例***************
+   2          *動作：將ENCODE旋轉時所產生的A、B相信號，送到捕捉器CEX4(P16)
+   3                 及CEX5(P17)作為觸發輸入信號，在LED顯示馬達正反轉數值
+   4          *硬體：SW1-3(P0LED)ON。由P12及P13模擬ENCODE信號，
+   5          *       連接(或反接)P16及P17，可改變LED上/下數，SW1-3(P0LED)ON。
+   6          *      或在J9連接ENCODE，正/反旋轉，可改變LED上/下數
+   7          ***********************************************************/
+   8          #include "..\MPC82.H"  //暫存器及組態定義
+   9          unsigned int count=0;
+  10          main()          
+  11          {
+  12   1        P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  13   1        EA = 1; AUXIE = EPCA; //致能PCA中斷
+  14   1        CCF4 = 0;        //清除模組4的比較旗標
+  15   1        CCAPM4 = CCAPM5 = ECCF+CAPN; //CEX4(P16)及CEX5(P17)負緣中斷
+  16   1        CR = 1;       //啟動PCA計數 
+  17   1        LED=~count;   //計數由LED輸出
+  18   1      
+  19   1        P1_2=P1_3=0;  //模擬ENCODE的動作
+  20   1        while(1)
+  21   1        {
+  22   2         P1_2=1; Delay_ms(500);
+  23   2         P1_3=1; Delay_ms(500);
+  24   2         P1_2=0; Delay_ms(500);
+  25   2         P1_3=0; Delay_ms(500);
+  26   2        }  
+  27   1      }
+  28          /***********************************************************
+  29          *函數名稱: PCA中斷函數
+  30          *功能描述: 自動令CEX0反相
+  31          ************************************************************/
+  32          void PCA_Interrupt() interrupt 10
+  33          {
+  34   1        CF=0;          //清除PCA計數溢位旗標
+  35   1        if(CCF4)       //若是模組4的比較旗標
+  36   1         {
+  37   2           CCF4 = 0; //清除模組4的比較旗標
+  38   2               if(CCAPM4 & CAPN)      //檢查CEX4是否為負緣輸入
+  39   2                 {
+  40   3                  CCAPM4 = ECCF+CAPP; //若是負緣下次改為正緣
+  41   3                      if(P1_7) count++;   //若正轉，計數遞加
+  42   3                else count--;     //若反轉，計數遞減
+  43   3                      }
+  44   2                  else          //檢查CEX4為正緣輸入
+  45   2                       {
+  46   3                        CCAPM4 = ECCF+CAPN; //若是正緣下次改為負緣 
+  47   3                        if(!P1_7) count++;  //若正轉，計數遞加
+  48   3                  else count--;     //若反轉，計數遞減
+  49   3                       }
+  50   2         }
+  51   1      
+  52   1         if(CCF5)      //若是模組5的比較旗標
+  53   1         {
+  54   2           CCF5 = 0;    //清除模組5的比較旗標
+  55   2               if(CCAPM5 & CAPN)              //檢查CEX5是否為負緣輸入
+C51 COMPILER V9.03   ENCODE2                                                               11/27/2011 16:23:53 PAGE 2   
+
+  56   2                 {
+  57   3                  CCAPM5 = ECCF+CAPP; //若是負緣下次改為正緣
+  58   3                      if(P1_6) count--;   //若反轉，計數遞減
+  59   3                else count++;     //若正轉，計數遞加
+  60   3                      }
+  61   2                  else         //檢查CEX5為正緣輸入
+  62   2                       {
+  63   3                        CCAPM5 = ECCF+CAPN; //若是正緣下次改為負緣 
+  64   3                        if(!P1_6) count--;  //若反轉，計數遞減
+  65   3                  else count++;     //若正轉，計數遞加
+  66   3                       }
+  67   2         }
+  68   1        LED=~count;       //計數由LED輸出
+  69   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    259    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

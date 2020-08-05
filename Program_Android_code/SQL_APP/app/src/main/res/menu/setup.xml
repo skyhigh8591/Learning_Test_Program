@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/add_data"
+        android:title="Add data" />
+
+    <item android:id="@+id/updata_data"
+        android:title="Updata data" />
+
+    <item android:id="@+id/delete_data"
+        android:title="Delete data" />
+
+    <item android:id="@+id/select_data"
+        android:title="Select data" />
+
+    <item android:id="@+id/select_alldata"
+        android:title="Select all data" />
+
+</menu>

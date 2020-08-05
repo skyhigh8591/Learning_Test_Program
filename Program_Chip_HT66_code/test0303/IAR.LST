@@ -1,0 +1,67 @@
+"File: IAR.asm       Assembler  Version 2.98      Page 1
+
+
+   1  0000              ; PROGRAM : IAR.ASM  		        				By Steven                    
+   2  0000              ; FUNCTION: Indirect Addressing DEMO PROGRAM        2019.0305
+   3  0000              ; 首先觀察 RAM Sector 0,3,4 之內容      		  
+   4  0000              #INCLUDE    HT66F2390.INC 
+
+
+   5  0000              ;=================================================================================
+   6  0000              MY_DATA    .SECTION		'DATA'          ;== DATA SECTION == 
+   7  0000  0080[       Array1		DB 128 dup(?)        		;Reserve 128 Byte with Start Address -> Array 
+            00
+            ]
+   8  0080              RAMBANK 3  	MY_DATA1
+   9  0000              MY_DATA1 	.SECTION	'DATA'          ;== DATA SECTION == 
+  10  0000  0080[       Array2		DB 128 dup(?)        		;Reserve 128 Byte with Start Address -> Array 
+            00
+            ]
+  11  0080              
+  12  0080              RAMBANK 4  	MY_DATA2
+  13  0000              MY_DATA2 	.SECTION	'DATA'          ;== DATA SECTION == 
+  14  0000  0080[       Array3		DB 128 dup(?)        		;Reserve 128 Byte with Start Address -> Array 
+            00
+            ]
+  15  0080              
+  16  0080              ;========================================================================================
+  17  0000              MY_CODE    .SECTION	 at 0	'CODE'     	;== PROGRAM SECTION == 
+  18  0000              MAIN:
+  19  0000  0FAF        		MOV		A,0AFh					;DISABLE WDT
+  20  0001  00BE        		MOV		WDTC,A
+  21  0002  0F00     R  		MOV		a,Low OFFSET Array1		;MP0永遠僅指向BANK0
+  22  0003  0081        		MOV		MP0,A
+  23  0004  0F80        		MOV		a,128
+  24  0005              LOOP1:		
+  25  0005  1F00        		CLR		IAR0					;將MP0所指向的位址內容清為0
+  26  0006  1481        		INC		MP0
+  27  0007  1785        		SDZ		ACC
+  28  0008  2805        		JMP		LOOP1
+  29  0009              ;=======================================================================		
+  30  0009  0F00     R  		MOV		A,Low OFFSET Array2		;斷點1
+  31  000A  0083        		MOV		MP1L,A					
+  32  000B  0F00     R  		MOV		A,High OFFSET Array2
+  33  000C  0084        		MOV		MP1H,A		
+  34  000D  0F80        		MOV		a,128
+  35  000E              LOOP2:		
+  36  000E  1F82        		SET		IAR1					;將MP1所指向的位址內容設為FF
+  37  000F  1483        		INC		MP1L
+  38  0010  1785        		SDZ		ACC
+  39  0011  280E        		JMP		LOOP2
+  40  0012              ;=======================================================================		
+  41  0012  0F00     R  		MOV		a,OFFSET Array3			;斷點2
+  42  0013  0081        		MOV		MP0,A
+  43  0014  0F80        		MOV		a,128
+  44  0015              LOOP3:		
+  45  0015  1F80        		SET		IAR0					;將MP0所指向的位址內容清為0
+  46  0016  1481        		INC		MP0
+  47  0017  1785        		SDZ		ACC
+  48  0018  2815        		JMP		LOOP3
+  49  0019              ;=======================================================================
+  50  0019  2819        		JMP		$						;斷點3					
+  51  001A              		END
+"File: IAR.asm       Assembler  Version 2.98      Page 2
+
+
+
+        0 Errors, 0 Warnings

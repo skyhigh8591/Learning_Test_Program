@@ -1,0 +1,50 @@
+C51 COMPILER V8.16   6_7                                                                   02/10/2009 15:43:29 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE 6_7
+OBJECT MODULE PLACED IN 6_7.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 6_7.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1           /********** 6_7.c ***************************
+   2          *動作：設定以Timer0計時中斷mode1、定時令LED遞加
+   3          *硬體：SW1-3(P0LED)ON
+   4          **********************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6                         //Fosc=22.1184MHz，Timer時脈=Fosc/12=1.8432MHz
+   7          #define T  57600  //Timer延時時間=(1/1.8432MHz)*57600=31250uS
+   8          unsigned char i=0;
+   9          
+  10          main()         
+  11          {
+  12   1        PCON2=5; //Fosc=Fosc/32，時間=31250uS*32=1秒(軟體模擬無效) 
+  13   1        TMOD = 0x01; /*0000 0001，設定Timer0為mode1內部計時
+  14   1                       bit3:GATE=0,不使用外部INT0接腳
+  15   1                               bit2:C/T0=0,內部計時 
+  16   1                                   bit1-0:MODE=01,使用模式1工作*/
+  17   1        TL0=65536-T; TH0=(65536-T)>>8; //設定Timer0計數值
+  18   1        EA=1;ET0=1;    //致能Timer0中斷
+  19   1        TR0=1;         //啟動Timer0開始計時
+  20   1        while(1);      //自我空轉，表示此時可作其它事情
+  21   1      }
+  22          /************************************************************/
+  23          void T0_int(void) interrupt 1  //Timer0中斷函數
+  24            {
+  25   1          TL0=65536-T; TH0=(65536-T)>>8; //重新設定Timer0計數值
+  26   1              LED=~i++;        //LED遞加輸出
+  27   1        }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     96    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

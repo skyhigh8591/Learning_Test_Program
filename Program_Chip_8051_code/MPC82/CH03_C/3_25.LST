@@ -1,0 +1,40 @@
+C51 COMPILER V9.56.0.0   3_25                                                              02/25/2020 10:27:32 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE 3_25
+OBJECT MODULE PLACED IN 3_25.OBJ
+COMPILER INVOKED BY: C:\Keil_v51\C51\BIN\C51.EXE 3_25.C ROM(SMALL) OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /************** 3_25.c **************************
+   2          *動作：用if和goto指令，由LED輸出00~99十進制變化
+   3          *硬體：SW1-3(P0LED)ON
+   4          ***********************************************/
+   5          #include "..\MPC82.H"  //暫存器及組態設定
+   6          main()
+   7          {       
+   8   1         char i=12; //宣告計數變數
+   9   1         P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  10   1       loop:
+  11   1         LED=~((i/10<<4)+(i%10)); //十進位計數輸出
+  12   1         Delay_ms(500);
+  13   1         i++;                 //計數加一
+  14   1         if(i<100) goto loop; //若計數小於100到loop處   
+  15   1         i=0;                 //若若計數等於100，令計數=0
+  16   1         goto loop; 
+  17   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    106    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

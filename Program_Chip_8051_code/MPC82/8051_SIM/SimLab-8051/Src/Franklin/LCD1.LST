@@ -1,0 +1,508 @@
+C51 COMPILER V6.11  LCD1                           12/13/2001 22:53:01 PAGE 1   
+
+
+C51 COMPILER V6.11, COMPILATION OF MODULE LCD1
+OBJECT MODULE PLACED IN LCD1.OBJ
+COMPILER INVOKED BY: c:\c51\bin\C51.EXE LCD1.c
+
+stmt level    source
+
+   1          //
+   2          //  °t¦X"¤å¦r«¬LCD¹ê²ßªO"
+   3          //   ¦b¤å¦r«¬LCD¤WÅã¥Ü"Hello!!"(¥Î©µ¿ðªº¤è¦¡©MLCD¦P¨B) 
+   4          //
+   5          #pragma oe db pw(80) SM SB CD
+   6          #include	<reg51.h>
+   7          #include "Delay.h"
+   8          char code mes[]="Hello!!" ;
+   9          void delay2ms()
+  10          {
+  11   1      	Delay1ms() ;
+  12   1      	Delay1ms() ;
+  13   1      }
+  14          void delay5ms()
+  15          {
+  16   1      	delay2ms() ;
+  17   1      	delay2ms() ;
+  18   1      	Delay1ms() ;
+  19   1      }
+  20          void delay40us()
+  21          {
+  22   1      	int i ;
+  23   1      	for(i=0 ; i < 5 ;i++) ;
+  24   1      }
+  25          void Command(cmd){
+  26   1      	P0=cmd ;
+  27   1      	P1=0x4 ;    //E=1 , RW=0 , RS=0
+  28   1      	P1=0;       //E=0 , RW=0 , RS=0
+  29   1      	delay40us() ;
+  30   1      }
+  31          void Data(char data1){
+  32   1      	P0=data1;
+  33   1      	P1=0x5;     //E=1 , RW=0 , RS=1
+  34   1      	P1=0x1 ;    //E=0 , RW=0 , RS=1
+  35   1      	delay40us() ;
+  36   1      }
+  37          main()
+  38          {
+  39   1      	char code1 ;
+  40   1      	char i ;
+  41   1      	char code *pp=mes ;
+  42   1      	delay5ms() ;            // wait for LCD Power-on Ready
+  43   1      	Command(0x3f) ;         // ±Ä¥Î8¦ì¤¸¸ê®Æ¦s¨ú/Âù¦C¦r/5*10ÂI¯x°}¦r«
+             -¬
+  44   1      	Command(0xe) ;          //Åã¥Ü¾¹ON/´å¼Ð³QÅã¥Ü¦b¦ì§}­p¼Æ¾¹
+  45   1      	Command(0x1) ;          // ²M°£¥þ¿Ã¹õ
+  46   1      	delay2ms() ;
+  47   1      	Command(0x80) ;         // ³]©wDD RAM¦ì§}¬°0
+  48   1      	for(; *pp !=0 ;){
+  49   2      	    Data(*pp++);
+  50   2      	}
+  51   1      	for(;;) ;
+  52   1      }
+*** WARNING C280 IN LINE 39 OF LCD1.C: 'code1': unreferenced local variable
+*** WARNING C280 IN LINE 40 OF LCD1.C: 'i': unreferenced local variable
+C51 COMPILER V6.11  LCD1                           12/13/2001 22:53:01 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION Delay100us (BEGIN)
+                                           ; SOURCE LINE # 72
+                                           ; SOURCE LINE # 73
+                                           ; SOURCE LINE # 75
+;---- Variable 'i' assigned to Register 'R7' ----
+0000 E4                CLR     A
+0001 FF                MOV     R7,A
+0002         ?C0001:
+0002 0F                INC     R7
+0003 BF1FFC            CJNE    R7,#01FH,?C0001
+0006         ?C0002:
+                                           ; SOURCE LINE # 76
+0006 0F                INC     R7
+                                           ; SOURCE LINE # 77
+0007 22                RET     
+             ; FUNCTION Delay100us (END)
+
+             ; FUNCTION Delay1ms (BEGIN)
+                                           ; SOURCE LINE # 79
+                                           ; SOURCE LINE # 80
+                                           ; SOURCE LINE # 83
+;---- Variable 'i' assigned to Register 'R6/R7' ----
+0000 E4                CLR     A
+0001 FF                MOV     R7,A
+0002 FE                MOV     R6,A
+0003         ?C0005:
+0003 0F                INC     R7
+0004 BF0001            CJNE    R7,#00H,?C0051
+0007 0E                INC     R6
+0008         ?C0051:
+0008 EF                MOV     A,R7
+0009 647C              XRL     A,#07CH
+000B 4E                ORL     A,R6
+000C 70F5              JNZ     ?C0005
+000E         ?C0006:
+                                           ; SOURCE LINE # 84
+000E 0500        R     INC     j
+                                           ; SOURCE LINE # 85
+0010 22                RET     
+             ; FUNCTION Delay1ms (END)
+
+             ; FUNCTION Delay10ms (BEGIN)
+                                           ; SOURCE LINE # 87
+                                           ; SOURCE LINE # 88
+                                           ; SOURCE LINE # 90
+;---- Variable 'i' assigned to Register 'R5' ----
+0000 E4                CLR     A
+0001 FD                MOV     R5,A
+0002         ?C0009:
+                                           ; SOURCE LINE # 91
+0002 120000      R     LCALL   Delay1ms
+                                           ; SOURCE LINE # 92
+0005 0D                INC     R5
+0006 BD0AF9            CJNE    R5,#0AH,?C0009
+                                           ; SOURCE LINE # 93
+0009         ?C0012:
+0009 22                RET     
+             ; FUNCTION Delay10ms (END)
+
+C51 COMPILER V6.11  LCD1                           12/13/2001 22:53:01 PAGE 3   
+
+             ; FUNCTION Delay100ms (BEGIN)
+                                           ; SOURCE LINE # 95
+                                           ; SOURCE LINE # 96
+                                           ; SOURCE LINE # 99
+0000 E4                CLR     A
+0001 F500        R     MOV     i+03H,A
+0003 F500        R     MOV     i+02H,A
+0005 F500        R     MOV     i+01H,A
+0007 F500        R     MOV     i,A
+0009         ?C0013:
+0009 E4                CLR     A
+000A 7FC5              MOV     R7,#0C5H
+000C 7E02              MOV     R6,#02H
+000E FD                MOV     R5,A
+000F FC                MOV     R4,A
+0010 AB00        R     MOV     R3,i+03H
+0012 AA00        R     MOV     R2,i+02H
+0014 A900        R     MOV     R1,i+01H
+0016 A800        R     MOV     R0,i
+0018 C3                CLR     C
+0019 120000      E     LCALL   ?C?SLCMP
+001C 501B              JNC     ?C0014
+001E E4                CLR     A
+001F FA                MOV     R2,A
+0020 F9                MOV     R1,A
+0021 F8                MOV     R0,A
+0022 E500        R     MOV     A,i+03H
+0024 2401              ADD     A,#01H
+0026 F500        R     MOV     i+03H,A
+0028 EA                MOV     A,R2
+0029 3500        R     ADDC    A,i+02H
+002B F500        R     MOV     i+02H,A
+002D E9                MOV     A,R1
+002E 3500        R     ADDC    A,i+01H
+0030 F500        R     MOV     i+01H,A
+0032 E8                MOV     A,R0
+0033 3500        R     ADDC    A,i
+0035 F500        R     MOV     i,A
+0037 80D0              SJMP    ?C0013
+0039         ?C0014:
+                                           ; SOURCE LINE # 100
+;---- Variable 'j' assigned to Register 'R7' ----
+0039 E4                CLR     A
+003A FF                MOV     R7,A
+003B         ?C0016:
+003B 0F                INC     R7
+003C BF05FC            CJNE    R7,#05H,?C0016
+003F         ?C0017:
+                                           ; SOURCE LINE # 101
+003F 0F                INC     R7
+                                           ; SOURCE LINE # 102
+0040 0F                INC     R7
+                                           ; SOURCE LINE # 103
+0041 22                RET     
+             ; FUNCTION Delay100ms (END)
+
+             ; FUNCTION Delay1s (BEGIN)
+                                           ; SOURCE LINE # 105
+                                           ; SOURCE LINE # 106
+                                           ; SOURCE LINE # 108
+0000 E4                CLR     A
+0001 F500        R     MOV     i,A
+C51 COMPILER V6.11  LCD1                           12/13/2001 22:53:01 PAGE 4   
+
+0003         ?C0020:
+                                           ; SOURCE LINE # 109
+0003 120000      R     LCALL   Delay100ms
+                                           ; SOURCE LINE # 110
+0006 0500        R     INC     i
+0008 C3                CLR     C
+0009 E500        R     MOV     A,i
+000B 6480              XRL     A,#080H
+000D 948A              SUBB    A,#08AH
+000F 40F2              JC      ?C0020
+                                           ; SOURCE LINE # 111
+0011         ?C0023:
+0011 22                RET     
+             ; FUNCTION Delay1s (END)
+
+             ; FUNCTION Delay10s (BEGIN)
+                                           ; SOURCE LINE # 113
+                                           ; SOURCE LINE # 114
+                                           ; SOURCE LINE # 116
+0000 E4                CLR     A
+0001 F500        R     MOV     i,A
+0003         ?C0024:
+                                           ; SOURCE LINE # 117
+0003 120000      R     LCALL   Delay1s
+                                           ; SOURCE LINE # 118
+0006 0500        R     INC     i
+0008 C3                CLR     C
+0009 E500        R     MOV     A,i
+000B 6480              XRL     A,#080H
+000D 948A              SUBB    A,#08AH
+000F 40F2              JC      ?C0024
+                                           ; SOURCE LINE # 119
+0011         ?C0027:
+0011 22                RET     
+             ; FUNCTION Delay10s (END)
+
+             ; FUNCTION Delay100s (BEGIN)
+                                           ; SOURCE LINE # 121
+                                           ; SOURCE LINE # 122
+                                           ; SOURCE LINE # 124
+0000 E4                CLR     A
+0001 F500        R     MOV     i,A
+0003         ?C0028:
+                                           ; SOURCE LINE # 125
+0003 120000      R     LCALL   Delay10s
+                                           ; SOURCE LINE # 126
+0006 0500        R     INC     i
+0008 C3                CLR     C
+0009 E500        R     MOV     A,i
+000B 6480              XRL     A,#080H
+000D 948A              SUBB    A,#08AH
+000F 40F2              JC      ?C0028
+                                           ; SOURCE LINE # 127
+0011         ?C0031:
+0011 22                RET     
+             ; FUNCTION Delay100s (END)
+
+             ; FUNCTION _Delay100usP (BEGIN)
+;---- Variable 'i' assigned to Register 'R6' ----
+;---- Variable 'cnt' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 129
+                                           ; SOURCE LINE # 130
+C51 COMPILER V6.11  LCD1                           12/13/2001 22:53:01 PAGE 5   
+
+0000         ?C0032:
+                                           ; SOURCE LINE # 133
+0000 EF                MOV     A,R7
+0001 600A              JZ      ?C0037
+                                           ; SOURCE LINE # 134
+0003 E4                CLR     A
+0004 FE                MOV     R6,A
+0005         ?C0034:
+0005 0E                INC     R6
+0006 BE1FFC            CJNE    R6,#01FH,?C0034
+0009         ?C0035:
+                                           ; SOURCE LINE # 135
+0009 0E                INC     R6
+                                           ; SOURCE LINE # 136
+000A 1F                DEC     R7
+                                           ; SOURCE LINE # 137
+000B 80F3              SJMP    ?C0032
+                                           ; SOURCE LINE # 138
+000D         ?C0037:
+000D 22                RET     
+             ; FUNCTION _Delay100usP (END)
+
+             ; FUNCTION delay2ms (BEGIN)
+                                           ; SOURCE LINE # 9
+                                           ; SOURCE LINE # 10
+                                           ; SOURCE LINE # 11
+0000 120000      R     LCALL   Delay1ms
+                                           ; SOURCE LINE # 12
+0003 020000      R     LJMP    Delay1ms
+             ; FUNCTION delay2ms (END)
+
+             ; FUNCTION delay5ms (BEGIN)
+                                           ; SOURCE LINE # 14
+                                           ; SOURCE LINE # 15
+                                           ; SOURCE LINE # 16
+0000 120000      R     LCALL   delay2ms
+                                           ; SOURCE LINE # 17
+0003 120000      R     LCALL   delay2ms
+                                           ; SOURCE LINE # 18
+0006 020000      R     LJMP    Delay1ms
+             ; FUNCTION delay5ms (END)
+
+             ; FUNCTION delay40us (BEGIN)
+                                           ; SOURCE LINE # 20
+                                           ; SOURCE LINE # 21
+                                           ; SOURCE LINE # 23
+;---- Variable 'i' assigned to Register 'R6/R7' ----
+0000 E4                CLR     A
+0001 FF                MOV     R7,A
+0002 FE                MOV     R6,A
+0003         ?C0040:
+0003 0F                INC     R7
+0004 BF0001            CJNE    R7,#00H,?C0052
+0007 0E                INC     R6
+0008         ?C0052:
+0008 EF                MOV     A,R7
+0009 6405              XRL     A,#05H
+000B 4E                ORL     A,R6
+000C 70F5              JNZ     ?C0040
+                                           ; SOURCE LINE # 24
+000E         ?C0043:
+000E 22                RET     
+C51 COMPILER V6.11  LCD1                           12/13/2001 22:53:01 PAGE 6   
+
+             ; FUNCTION delay40us (END)
+
+             ; FUNCTION _Command (BEGIN)
+;---- Variable 'cmd' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 25
+                                           ; SOURCE LINE # 26
+0000 8F80              MOV     P0,R7
+                                           ; SOURCE LINE # 27
+0002 759004            MOV     P1,#04H
+                                           ; SOURCE LINE # 28
+0005 E4                CLR     A
+0006 F590              MOV     P1,A
+                                           ; SOURCE LINE # 29
+0008 020000      R     LJMP    delay40us
+             ; FUNCTION _Command (END)
+
+             ; FUNCTION _Data (BEGIN)
+;---- Variable 'data1' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 31
+                                           ; SOURCE LINE # 32
+0000 8F80              MOV     P0,R7
+                                           ; SOURCE LINE # 33
+0002 759005            MOV     P1,#05H
+                                           ; SOURCE LINE # 34
+0005 759001            MOV     P1,#01H
+                                           ; SOURCE LINE # 35
+0008 020000      R     LJMP    delay40us
+             ; FUNCTION _Data (END)
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 37
+                                           ; SOURCE LINE # 38
+                                           ; SOURCE LINE # 41
+;---- Variable 'pp' assigned to Register 'R4/R5' ----
+0000 7D00        R     MOV     R5,#LOW mes
+0002 7C00        R     MOV     R4,#HIGH mes
+                                           ; SOURCE LINE # 42
+0004 120000      R     LCALL   delay5ms
+                                           ; SOURCE LINE # 43
+0007 7F3F              MOV     R7,#03FH
+0009 7E00              MOV     R6,#00H
+000B 120000      R     LCALL   _Command
+                                           ; SOURCE LINE # 44
+000E 7F0E              MOV     R7,#0EH
+0010 7E00              MOV     R6,#00H
+0012 120000      R     LCALL   _Command
+                                           ; SOURCE LINE # 45
+0015 7F01              MOV     R7,#01H
+0017 7E00              MOV     R6,#00H
+0019 120000      R     LCALL   _Command
+                                           ; SOURCE LINE # 46
+001C 120000      R     LCALL   delay2ms
+                                           ; SOURCE LINE # 47
+001F 7F80              MOV     R7,#080H
+0021 7E00              MOV     R6,#00H
+0023 120000      R     LCALL   _Command
+                                           ; SOURCE LINE # 48
+0026         ?C0046:
+0026 8D82              MOV     DPL,R5
+0028 8C83              MOV     DPH,R4
+002A E4                CLR     A
+002B 93                MOVC    A,@A+DPTR
+C51 COMPILER V6.11  LCD1                           12/13/2001 22:53:01 PAGE 7   
+
+002C 6010              JZ      ?C0048
+                                           ; SOURCE LINE # 49
+002E 0D                INC     R5
+002F ED                MOV     A,R5
+0030 7001              JNZ     ?C0053
+0032 0C                INC     R4
+0033         ?C0053:
+0033 14                DEC     A
+0034 F582              MOV     DPL,A
+0036 E4                CLR     A
+0037 93                MOVC    A,@A+DPTR
+0038 FF                MOV     R7,A
+0039 120000      R     LCALL   _Data
+                                           ; SOURCE LINE # 50
+003C 80E8              SJMP    ?C0046
+                                           ; SOURCE LINE # 51
+003E         ?C0048:
+003E 80FE              SJMP    ?C0048
+             ; FUNCTION main (END)
+
+C51 COMPILER V6.11  LCD1                           12/13/2001 22:53:01 PAGE 8   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+T0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+Delay1ms . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   INT      0006H  2
+  j. . . . . . . . . . . . . . . . . .  AUTO     DATA   CHAR     0000H  1
+T1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+RD . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+Delay1s. . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  AUTO     DATA   CHAR     0000H  1
+ES . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+INT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+INT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+_Delay100usP . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  cnt. . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   CHAR     0006H  1
+_Command . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  cmd. . . . . . . . . . . . . . . . .  * REG *  DATA   INT      0006H  2
+PS . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+delay2ms . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+main . . . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  code1. . . . . . . . . . . . . . . .  AUTO     DATA   CHAR     0000H  1
+  i. . . . . . . . . . . . . . . . . .  AUTO     DATA   CHAR     0001H  1
+  pp . . . . . . . . . . . . . . . . .  * REG *  DATA   PTR      0004H  2
+delay5ms . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+WR . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+Delay10ms. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   CHAR     0005H  1
+IE0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0089H  1
+IE1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008BH  1
+mes. . . . . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    0000H  8
+Delay10s . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  AUTO     DATA   CHAR     0000H  1
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+EX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+IT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0088H  1
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+EX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008AH  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+PT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+PT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+C51 COMPILER V6.11  LCD1                           12/13/2001 22:53:01 PAGE 9   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+PX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+PX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+_Data. . . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  data1. . . . . . . . . . . . . . . .  * REG *  DATA   CHAR     0007H  1
+delay40us. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   INT      0006H  2
+Delay100ms . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  AUTO     DATA   LONG     0000H  4
+  j. . . . . . . . . . . . . . . . . .  * REG *  DATA   CHAR     0007H  1
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+Delay100us . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   CHAR     0007H  1
+RXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+TXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+Delay100s. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  AUTO     DATA   CHAR     0000H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    285    ----
+   CONSTANT SIZE    =      8    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      10
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

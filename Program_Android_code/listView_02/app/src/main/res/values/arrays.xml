@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="city">
+        <item>Taipei</item>
+        <item>Hsinchu</item>
+        <item>Taichung</item>
+    </string-array>
+
+    <string-array name="taipei_code">
+        <item>中正區　 100</item>
+        <item>大同區　 103</item>
+        <item>中山區　 104</item>
+        <item>松山區　 105</item>
+        <item>大安區　 106</item>
+        <item>萬華區　 108</item>
+        <item>信義區　 110</item>
+        <item>士林區　 111</item>
+        <item>北投區　 112</item>
+        <item>內湖區　 114</item>
+        <item>南港區　 115</item>
+        <item>文山區　 116</item>
+    </string-array>
+
+    <string-array name="hsinchu_code">
+        <item>竹　北　 302</item>
+        <item>湖　口　 303</item>
+        <item>新　豐　 304</item>
+        <item>新　埔　 305</item>
+        <item>關　西　 306</item>
+        <item>芎　林　 307</item>
+        <item>寶　山　 308</item>
+        <item>竹　東　 310</item>
+        <item>五　峰　 311</item>
+        <item>橫　山　 312</item>
+        <item>尖　石　 313</item>
+        <item>北　埔　 314</item>
+        <item>峨　眉　 315</item>
+    </string-array>
+
+    <string-array name="taichung_code">
+        <item>太　平　 411</item>
+        <item>大　里　 412</item>
+        <item>霧　峰　 413</item>
+        <item>烏　日　 414</item>
+        <item>豐　原　 420</item>
+        <item>后　里　 421</item>
+        <item>石　岡　 422</item>
+        <item>東　勢　 423</item>
+        <item>和　平　 424</item>
+        <item>新　社　 426</item>
+        <item>潭　子　 427</item>
+        <item>大　雅　 428</item>
+        <item>神　岡　 429</item>
+        <item>大　肚　 432</item>
+        <item>沙　鹿　 433</item>
+        <item>龍　井　 434</item>
+        <item>梧　棲　 435</item>
+        <item>清　水　 436</item>
+        <item>大　甲　 437</item>
+        <item>外　埔　 438</item>
+        <item>大　安　 439</item>
+    </string-array>
+</resources>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

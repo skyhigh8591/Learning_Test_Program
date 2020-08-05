@@ -1,0 +1,38 @@
+C51 COMPILER V8.09   3_7                                                                   07/29/2009 15:08:14 PAGE 1   
+
+
+C51 COMPILER V8.09, COMPILATION OF MODULE 3_7
+OBJECT MODULE PLACED IN 3_7.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_7.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*********** 3_7.c *************************
+   2          *笆盢璸计糶皚跑计ず
+   3          *********************************************/ 
+   4          //unsigned char TABLE[120]=0;//睲埃ず场RAM皚ず甧
+   5          //unsigned char idata TABLE[240]=0;//睲埃ず场丁钡RAM皚ず甧
+   6          unsigned char xdata TABLE[1024]=0;//睲埃ず场耎RAM皚ず甧
+   7          
+   8          main()
+   9          {
+  10   1        unsigned char i=0;    //8-bit璸计跑计
+  11   1       loop:
+  12   1        TABLE[i]=i; //璸计糶皚跑计
+  13   1        i=i+1;
+  14   1       goto loop;
+  15   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     17    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   1024    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,50 @@
+C51 COMPILER V9.05   3_57                                                                  11/05/2011 14:23:18 PAGE 1   
+
+
+C51 COMPILER V9.05, COMPILATION OF MODULE 3_57
+OBJECT MODULE PLACED IN 3_57.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_57.C ROM(SMALL) OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********** 3_57.C ****位元函數範例************
+   2          *動作：位元函數應用輸出
+   3          ***********************************************/
+   4          #include "..\MPC82.H" //暫存器及組態定義 
+   5          void SEND(bit flag);    //宣告位元函數
+   6          bit NOT(bit b1);      //宣告位元函數
+   7          main()
+   8          {
+   9   1          bit b0=0;      //宣告位元變數b0=0
+  10   1        loop:
+  11   1          SEND(0);     //P00=0
+  12   1          SEND(1);     //P00=1 
+  13   1          b0=NOT(b0);//b0反相由P01輸出
+  14   1         goto loop;
+  15   1      } 
+  16          //******************************************************* 
+  17          void SEND(bit flag)     //宣告位元函數，函數中有位元變數flag
+  18          { 
+  19   1        P0_0=flag;     //位元變數由P00輸出
+  20   1      }
+  21          //******************************************************* 
+  22          bit NOT(bit b1) //宣告位元函數，函數中有位元變數b1
+  23          {
+  24   1        P0_1=b1;       //位元變數由P01輸出
+  25   1        b1=!b1;                //位元變數b1反相
+  26   1        return b1;    //回傳位元變數b1
+  27   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     80    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       3
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

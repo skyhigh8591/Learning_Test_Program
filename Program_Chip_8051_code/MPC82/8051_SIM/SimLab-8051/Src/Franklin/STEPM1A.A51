@@ -1,0 +1,21 @@
+;
+;    用單相激磁的方式,使步進馬達正轉n格
+;
+N	EQU	10
+START:
+	MOV	R0,#0
+	MOV	R1,#00000001B
+LOOP:
+	MOV	P0,R1
+	MOV	A,R1
+	RL	A
+	CJNE	A,#00010000B,NEXT1
+	MOV	A,#00000001B
+NEXT1:
+	MOV	R1,A
+	ACALL	DELAY10MS
+	INC	R0
+	CJNE	R0,#N+1,LOOP
+	AJMP	$
+	$include (delay.inc)
+	END

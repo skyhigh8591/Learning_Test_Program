@@ -1,0 +1,130 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        02/25/2020  14:30:51  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL_V51\C51\BIN\BL51.EXE 3_65.obj TO ch3 RAMSIZE (256) CODE (0X0000-0XFFFF) XDATA (0X0000-0X03FF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  3_65.obj (3_65)
+  C:\KEIL_V51\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  ch3 (3_65)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0004H     UNIT         ?DT?_DELAY_MS?3_65
+            DATA    000CH     0001H     UNIT         _DATA_GROUP_
+            IDATA   000DH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     002DH     INBLOCK      ?PR?_DELAY_MS?3_65
+            CODE    082DH     001AH     INBLOCK      ?PR?MAIN?3_65
+            CODE    0847H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   ch3 (3_65)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?3_65
+
+?PR?MAIN?3_65                  000CH    0001H
+
+
+
+UNRESOLVED EXTERNAL SYMBOLS:
+   _DELAY
+
+
+
+SYMBOL TABLE OF MODULE:  ch3 (3_65)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        3_65
+  C:0000H         SYMBOL        _ICE_DUMMY_
+BL51 BANKED LINKER/LOCATER V6.22                                                      02/25/2020  14:30:51  PAGE 2
+
+
+  D:0094H         PUBLIC        P0M1
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00C0H         PUBLIC        XICON
+  D:00B0H         PUBLIC        P3
+  D:00E8H         PUBLIC        P4
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:00D8H         PUBLIC        CCON
+  C:082DH         PUBLIC        main
+  C:0800H         PUBLIC        _Delay_ms
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:0080H         PUBLIC        LED
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  D:0093H         PUBLIC        P0M0
+  -------         PROC          _DELAY_MS
+  D:0008H         SYMBOL        dly
+  -------         DO            
+  D:000AH         SYMBOL        dly1
+  -------         ENDDO         
+  C:0800H         LINE#         550
+  C:0804H         LINE#         551
+  C:0804H         LINE#         553
+  C:0813H         LINE#         554
+  C:082CH         LINE#         555
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          MAIN
+  -------         DO            
+  D:000CH         SYMBOL        i
+  -------         ENDDO         
+  C:082DH         LINE#         8
+  C:082DH         LINE#         9
+  C:082DH         LINE#         10
+  C:0830H         LINE#         11
+  C:0836H         LINE#         12
+  C:0836H         LINE#         13
+  C:0836H         LINE#         14
+  C:083EH         LINE#         15
+  C:0844H         LINE#         16
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        3_65
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?3_65
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _DELAY
+    MODULE:  3_65.obj (3_65)
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _DELAY
+    MODULE:  3_65.obj (3_65)
+    ADDRESS: 0842H
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      02/25/2020  14:30:51  PAGE 3
+
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0047H BYTE ( 3%) *
+******************************************************************************
+
+Program Size: data=14.0 xdata=0 code=86
+LINK/LOCATE RUN COMPLETE.  3 WARNING(S),  0 ERROR(S)

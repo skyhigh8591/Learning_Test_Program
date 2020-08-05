@@ -1,0 +1,69 @@
+C51 COMPILER V8.17   STEP2                                                                 09/05/2009 11:16:09 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE STEP2
+OBJECT MODULE PLACED IN STEP2.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE STEP2.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*********** STEP2.C ***************************************
+   2          *動作：將驅動數碼存在陣列資料內，以手動方式控制步進馬達運轉                             
+   3          *      KEY1=控制正反轉，1=正轉，0=反轉。
+   4          *      KEY2=控制運轉/停止，1=運轉，0=停止
+   5          *      KEY3=控制減速，1=不變，0=減速
+   6          *      KEY4=控制加速，1=不變，0=加速
+   7          *硬體：SW1-3(P0LED)ON及SW2-1~4(STEP)ON,按鍵KEY1~4
+   8          ********************************************************/
+   9          #include "..\MPC82.H"   //暫存器及組態定義
+  10          unsigned char run_Table[]={0x1,0x2,0x4,0x8};//驅動數碼
+  11          void main()
+  12          {
+  13   1        char i;     //定義資料計數
+  14   1        unsigned int speed=100; //定義馬達速度變數初值
+  15   1        P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  16   1        P1M0=0; P1M1=0xF0; //設定P17-4(STEP)為推挽式輸出(M0-1=01)
+  17   1        STEP=0x0F;   //步進馬達初值：P17-4=0000
+  18   1        while(1) 
+  19   1         {
+  20   2           while(KEY2==0);    //若KEY2=0，停止運轉
+  21   2                if(KEY3==0)       //若KEY3=0減速
+  22   2                {speed++; if(speed>1000) speed=1000;} // 限制時間
+  23   2               
+  24   2                if(KEY4==0)      //若KEY4=0加速
+  25   2                {speed--; if(speed<10) speed=10;} // 限制時間 
+  26   2                
+  27   2           if(KEY1==1)         //若KEY2=1，KEY1=1，馬達正轉
+  28   2           {
+  29   3            if(i>3) i=0;       //若資料計數>3，從0開始
+  30   3            LED=~run_Table[i];    //讀取驅動數碼由LED輸出 
+  31   3                STEP=run_Table[i]<<4; //讀取驅動數碼由步進馬達輸出 
+  32   3            Delay_ms(speed);   //延時時間 
+  33   3            i++;               //資料計數+1     
+  34   3           }
+  35   2             else              //若KEY2=1，KEY1=0，馬達反轉
+  36   2              {
+  37   3               if(i<0) i=3;       //若資料計數<0，從3開始   
+  38   3               LED=~run_Table[i];   //讀取驅動數碼由LED輸出 
+  39   3                    STEP=run_Table[i]<<4; //讀取驅動數碼由步進馬達輸出
+  40   3               Delay_ms(speed);   //延時時間
+  41   3               i--;               //資料計數-1       
+  42   3            }
+  43   2        }
+  44   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    228    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     11    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+C51 COMPILER V8.17   STEP2                                                                 09/05/2009 11:16:09 PAGE 2   
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

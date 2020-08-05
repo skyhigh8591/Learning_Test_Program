@@ -1,0 +1,53 @@
+C51 COMPILER V8.10   TIMER2_7                                                              09/12/2009 16:51:36 PAGE 1   
+
+
+C51 COMPILER V8.10, COMPILATION OF MODULE TIMER2_7
+OBJECT MODULE PLACED IN Timer2_7.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE Timer2_7.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********** Timer2_7.C ****************************
+   2          *動作：令Timer2由T2CKO(P10)輸出音樂
+   3          *硬體：SW2-5(SPK)ON
+   4          **********************************************/
+   5          #include "..\MPC82.H"  //暫存器及組態定義
+   6          #include "music2.h"    //T2CKO音頻定義
+   7          unsigned int  code Table[]  //定義音頻陣列資料,0為休止符  
+   8             ={DO3,0,RE3,0,MI3,0,FA3,0,SO3,0,LA3,0,SI3,0,DO4,0};
+   9          char i;   //資料計數                        
+  10          main()          
+  11          {
+  12   1        T2CON=0x00; /* 0000 0000，設定為內部計時，溢位重新載入
+  13   1                       bit3:EXEN2=0,不使用外部T2EX接腳
+  14   1                           bit1:C/T2=0,內部計時 */
+  15   1        T2MOD=T2CKOE; //致能T2CKO(P10)輸出方波
+  16   1        while (1)    //不斷循環執行
+  17   1        {
+  18   2         for(i=0; i<16; i++)   //陣列計數由0~15遞加  
+  19   2          {
+  20   3           if(Table[i]==0) TR2=0; //若資料=0為停止Timer2計時
+  21   3                 else
+  22   3                  {   
+  23   4                    RCAP2=T2R=Table[i]; //設定Timer2及重新載入時間     
+  24   4                TR2=1;    //啟動Timer2開始計時
+  25   4                  }
+  26   3            Delay_ms(1000); //音長 
+  27   3            TR2=0;          //停止Timer2計時 
+  28   3          }
+  29   2        }
+  30   1      }       
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    159    ----
+   CONSTANT SIZE    =     32    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

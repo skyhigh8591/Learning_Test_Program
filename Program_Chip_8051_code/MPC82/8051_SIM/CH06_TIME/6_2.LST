@@ -1,0 +1,48 @@
+C51 COMPILER V8.17   6_2                                                                   09/05/2009 15:19:49 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE 6_2
+OBJECT MODULE PLACED IN 6_2.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 6_2.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********** 6_2.c ****************************
+   2          *動作：SPEAK輸出方波，設定Timer1、mode1進行延時動作
+   3          *硬體：高頻SW2-5(SPK)ON,低頻SW1-4(P1LED)ON
+   4          **********************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6                         //Fosc=22.1184MHz，Timer時脈=Fosc/12=1.8432MHz
+   7          #define T  57600  //Timer延時時間=(1/1.8432MHz)*57600=31250uS
+   8          main()         
+   9          {
+  10   1        PCON2=5; //Fosc=Fosc/32，延時時間=31250uS*32=1秒(軟體模擬無效)
+  11   1      //AUXR2=T1X12;  //Timer1頻率=Fosc       (軟體模擬無效)
+  12   1        TMOD=0x10;  /*0001 0000,設定Timer1為mode1內部計時
+  13   1                      bit7:GATE=0,不使用INT1腳控制
+  14   1                                  bit6:C/T=0,內部計時
+  15   1                                  bit5-4:MODE=01，mode1 */
+  16   1        TR1=1;      //啟動Timer1
+  17   1        while (1)   //不斷循環執行
+  18   1         {
+  19   2           SPEAK=!SPEAK;           //SPEAK反相
+  20   2           TL1= (65536-T) % 256; //將低8-bit計數值存入TL1 
+  21   2           TH1= (65536-T) / 256; //將高8-bit計數值存入TH1
+  22   2           while(TF1==0);          //等待溢位，若TF1=0自我循環
+  23   2           TF1=0;                   //若計時溢位TF1=1，清除TF1=0  
+  24   2         }
+  25   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     69    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

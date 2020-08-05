@@ -1,0 +1,49 @@
+C51 COMPILER V8.17   3_30                                                                  04/08/2009 19:06:54 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE 3_30
+OBJECT MODULE PLACED IN 3_30.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_30.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /************* 3_30.c ****************
+   2          *動作：P1輸入1~3，P0=輸出字元A~C
+   3          ************************************/
+   4          #include "..\MPC82.H"  //暫存器及組態設定
+   5          main()
+   6          {
+   7   1        char a,i;    //宣告變數
+   8   1       loop:
+   9   1         a=P1;        //P1輸入到變數a
+  10   1         switch(a)    //判斷變數a的數字
+  11   1          {
+  12   2            case 1:   //若數字=1，
+  13   2              i='A';  //變數i=字元A
+  14   2              break;  //退出迴圈
+  15   2            case 2:   //若數字=2
+  16   2              i='B';  //變數i=字元B
+  17   2                      break;  //退出迴圈  
+  18   2            case 3:   //若數字=3，
+  19   2              i='C';  //變數i=字元C
+  20   2                      break;  //退出迴圈  
+  21   2            default:  //其它數字，變數i=字元D
+  22   2              i='D';
+  23   2          }
+  24   1        P0=i;          //變數i由P0輸出
+  25   1        goto loop;
+  26   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     59    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

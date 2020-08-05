@@ -1,0 +1,246 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        03/20/2020  15:07:35  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL_V51\C51\BIN\BL51.EXE ADC5.obj TO ADC RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  ADC5.obj (ADC5)
+  C:\KEIL_V51\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V51\C51\LIB\C51S.LIB (?C?UIDIV)
+  C:\KEIL_V51\C51\LIB\C51S.LIB (?C?LMUL)
+  C:\KEIL_V51\C51\LIB\C51S.LIB (?C?ULDIV)
+  C:\KEIL_V51\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  ADC (ADC5)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000CH     UNIT         ?DT?ADC5
+            DATA    0014H     0004H     UNIT         ?DT?_DELAY_MS?ADC5
+            DATA    0018H     0002H     UNIT         ?DT?_LCD_DISP?ADC5
+            DATA    001AH     0001H     UNIT         ?DT?_LCD_DATA?ADC5
+            DATA    001BH     0001H     UNIT         ?DT?_LCD_CMD?ADC5
+            IDATA   001CH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0048H                  *** GAP ***
+            CODE    004BH     0003H     ABSOLUTE     
+                    004EH     07B2H                  *** GAP ***
+            CODE    0800H     0172H     UNIT         ?C?LIB_CODE
+            CODE    0972H     00E0H     UNIT         ?PR?ADC_INTERRUPT?ADC5
+            CODE    0A52H     008CH     UNIT         ?C_C51STARTUP
+            CODE    0ADEH     0054H     UNIT         ?PR?_LCD_DISP?ADC5
+            CODE    0B32H     004DH     UNIT         ?PR?MAIN?ADC5
+            CODE    0B7FH     002DH     UNIT         ?PR?_DELAY_MS?ADC5
+            CODE    0BACH     001AH     UNIT         ?PR?LCD_INIT?ADC5
+            CODE    0BC6H     0015H     UNIT         ?PR?_LCD_DATA?ADC5
+            CODE    0BDBH     0015H     UNIT         ?PR?_LCD_CMD?ADC5
+            CODE    0BF0H     0011H     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   ADC (ADC5)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?PR?ADC_INTERRUPT?ADC5
+  +--> ?PR?_LCD_CMD?ADC5
+  +--> ?PR?_LCD_DISP?ADC5
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/20/2020  15:07:35  PAGE 2
+
+
+
+?PR?_LCD_CMD?ADC5
+  +--> ?PR?_DELAY_MS?ADC5
+
+?PR?_LCD_DISP?ADC5
+  +--> ?PR?_LCD_DATA?ADC5
+
+?PR?_LCD_DATA?ADC5
+  +--> ?PR?_DELAY_MS?ADC5
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP
+  +--> ?PR?MAIN?ADC5
+  +--> ?C_INITSEG
+
+?PR?MAIN?ADC5
+  +--> ?PR?LCD_INIT?ADC5
+  +--> ?PR?_LCD_CMD?ADC5
+  +--> ?PR?_LCD_DATA?ADC5
+
+?PR?LCD_INIT?ADC5
+  +--> ?PR?_LCD_CMD?ADC5
+
+
+
+SYMBOL TABLE OF MODULE:  ADC (ADC5)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ADC5
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00C0H         PUBLIC        XICON
+  D:00B0H         PUBLIC        P3
+  D:00E8H         PUBLIC        P4
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  D:00C6H         PUBLIC        ADCH
+  B:00E8H.2       PUBLIC        EN
+  D:00BEH         PUBLIC        ADCL
+  D:00B8H         PUBLIC        IP
+  D:0008H         PUBLIC        value
+  D:00D8H         PUBLIC        CCON
+  B:00E8H.0       PUBLIC        RS
+  C:0B32H         PUBLIC        main
+  B:00E8H.1       PUBLIC        RW
+  C:0BC6H         PUBLIC        _LCD_Data
+  C:0B7FH         PUBLIC        _Delay_ms
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:000AH         PUBLIC        temp
+  D:008EH         PUBLIC        AUXR
+  C:0ADEH         PUBLIC        _LCD_Disp
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/20/2020  15:07:35  PAGE 3
+
+
+  C:0BDBH         PUBLIC        _LCD_Cmd
+  D:000EH         PUBLIC        ch
+  D:000FH         PUBLIC        sum
+  D:00C8H         PUBLIC        T2CON
+  D:0013H         PUBLIC        i
+  D:00C5H         PUBLIC        ADCTL
+  C:0BACH         PUBLIC        LCD_init
+  D:00D0H         PUBLIC        PSW
+  D:0080H         PUBLIC        Data
+  C:0972H         PUBLIC        ADC_Interrupt
+  D:00ADH         PUBLIC        AUXIE
+  -------         PROC          _DELAY_MS
+  D:0014H         SYMBOL        dly
+  -------         DO            
+  D:0016H         SYMBOL        dly1
+  -------         ENDDO         
+  C:0B7FH         LINE#         550
+  C:0B83H         LINE#         551
+  C:0B83H         LINE#         553
+  C:0B92H         LINE#         554
+  C:0BABH         LINE#         555
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          MAIN
+  C:0B32H         LINE#         16
+  C:0B32H         LINE#         17
+  C:0B32H         LINE#         18
+  C:0B35H         LINE#         20
+  C:0B3AH         LINE#         21
+  C:0B49H         LINE#         22
+  C:0B53H         LINE#         24
+  C:0B58H         LINE#         25
+  C:0B67H         LINE#         26
+  C:0B71H         LINE#         28
+  C:0B76H         LINE#         29
+  C:0B79H         LINE#         30
+  C:0B7CH         LINE#         31
+  C:0B7EH         LINE#         32
+  -------         ENDPROC       MAIN
+  -------         PROC          ADC_INTERRUPT
+  C:0972H         LINE#         37
+  C:098FH         LINE#         39
+  C:0992H         LINE#         40
+  C:09AFH         LINE#         41
+  C:09C7H         LINE#         42
+  C:09C9H         LINE#         43
+  C:09D2H         LINE#         44
+  C:09D2H         LINE#         45
+  C:09E0H         LINE#         46
+  C:09E8H         LINE#         47
+  C:0A15H         LINE#         48
+  C:0A1CH         LINE#         49
+  C:0A31H         LINE#         50
+  C:0A31H         LINE#         51
+  C:0A37H         LINE#         52
+  -------         ENDPROC       ADC_INTERRUPT
+  -------         PROC          _LCD_DISP
+  D:0018H         SYMBOL        disp
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/20/2020  15:07:35  PAGE 4
+
+
+  C:0ADEH         LINE#         58
+  C:0AE2H         LINE#         59
+  C:0AE2H         LINE#         60
+  C:0AF4H         LINE#         61
+  C:0AF9H         LINE#         62
+  C:0B18H         LINE#         63
+  C:0B2CH         LINE#         64
+  C:0B31H         LINE#         65
+  -------         ENDPROC       _LCD_DISP
+  -------         PROC          _LCD_DATA
+  D:001AH         SYMBOL        dat
+  C:0BC6H         LINE#         71
+  C:0BC8H         LINE#         72
+  C:0BC8H         LINE#         73
+  C:0BCBH         LINE#         74
+  C:0BD1H         LINE#         75
+  C:0BD8H         LINE#         76
+  C:0BDAH         LINE#         77
+  -------         ENDPROC       _LCD_DATA
+  -------         PROC          _LCD_CMD
+  D:001BH         SYMBOL        Cmd
+  C:0BDBH         LINE#         83
+  C:0BDDH         LINE#         84
+  C:0BDDH         LINE#         85
+  C:0BE0H         LINE#         86
+  C:0BE6H         LINE#         87
+  C:0BEDH         LINE#         88
+  C:0BEFH         LINE#         89
+  -------         ENDPROC       _LCD_CMD
+  -------         PROC          LCD_INIT
+  C:0BACH         LINE#         94
+  C:0BACH         LINE#         95
+  C:0BACH         LINE#         96
+  C:0BB1H         LINE#         100
+  C:0BB6H         LINE#         104
+  C:0BBBH         LINE#         107
+  C:0BC0H         LINE#         108
+  C:0BC5H         LINE#         109
+  -------         ENDPROC       LCD_INIT
+  -------         ENDMOD        ADC5
+
+  -------         MODULE        ?C?UIDIV
+  C:0800H         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+  -------         MODULE        ?C?LMUL
+  C:0855H         PUBLIC        ?C?LMUL
+  -------         ENDMOD        ?C?LMUL
+
+  -------         MODULE        ?C?ULDIV
+  C:08E0H         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0205H BYTE (25%) *
+******************************************************************************
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/20/2020  15:07:35  PAGE 5
+
+
+Program Size: data=29.0 xdata=0 code=1031
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

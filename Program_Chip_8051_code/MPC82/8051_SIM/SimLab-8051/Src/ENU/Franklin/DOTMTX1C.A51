@@ -1,0 +1,37 @@
+;
+;
+;   Display Chinese word "da" on 8*8 Mono Dot-matrix LED
+;
+START:
+	MOV	R4,#07FH
+	MOV	DPTR,#DAI
+LOOP:
+	MOV	P1,#0FFH   ;  OFF common anode
+	CLR	A
+	MOVC	A,@A+DPTR
+	MOV	P0,A
+	INC	DPTR
+
+	MOV	A,R4
+	MOV	P1,A
+
+	RR	A
+	MOV	R4,A
+
+	CJNE	A,#07FH,DELAY
+	MOV	DPTR,#DAI
+
+DELAY:
+	MOV	R3,#3
+NEXT2:
+	ACALL 	DELAY1MS
+	DJNZ	R3,NEXT2
+
+	AJMP	LOOP
+
+	$include	(delay.inc)
+
+DAI:
+	DB	0FDH,0DBH,0D7H,00FH,0D7H
+	DB	0DBH,0DDH,0FFH
+	END

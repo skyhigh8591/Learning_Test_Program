@@ -1,0 +1,10 @@
+.\flash\stdout_usart.o: stdout_USART.c
+.\flash\stdout_usart.o: C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include\stm32f0xx.h
+.\flash\stdout_usart.o: C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include\stm32f072xb.h
+.\flash\stdout_usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm0.h
+.\flash\stdout_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\flash\stdout_usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h
+.\flash\stdout_usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_compiler.h
+.\flash\stdout_usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_armcc.h
+.\flash\stdout_usart.o: C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include\system_stm32f0xx.h
+.\flash\stdout_usart.o: .\RTE\_STM32F072_Flash\RTE_Components.h

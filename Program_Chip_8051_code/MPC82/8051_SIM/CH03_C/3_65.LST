@@ -1,0 +1,39 @@
+C51 COMPILER V8.16   3_65                                                                  01/28/2009 14:46:24 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE 3_65
+OBJECT MODULE PLACED IN 3_65.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_65.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //*********3_65.C********多檔案程式範例********************
+   2          //功能︰令LED遞加輸出延時
+   3          //附加：io.c或io.lib
+   4          //硬體：SW1-3(P0LED)ON
+   5          //********************************************************
+   6          #include "..\MPC82.H"  //暫存器及組態定義
+   7          extern void Delay(unsigned int dly) ; //宣告Delay函數在外面
+   8          main()
+   9          {       
+  10   1        unsigned char i=0;
+  11   1        while(1) //重覆執行
+  12   1        { 
+  13   2          LED=~i++;     //遞加輸出
+  14   2          Delay(200);   //延時 
+  15   2        }
+  16   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     47    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

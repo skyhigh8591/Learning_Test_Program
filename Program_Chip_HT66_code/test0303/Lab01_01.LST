@@ -1,0 +1,56 @@
+"File: Lab01_01.asm  Assembler  Version 2.98      Page 1
+
+
+   1  0000              ; PROGRAM : Lab01_01                       		By Steven                    
+   2  0000              ; FUNCTION: LED SCANNING DEMO PROGRAM           2019.0305
+   3  0000              ; 省略HT66F2390.inc定義檔之載入，說明其不方便性～   		  
+   4  0000              ;=================================================================================
+   5  0000              MY_DATA    .SECTION		'DATA'          ;== DATA SECTION == 
+   6  0000  00          DEL1    DB       ?                  	;DELAY LOOP COUNT 1 
+   7  0001  00          DEL2    DB       ?                  	;DELAY LOOP COUNT 2 
+   8  0002  00          DEL3	DB   	 ?        				;DELAY LOOP COUNT 3 
+   9  0003              ;========================================================================================
+  10  0000              MY_CODE    .SECTION		'CODE'     		;== PROGRAM SECTION == 
+  11  0000                      ORG     00H                    	;HT66Fxx RESET VECTOR 
+  12  0000              MAIN: 
+  13  0000  0FAF        		MOV		A,0AFh					;DISABLE WDTC
+  14  0001  00BE        		MOV		[3Eh],A
+  15  0002  1F1C        		CLR		[1Ch]          			;CONFIG LED_PORT AS O/P MODE 
+  16  0003  1F9B        		SET		[1Bh]           		;SET INITIAL LED STATE
+  17  0004  340A        		CLR  	[0Ah].0          		;Set Carry Flag to 1 
+  18  0005              RIGHT:             
+  19  0005  1B9B        		RRC		[1Bh]        			;SHIFT RIGHT 
+  20  0006  0F64        		MOV 	A,100         			;SET DELAY FACTOR 
+  21  0007  2000     R  		CALL	DELAY               	;DELAY 100*1mS 
+  22  0008  3C1B        		SZ  	[1Bh].0          		;IS ALL LEDs HAVE BEEN LIT? 
+  23  0009  2800     R  		JMP		RIGHT               	;NO. CONTINUE RIGHT SHIFT. 
+  24  000A              LEFT:   
+  25  000A  1A9B        		RLC     [1Bh]    				;SHIFT LEFT 
+  26  000B  0FC8        		MOV		A,200         			;SET DALAY FACTOR 
+  27  000C  2000     R  		CALL	DELAY               	;DELAY 200*1mS 
+  28  000D  3F9B        		SZ		[1Bh].7          		;IS ALL LEDs HAVE BEEN LIT? 
+  29  000E  2800     R  		JMP		LEFT                	;NO. CONTINUE LEFT SHIFT. 
+  30  000F  2800     R  		JMP		RIGHT               	;REPEAT THE RIGHT PROCESS. 
+  31  0010              ;========================================================================================
+  32  0010              ; PROC	: DELAY
+  33  0010              ; FUNC	: DEALY ABOUT ACC*1mS @fSYS=8MHz  (1996×Acc)+2 Cycles!
+  34  0010              ; PARA	: ACC : DELAY FACTOR
+  35  0010              ; REG	: DEL1,DEL2,DEL3
+  36  0010              ;======================================================================================== 
+  37  0010              DELAY  	PROC
+  38  0010  0080     R  		MOV		DEL1,A					;SET DEL1 COUNTER	
+  39  0011  0F03        DEL_1:  MOV		A,3		        	                   	
+  40  0012  0080     R          MOV		DEL2,A					;SET DEL2 COUNTER 
+  41  0013  0FDC        DEL_2:	MOV		A,220
+  42  0014  0080     R  		MOV		DEL3,A					;SET DEL3 COUNTER
+  43  0015  1780     R  DEL_3:  SDZ		DEL3                  	;DEL3 DOWN COUNT
+  44  0016  2800     R          JMP		DEL_3                      
+  45  0017  1780     R          SDZ		DEL2                  	;DEL2 DOWN COUNT
+  46  0018  2800     R          JMP		DEL_2                   
+  47  0019  1780     R  		SDZ		DEL1					;DEL1 DOWN COUNT
+  48  001A  2800     R  		JMP		DEL_1
+  49  001B  0003                RET
+  50  001C              DELAY	ENDP
+
+
+        0 Errors, 0 Warnings

@@ -1,0 +1,92 @@
+Intel-8051 Macro Assembler - Version 1.00
+
+      1    0000                           ;
+      2    0000                           ; 配合"8個LED(共陽)實習板"
+      3    0000                           ;   P0所接的8個LED(初始狀態:最左1個熄；其餘7個LED亮著),其變化方式:
+      4    0000                           ;         當熄的LED出現在最左邊時,進行右旋, 
+      5    0000                           ;         反之,當熄的LED出現在最右邊時,進行左旋
+      6    0000                           ;
+      7    0000                           START:
+      8    0000     90 00 59              	MOV	DPTR,#TBL1
+      9    0003     7A 0E                 	MOV	R2,#14
+     10    0005                           LOOP:
+     11    0005     74 00                 	MOV	A,#0
+     12    0007     93                    	MOVC	A,@A+DPTR
+     13    0008     A3                    	INC	DPTR
+     14    0009     F4                    	CPL	A
+     15    000A     F5 80                 	MOV	P0,A
+     16    000C     11 2E                 	ACALL	DELAY100MS
+     17    000E     DA F5                 	DJNZ	R2,LOOP
+     18    0010     02 00 00              	LJMP	START
+     19    0013                           
+     20    0013                           	include delay.inc
+I1    1    0013                            include SDelay.inc
+I2    1    0013                           ; Simulator 專用副程式
+I2    2    0013                           ; 進入專用副程式後, 禁止所有中斷,計時器等工作,
+I2    3    0013                           ; CPU處閒置狀態直到等待時間到達,才離開專用副程式. 
+I2    4    0013                           DELAY100US:
+I2    5    0013     74 01                 	MOV	A,#01;
+I2    6    0015     D2 D5                 	SETB	F0
+I2    7    0017     D2 D5                 	SETB	F0
+I2    8    0019     D2 D5                 	SETB	F0
+I2    9    001B     22                    	RET
+I2   10    001C                           DELAY1MS:
+I2   11    001C     74 02                 	MOV	A,#02;
+I2   12    001E     D2 D5                 	SETB	F0
+I2   13    0020     D2 D5                 	SETB	F0
+I2   14    0022     D2 D5                 	SETB	F0
+I2   15    0024     22                    	RET
+I2   16    0025                           DELAY10MS:
+I2   17    0025     74 03                 	MOV	A,#03;
+I2   18    0027     D2 D5                 	SETB	F0
+I2   19    0029     D2 D5                 	SETB	F0
+I2   20    002B     D2 D5                 	SETB	F0
+I2   21    002D     22                    	RET
+I2   22    002E                           DELAY100MS:
+I2   23    002E     74 04                 	MOV	A,#04;
+I2   24    0030     D2 D5                 	SETB	F0
+I2   25    0032     D2 D5                 	SETB	F0
+I2   26    0034     D2 D5                 	SETB	F0
+I2   27    0036     22                    	RET
+I2   28    0037                           DELAY1S:
+I2   29    0037     74 05                 	MOV	A,#05;
+I2   30    0039     D2 D5                 	SETB	F0
+I2   31    003B     D2 D5                 	SETB	F0
+I2   32    003D     D2 D5                 	SETB	F0
+I2   33    003F     22                    	RET
+I2   34    0040                           DELAY10S:
+I2   35    0040     74 06                 	MOV	A,#06;
+I2   36    0042     D2 D5                 	SETB	F0
+I2   37    0044     D2 D5                 	SETB	F0
+I2   38    0046     D2 D5                 	SETB	F0
+I2   39    0048     22                    	RET
+I2   40    0049                           DELAY100S:
+I2   41    0049     74 07                 	MOV	A,#07;
+I2   42    004B     D2 D5                 	SETB	F0
+I2   43    004D     D2 D5                 	SETB	F0
+I2   44    004F     D2 D5                 	SETB	F0
+I2   45    0051     22                    	RET
+I2   46    0052                           DELAY100USP:
+I2   47    0052     D2 D5                 	SETB	F0
+I2   48    0054     D2 D5                 	SETB	F0
+I2   49    0056     D2 D5                 	SETB	F0
+I2   50    0058     22                    	RET
+I1    2    0059                           
+     21    0059                           
+     22    0059                           
+     23    0059                           TBL1:
+     24    0059     7F                    	DB	01111111B
+     25    005A     BF                    	DB	10111111B
+     26    005B     DF                    	DB	11011111B
+     27    005C     EF                    	DB	11101111B
+     28    005D     F7                    	DB	11110111B
+     29    005E     FB                    	DB	11111011B
+     30    005F     FD                    	DB	11111101B
+     31    0060     FE                    	DB	11111110B
+     32    0061     FD                    	DB	11111101B
+     33    0062     FB                    	DB	11111011B
+     34    0063     F7                    	DB	11110111B
+     35    0064     EF                    	DB	11101111B
+     36    0065     DF                    	DB	11011111B
+     37    0066     BF                    	DB	10111111B
+     38    0067                           	END

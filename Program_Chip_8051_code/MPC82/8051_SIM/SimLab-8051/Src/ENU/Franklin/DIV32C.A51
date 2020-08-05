@@ -1,0 +1,91 @@
+;
+; M(32bit)/N(16bit)=Q(32bit)...R(16bit) Binary unsigned view
+;
+	DSEG	AT 40H
+MM:	DS	4
+MN:	DS	2
+MQ:	DS	4
+MR:	DS	2
+MT:	DS	3
+	 CSEG
+START:
+; test data (12345678H/234H)=? (84354H....168H)
+
+	MOV	MM,#12H
+	MOV	MM+1,#34H
+	MOV	MM+2,#56H
+	MOV	MM+3,#78H
+	MOV	MN,#02H
+	MOV	MN+1,#34H
+
+	SETB	F0
+; T<--0
+	MOV	MT,#0
+	MOV	MT+1,#0
+	MOV	MT+2,#0
+
+	MOV	R0,#32
+LOOP1:
+;  T <- T*2
+	MOV	A,MT+2
+	CLR	C
+	RLC	A
+	MOV	MT+2,A
+	MOV	A,MT+1
+	RLC	A
+	MOV	MT+1,A
+	MOV	A,MT+0
+	RLC	A
+	MOV	MT+0,A
+; C,M <-shl M
+	MOV	A,MM+3
+	CLR	C
+	RLC	A
+	MOV	MM+3,A
+	MOV	A,MM+2
+	RLC	A
+	MOV	MM+2,A
+	MOV	A,MM+1
+	RLC	A
+	MOV	MM+1,A
+	MOV	A,MM+0
+	RLC	A
+	MOV	MM+0,A
+;    T <- T+C
+	JNC	NEXT1
+	INC	MT+2
+NEXT1:
+;      T >=N
+	MOV	A,MT
+	JNZ	GREATER
+	CLR	C
+	MOV	A,MT+2
+	SUBB	A,MN+1
+	MOV	A,MT+1
+	SUBB	A,MN
+	JC	LESS1
+GREATER:
+	MOV	A,MT+2
+	SUBB	A,MN+1
+	MOV	MT+2,A
+	MOV	A,MT+1
+	SUBB	A,MN
+	MOV	MT+1,A
+	MOV	A,MT
+	SUBB	A,#0
+	MOV	MT,A
+	INC	MM+3
+LESS1:
+	DJNZ	R0,LOOP1
+
+	MOV	MQ,MM
+	MOV	MQ+1,MM+1
+	MOV	MQ+2,MM+2
+	MOV	MQ+3,MM+3
+
+	MOV	MR,MT+1
+	MOV	MR+1,MT+2
+
+	SETB	F0
+	AJMP	$
+	END

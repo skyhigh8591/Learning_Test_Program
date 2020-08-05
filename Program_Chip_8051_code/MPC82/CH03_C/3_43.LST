@@ -1,0 +1,47 @@
+C51 COMPILER V8.16   3_43                                                                  01/13/2009 20:59:22 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE 3_43
+OBJECT MODULE PLACED IN 3_43.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_43.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /************* 3_43.c*************************
+   2          *動作：令LED來回輸出7次
+   3          *硬體：修改為反相輸出，SW1-3(P0LED)ON
+   4          **********************************************/
+   5          #include "..\MPC82.H"  //暫存器及組態設定
+   6          main()
+   7          {
+   8   1        unsigned char  j;   //輸出值
+   9   1        char  i;            //計數
+  10   1        for(i=1;i<=7;i++)   //LED來回輸出7次
+  11   1         {
+  12   2           for(j=0x01;j<0x80;j=j<<1) //左移到bit7=1
+  13   2            {
+  14   3              LED=j;         //變數j由LED輸出
+  15   3                      Delay_ms(100); //延時
+  16   3            }
+  17   2           for(j=0x80;j>0x01;j=j>>1)//右移到bit0=1
+  18   2            {
+  19   3              LED=j;         //變數j由LED輸出
+  20   3                      Delay_ms(100); //延時
+  21   3            }
+  22   2           }
+  23   1        for(  ;  ; );    //自我空轉
+  24   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     74    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

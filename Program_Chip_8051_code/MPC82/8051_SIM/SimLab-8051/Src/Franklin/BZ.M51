@@ -1,0 +1,275 @@
+BL51 BANKED LINKER/LOCATER V4.03                                                        12/13/2001  22:41:51  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V4.03, INVOKED BY:
+C:\C51\BIN\L51 BZ.OBJ TO BZ.ABS
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  BZ.OBJ (BZ)
+  C:\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\C51\LIB\C51S.LIB (?C?SLCMP)
+  C:\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  BZ.ABS (BZ)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0018H     UNIT         ?DT?BZ
+            DATA    0020H     0004H     UNIT         ?DT?DELAY100MS?BZ
+            DATA    0024H     0002H     UNIT         _DATA_GROUP_
+            DATA    0026H     0001H     UNIT         ?DT?DELAY1MS?BZ
+            DATA    0027H     0001H     UNIT         ?DT?DELAY1S?BZ
+            DATA    0028H     0001H     UNIT         ?DT?DELAY10S?BZ
+            DATA    0029H     0001H     UNIT         ?DT?DELAY100S?BZ
+            IDATA   002AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     3FFDH                  *** GAP ***
+            CODE    4000H     008CH     UNIT         ?C_C51STARTUP
+            CODE    408CH     0054H     UNIT         ?PR?MAIN?BZ
+            CODE    40E0H     0042H     UNIT         ?PR?DELAY100MS?BZ
+            CODE    4122H     001DH     UNIT         ?C_INITSEG
+            CODE    413FH     0016H     UNIT         ?C?LIB_CODE
+            CODE    4155H     0012H     UNIT         ?PR?DELAY1S?BZ
+            CODE    4167H     0012H     UNIT         ?PR?DELAY10S?BZ
+            CODE    4179H     0012H     UNIT         ?PR?DELAY100S?BZ
+            CODE    418BH     0011H     UNIT         ?PR?DELAY1MS?BZ
+            CODE    419CH     000EH     UNIT         ?PR?_DELAY100USP?BZ
+            CODE    41AAH     000AH     UNIT         ?PR?DELAY10MS?BZ
+            CODE    41B4H     0008H     UNIT         ?PR?DELAY100US?BZ
+
+
+
+OVERLAY MAP OF MODULE:   BZ.ABS (BZ)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?BZ
+  +--> ?C_INITSEG
+BL51 BANKED LINKER/LOCATER V4.03                                                      12/13/2001  22:41:51  PAGE 2
+
+
+
+?PR?MAIN?BZ                    0024H    0002H
+  +--> ?PR?DELAY100US?BZ
+
+
+
+SYMBOL TABLE OF MODULE:  BZ.ABS (BZ)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        BZ
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  B:00B0H.4       PUBLIC        T0
+  B:00D0H.6       PUBLIC        AC
+  C:418BH         PUBLIC        Delay1ms
+  B:00B0H.5       PUBLIC        T1
+  B:00A8H.7       PUBLIC        EA
+  B:00B0H.7       PUBLIC        RD
+  C:4155H         PUBLIC        Delay1s
+  B:00A8H.4       PUBLIC        ES
+  B:0098H.0       PUBLIC        RI
+  B:00B0H.2       PUBLIC        INT0
+  B:00D0H.7       PUBLIC        CY
+  B:0098H.1       PUBLIC        TI
+  B:00B0H.3       PUBLIC        INT1
+  C:419CH         PUBLIC        _Delay100usP
+  B:00B8H.4       PUBLIC        PS
+  B:00D0H.2       PUBLIC        OV
+  C:408CH         PUBLIC        main
+  B:00B0H.6       PUBLIC        WR
+  C:41AAH         PUBLIC        Delay10ms
+  B:0088H.1       PUBLIC        IE0
+  B:0088H.3       PUBLIC        IE1
+  C:4167H         PUBLIC        Delay10s
+  B:00A8H.1       PUBLIC        ET0
+  B:00A8H.3       PUBLIC        ET1
+  B:0088H.5       PUBLIC        TF0
+  B:0088H.7       PUBLIC        TF1
+  B:0098H.2       PUBLIC        RB8
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  B:0098H.3       PUBLIC        TB8
+  B:00A8H.2       PUBLIC        EX1
+  B:0088H.2       PUBLIC        IT1
+  B:00D0H.0       PUBLIC        P
+  B:0098H.7       PUBLIC        SM0
+  B:0098H.6       PUBLIC        SM1
+  B:0098H.5       PUBLIC        SM2
+  B:00B8H.1       PUBLIC        PT0
+  B:00B8H.3       PUBLIC        PT1
+  B:00D0H.3       PUBLIC        RS0
+  B:0088H.4       PUBLIC        TR0
+  B:00D0H.4       PUBLIC        RS1
+  B:0088H.6       PUBLIC        TR1
+  B:00B8H.0       PUBLIC        PX0
+BL51 BANKED LINKER/LOCATER V4.03                                                      12/13/2001  22:41:51  PAGE 3
+
+
+  B:00B8H.2       PUBLIC        PX1
+  C:40E0H         PUBLIC        Delay100ms
+  B:0098H.4       PUBLIC        REN
+  C:41B4H         PUBLIC        Delay100us
+  B:00B0H.0       PUBLIC        RXD
+  B:00B0H.1       PUBLIC        TXD
+  D:0008H         PUBLIC        tbl1
+  D:0010H         PUBLIC        tbl2
+  B:00D0H.5       PUBLIC        F0
+  C:4179H         PUBLIC        Delay100s
+  -------         PROC          DELAY100US
+  -------         DO            DELAY100US
+  D:0007H         SYMBOL        i
+  -------         ENDDO         i
+  C:41B4H         LINE#         72
+  C:41B4H         LINE#         73
+  C:41B4H         LINE#         75
+  C:41BAH         LINE#         76
+  C:41BBH         LINE#         77
+  -------         ENDPROC       DELAY100US
+  -------         PROC          DELAY1MS
+  -------         DO            DELAY1MS
+  D:0006H         SYMBOL        i
+  D:0026H         SYMBOL        j
+  -------         ENDDO         j
+  C:418BH         LINE#         79
+  C:418BH         LINE#         80
+  C:418BH         LINE#         83
+  C:4199H         LINE#         84
+  C:419BH         LINE#         85
+  -------         ENDPROC       DELAY1MS
+  -------         PROC          DELAY10MS
+  -------         DO            DELAY10MS
+  D:0005H         SYMBOL        i
+  -------         ENDDO         i
+  C:41AAH         LINE#         87
+  C:41AAH         LINE#         88
+  C:41AAH         LINE#         90
+  C:41ACH         LINE#         91
+  C:41AFH         LINE#         92
+  C:41B3H         LINE#         93
+  -------         ENDPROC       DELAY10MS
+  -------         PROC          DELAY100MS
+  -------         DO            DELAY100MS
+  D:0020H         SYMBOL        i
+  D:0007H         SYMBOL        j
+  -------         ENDDO         j
+  C:40E0H         LINE#         95
+  C:40E0H         LINE#         96
+  C:40E0H         LINE#         99
+  C:4119H         LINE#         100
+  C:411FH         LINE#         101
+  C:4120H         LINE#         102
+  C:4121H         LINE#         103
+  -------         ENDPROC       DELAY100MS
+  -------         PROC          DELAY1S
+  -------         DO            DELAY1S
+BL51 BANKED LINKER/LOCATER V4.03                                                      12/13/2001  22:41:51  PAGE 4
+
+
+  D:0027H         SYMBOL        i
+  -------         ENDDO         i
+  C:4155H         LINE#         105
+  C:4155H         LINE#         106
+  C:4155H         LINE#         108
+  C:4158H         LINE#         109
+  C:415BH         LINE#         110
+  C:4166H         LINE#         111
+  -------         ENDPROC       DELAY1S
+  -------         PROC          DELAY10S
+  -------         DO            DELAY10S
+  D:0028H         SYMBOL        i
+  -------         ENDDO         i
+  C:4167H         LINE#         113
+  C:4167H         LINE#         114
+  C:4167H         LINE#         116
+  C:416AH         LINE#         117
+  C:416DH         LINE#         118
+  C:4178H         LINE#         119
+  -------         ENDPROC       DELAY10S
+  -------         PROC          DELAY100S
+  -------         DO            DELAY100S
+  D:0029H         SYMBOL        i
+  -------         ENDDO         i
+  C:4179H         LINE#         121
+  C:4179H         LINE#         122
+  C:4179H         LINE#         124
+  C:417CH         LINE#         125
+  C:417FH         LINE#         126
+  C:418AH         LINE#         127
+  -------         ENDPROC       DELAY100S
+  -------         PROC          _DELAY100USP
+  D:0007H         SYMBOL        cnt
+  -------         DO            cnt
+  D:0006H         SYMBOL        i
+  -------         ENDDO         i
+  C:419CH         LINE#         129
+  C:419CH         LINE#         130
+  C:419CH         LINE#         133
+  C:419FH         LINE#         134
+  C:41A5H         LINE#         135
+  C:41A6H         LINE#         136
+  C:41A7H         LINE#         137
+  C:41A9H         LINE#         138
+  -------         ENDPROC       _DELAY100USP
+  -------         PROC          MAIN
+  -------         DO            MAIN
+  D:0006H         SYMBOL        j
+  D:0001H         SYMBOL        t1
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        k
+  D:0024H         SYMBOL        t2
+  -------         ENDDO         t2
+  C:408CH         LINE#         11
+  C:408CH         LINE#         12
+  C:408CH         LINE#         16
+  C:408FH         LINE#         18
+BL51 BANKED LINKER/LOCATER V4.03                                                      12/13/2001  22:41:51  PAGE 5
+
+
+  C:4091H         LINE#         19
+  C:409EH         LINE#         20
+  C:40A4H         LINE#         21
+  C:40B6H         LINE#         22
+  C:40C3H         LINE#         23
+  C:40C6H         LINE#         24
+  C:40C9H         LINE#         25
+  C:40CCH         LINE#         26
+  C:40D3H         LINE#         27
+  C:40DEH         LINE#         28
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        BZ
+
+  -------         MODULE        ?C?SLCMP
+  C:413FH         PUBLIC        ?C?SLCMP
+  -------         ENDMOD        ?C?SLCMP
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY10MS?BZ
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY100S?BZ
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY100USP?BZ
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0119H BYTE (13%) *
+******************************************************************************
+
+LINK/LOCATE RUN COMPLETE.  3 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,41 @@
+;
+;   Addressing Mode Examples
+;
+TT	EQU	012H
+ADDR	EQU	030H
+; register Addressing Mode
+	MOV	A,R7
+	ANL	A,R0
+	INC	A
+	INC	DPTR
+	MUL	AB
+	DIV	AB
+; Immediate Addressing Mode
+	MOV	R5,#012H
+	MOV	R5,#18
+	MOV	R5,#22O
+	MOV	R5,#010010B
+	MOV	R5,TT
+	MOV	DPTR,#1234H
+; Direct Addressing Mode
+	MOV	30H,A
+	MOV	ADDR,A
+	MOV	30H,#12H
+	MOV	P0,A
+	MOV	P0,#12H
+	MOV	P1,#12H
+	ANL	C,40H
+	ANL	C,ACC.6
+	SETB	40H
+	SETB	P0.2
+	CLR	P0.2
+	MOV	C,P0.2
+; Register Indirect Addressing Mode
+	MOV	@R0,#79H
+	MOV	A,@R1
+	MOVX	@DPTR,A
+	MOVX	A,@DPTR
+; Index Addressing Mode(Read Program Memory)
+	MOVC	A,@A+DPTR
+	MOVC	A,@A+PC
+	END

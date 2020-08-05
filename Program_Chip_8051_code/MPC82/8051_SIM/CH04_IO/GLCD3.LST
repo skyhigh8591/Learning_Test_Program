@@ -1,0 +1,128 @@
+C51 COMPILER V8.17   GLCD3                                                                 08/13/2009 09:41:58 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE GLCD3
+OBJECT MODULE PLACED IN GLCD3.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE GLCD3.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*****LCD3.C****繪圖型LCD(橫排)實習板範例******
+   2          *動作：在繪圖型LCD上顯示16個中文字
+   3          *步驟：用MatrixFont 20個16x16字型.exe，輸入兩組8個中文字
+   4          *      不進行設定，再匯出檔案test1及test2。
+   5          ****************************************************/
+   6          #include "..\MPC82.H"   //暫存器及組態定義
+   7          #include "test1.h"  //第一組8個中文字型
+   8          #include "test2.h"  //第二組8個中文字型
+   9          
+  10          unsigned char i;  //定義計數變數
+  11          unsigned x_page; //定義LCD顯示X頁位址
+  12          unsigned y_addr; //定義LCD顯示Y軸位址
+  13          /********************************************
+  14          *函數名稱:FillHWAN
+  15          *功能描述:寫入資料到繪圖型LCD的上或下半部，顯示4個中文字
+  16          *輸入參數：*pp
+  17          **********************************************/
+  18          void FillHWAN(unsigned char code *pp,char xp_start)
+  19          {
+  20   1        char y_addr; //定義LCD顯示Y軸位址
+  21   1        for(y_addr=0; y_addr < 64; y_addr++) //X軸位址0,32
+  22   1        {
+  23   2           LCD_Cmd(0xb8+xp_start+0); //Y軸位址0,間隔32，分開上下
+  24   2           LCD_Cmd(0x40+y_addr); //X頁位址0~7
+  25   2           LCD_Data(*pp++);  //以指標方式讀取資料，寫入由左而右2個字
+  26   2           LCD_Cmd(0xb8+xp_start+1); //Y軸位址0,間隔32，分開上下
+  27   2           LCD_Cmd(0x40+y_addr); //X頁位址0~7
+  28   2           LCD_Data(*pp++);  //以指標方式讀取資料，寫入由左而右2個字   
+  29   2        }
+  30   1      }
+  31          /**********************************************/
+  32          main()
+  33          {
+  34   1        CS1=CS2=1;     //開啟繪圖型LCD上下半部控制
+  35   1        Delay_ms(5);   //等待LCD開機時間
+  36   1        LCD_Cmd(0x3f); //0011111D，D=1開啟螢幕
+  37   1        LCD_clear();   //清除繪圖型LCD整個畫面
+  38   1      
+  39   1        CS1=1; CS2=0;     //開啟繪圖型LCD左半部顯示
+  40   1        FillHWAN(&test1[0],0);//以指標方式讀取資料，寫入前4個字型
+  41   1        
+  42   1        CS1=0; CS2=1;   //開啟繪圖型LCD右半部顯示
+  43   1        FillHWAN(&test1[128],0);//以指標方式讀取資料，寫入後4個字型
+  44   1        
+  45   1        CS1=1; CS2=0;     //開啟繪圖型LCD左半部顯示
+  46   1        FillHWAN(&test2[0],2);//以指標方式讀取資料，寫入前4個字型
+  47   1        
+  48   1        CS1=0; CS2=1;   //開啟繪圖型LCD右半部顯示
+  49   1        FillHWAN(&test2[128],2);//以指標方式讀取資料，寫入後4個字型
+  50   1      
+  51   1         while(1);   //停止 
+  52   1      }
+  53          /*******************************************
+  54          *函數名稱: LCD_clear()
+  55          *功能描述: 清除繪圖型LCD整個畫面
+C51 COMPILER V8.17   GLCD3                                                                 08/13/2009 09:41:58 PAGE 2   
+
+  56          *********************************************/
+  57          void LCD_clear(void)
+  58          { 
+  59   1       for(x_page=0;x_page<8;x_page++)//X頁位址=0-7
+  60   1         {  
+  61   2           LCD_Cmd(0xb8+x_page); //10111xxx+0~7，
+  62   2           LCD_Cmd(0x40+0); //01xxxxxx+0~63，Y軸位址=0最左邊
+  63   2           for(i=0; i< 64 ;i++) LCD_Data(0x0);//寫入資料00 
+  64   2         }
+  65   1      }
+  66          /*******************************************
+  67          *函數名稱: LCD_Cmd
+  68          *功能描述: 寫入命令到繪圖型LCD
+  69          *輸入參數：cmd
+  70          *********************************************/
+  71          void LCD_Cmd(unsigned char cmd)
+  72          {
+  73   1              Data=cmd;       //輸出命令      
+  74   1              D_I=0;RW=0;EN=1;Delay_ms(1);EN=0; //寫入命令
+  75   1              LCD_wait();     //等待忙碌旗標BF
+  76   1      }
+  77          /********************************************
+  78          *函數名稱: LCD_Data
+  79          *功能描述: 寫入資料到繪圖型LCD
+  80          *輸入參數：dat
+  81          *********************************************/
+  82          void LCD_Data(char dat)
+  83          {
+  84   1              Data=dat;        //輸出資料
+  85   1              D_I=1;RW=0;EN=1;Delay_ms(1);EN=0;//寫入資料
+  86   1              LCD_wait();     //等待忙碌旗標BF
+  87   1      }
+  88          /**************************************************
+  89          *函數名稱: LCD_wait
+  90          *功能描述: LCD等待忙碌旗標BF
+  91          ****************************************************/
+  92          void LCD_wait(void)
+  93          {
+  94   1        unsigned char status;  //定義LCD讀取狀態
+  95   1        Data=0xff; //P0設定為輸入埠
+  96   1        do
+  97   1        {
+  98   2          D_I=0;RW=1;EN=1;    //讀取命令
+  99   2          status= Data;       //輸入LCD的命令
+ 100   2          EN=0;                       //禁能LCD
+ 101   2        }
+ 102   1        while(status & 0x80); //等待忙碌旗標BF=0
+ 103   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    347    ----
+   CONSTANT SIZE    =    512    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     16    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

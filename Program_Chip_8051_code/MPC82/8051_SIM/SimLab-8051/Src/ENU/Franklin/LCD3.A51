@@ -1,0 +1,70 @@
+;
+;
+;   Display "Hello!!" on Text LCD ( synchronize by checking BF method , and bit operation instruction)
+;
+E	EQU	P1.2
+RW	EQU	P1.1
+RS	EQU	P1.0
+
+START:
+	ACALL	DELAY5MS     ; wait for LCD Power-on Ready
+	MOV	A,#0111111B  ; 8 bits data bus/2 lines/5*10 dots
+	ACALL	COMMAND
+	MOV	A,#01110B   ; display ON
+	ACALL	COMMAND
+	MOV	A,#1     ;clear display
+	ACALL	COMMAND
+;	ACALL	DELAY2MS
+	MOV	A,#010000000B   ;DD RAM address =0
+	ACALL	COMMAND
+	MOV	DPTR,#MES
+LOOP:
+	CLR	A
+	MOVC	A,@A+DPTR
+	JZ	ENDMES
+	ACALL	SDATA
+	INC	DPTR
+	SJMP	LOOP
+ENDMES:
+	SJMP	$
+COMMAND:
+	MOV	P0,A
+	SETB	E
+	CLR	RW
+	CLR	RS
+	CLR	E
+	SETB	RW
+	ACALL	WAITLCD
+	RET
+SDATA:
+	MOV	P0,A
+	SETB	E
+	CLR	RW
+	SETB	RS
+	CLR	E
+	SETB	RW
+WAITLCD:
+	MOV	P0,#0FFH  ; P0 set to input port
+WAITLCD1:
+	CLR	RS
+	SETB	RW
+	SETB	E
+	MOV	A,P0
+	CLR	E
+	ANL	A,#80H
+	JNZ	WAITLCD1
+	RET
+DELAY5MS:
+	ACALL	DELAY1MS
+	ACALL	DELAY2MS
+	ACALL	DELAY2MS
+	RET
+DELAY2MS:
+	ACALL	DELAY1MS
+	ACALL	DELAY1MS
+	RET
+
+	$include (delay.inc)
+
+MES:	DB	"Hello!!",0
+	END

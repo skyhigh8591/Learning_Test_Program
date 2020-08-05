@@ -1,0 +1,41 @@
+C51 COMPILER V8.17   3_24                                                                  08/29/2009 11:18:29 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE 3_24
+OBJECT MODULE PLACED IN 3_24.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_24.C OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********* 3_24.c*******指標及if-goto應用範例*****************
+   2          *動作：以指標方式讀取256筆陣列資料，由LED輸出
+   3          *硬體：SW1-3(P0LED)ON
+   4          **********************************************************/
+   5          #include "..\MPC82.H"  //暫存器及組態設定
+   6          #include "TABLE8.H" 
+   7           main()
+   8          {
+   9   1         unsigned char  *point;  //宣告指標變數
+  10   1         P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)  
+  11   1        start:        //重新開始
+  12   1         point=TABLE; //將陣列資料開始位址(0x0800)存入指標變數
+  13   1        loop:
+  14   1         LED=~*point++;       //由LED輸出一筆資料，再位址遞加
+  15   1         if(point > (TABLE+255)) goto start; //若指標超過255筆，重新開始
+  16   1         Delay_ms(100);               //延時
+  17   1         goto loop;
+  18   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    128    ----
+   CONSTANT SIZE    =    256    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       7
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

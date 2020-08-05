@@ -1,0 +1,29 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\MPC82\CH05_INT\CH5.uvproj
+Project File Date:  07/22/2010
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling KEY5B.C...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ERAL
+    MODULE:  KEY5B.obj (KEY5B)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  EWEN
+    MODULE:  KEY5B.obj (KEY5B)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  EWEN
+    MODULE:  KEY5B.obj (KEY5B)
+    ADDRESS: 0954H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ERAL
+    MODULE:  KEY5B.obj (KEY5B)
+    ADDRESS: 0957H
+Program Size: data=23.0 xdata=0 code=365
+creating hex file from "CH5"...
+"CH5" - 0 Error(s), 4 Warning(s).

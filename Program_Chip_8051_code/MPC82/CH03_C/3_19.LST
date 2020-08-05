@@ -1,0 +1,39 @@
+C51 COMPILER V9.56.0.0   3_19                                                              02/25/2020 09:04:26 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE 3_19
+OBJECT MODULE PLACED IN 3_19.OBJ
+COMPILER INVOKED BY: C:\Keil_v51\C51\BIN\C51.EXE 3_19.C ROM(SMALL) OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /********* 3_19.c*******指標應用範例**********************
+   2          *動作：以指標方式讀取陣列資料，由LED輸出
+   3          *硬體：SW1-3(P0LED) ON
+   4          **********************************************************/
+   5          #include "..\MPC82.H"  //暫存器及組態設定
+   6          #include "TABLE8.H" 
+   7           main()
+   8          {
+   9   1         unsigned char  *point;  //宣告指標變數
+  10   1         P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)  
+  11   1         point=TABLE; //將陣列資料開始位址(0x0800)存入指標變數
+  12   1        loop:
+  13   1         LED=*point++;       //由LED輸出資料，再位址遞加
+  14   1         Delay_ms(100);    
+  15   1        goto loop;
+  16   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     91    ----
+   CONSTANT SIZE    =    256    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       7
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

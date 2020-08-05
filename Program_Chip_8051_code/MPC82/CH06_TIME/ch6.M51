@@ -1,0 +1,153 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        03/25/2020  14:43:45  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL_V51\C51\BIN\BL51.EXE MUSIC2B.obj TO ch6 RAMSIZE (256) CODE (0X0000-0XFFFF) XDATA (0X0000-0X03FF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  MUSIC2B.obj (MUSIC2B)
+  C:\KEIL_V51\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V51\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  ch6 (MUSIC2B)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0004H     UNIT         ?DT?_DELAY_MS?MUSIC2B
+            DATA    000CH     0003H     UNIT         ?DT?MUSIC2B
+            IDATA   000FH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+                    000EH     07F2H                  *** GAP ***
+            CODE    0800H     00BAH     UNIT         ?CO?MUSIC2B
+            CODE    08BAH     00A5H     UNIT         ?PR?MAIN?MUSIC2B
+            CODE    095FH     008CH     UNIT         ?C_C51STARTUP
+            CODE    09EBH     0050H     UNIT         ?PR?T0_INT?MUSIC2B
+            CODE    0A3BH     002DH     UNIT         ?PR?_DELAY_MS?MUSIC2B
+            CODE    0A68H     0007H     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   ch6 (MUSIC2B)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?PR?T0_INT?MUSIC2B
+  +--> ?CO?MUSIC2B
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP
+  +--> ?PR?MAIN?MUSIC2B
+  +--> ?C_INITSEG
+
+?PR?MAIN?MUSIC2B
+  +--> ?CO?MUSIC2B
+  +--> ?PR?_DELAY_MS?MUSIC2B
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/25/2020  14:43:45  PAGE 2
+
+
+
+
+SYMBOL TABLE OF MODULE:  ch6 (MUSIC2B)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MUSIC2B
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00C0H         PUBLIC        XICON
+  D:00B0H         PUBLIC        P3
+  D:00E8H         PUBLIC        P4
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  B:00B0H.2       PUBLIC        KEY1
+  B:00B0H.3       PUBLIC        KEY2
+  D:00D8H         PUBLIC        CCON
+  C:08BAH         PUBLIC        main
+  C:09EBH         PUBLIC        T0_int
+  C:0A3BH         PUBLIC        _Delay_ms
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  D:00C8H         PUBLIC        T2CON
+  D:000CH         PUBLIC        i
+  D:000DH         PUBLIC        j
+  D:000EH         PUBLIC        k
+  C:0800H         PUBLIC        Table
+  C:087CH         PUBLIC        Delay
+  B:0090H.0       PUBLIC        SPEAK
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          _DELAY_MS
+  D:0008H         SYMBOL        dly
+  -------         DO            
+  D:000AH         SYMBOL        dly1
+  -------         ENDDO         
+  C:0A3BH         LINE#         550
+  C:0A3FH         LINE#         551
+  C:0A3FH         LINE#         553
+  C:0A4EH         LINE#         554
+  C:0A67H         LINE#         555
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          MAIN
+  C:08BAH         LINE#         49
+  C:08BAH         LINE#         50
+  C:08BAH         LINE#         51
+  C:08BDH         LINE#         52
+  C:08C1H         LINE#         53
+  C:08C1H         LINE#         54
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/25/2020  14:43:45  PAGE 3
+
+
+  C:08C1H         LINE#         55
+  C:08CBH         LINE#         56
+  C:08CBH         LINE#         58
+  C:08D3H         LINE#         59
+  C:08E2H         LINE#         60
+  C:08F1H         LINE#         62
+  C:090EH         LINE#         64
+  C:090EH         LINE#         65
+  C:0940H         LINE#         66
+  C:0942H         LINE#         67
+  C:0942H         LINE#         68
+  C:0956H         LINE#         69
+  C:095BH         LINE#         70
+  C:095EH         LINE#         71
+  -------         ENDPROC       MAIN
+  -------         PROC          T0_INT
+  C:09EBH         LINE#         73
+  C:09FAH         LINE#         75
+  C:0A2CH         LINE#         76
+  C:0A2EH         LINE#         77
+  -------         ENDPROC       T0_INT
+  -------         ENDMOD        MUSIC2B
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 01E5H BYTE (23%) *
+******************************************************************************
+
+Program Size: data=16.0 xdata=0 code=629
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

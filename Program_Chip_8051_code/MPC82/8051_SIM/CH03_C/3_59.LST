@@ -1,0 +1,42 @@
+C51 COMPILER V8.17   3_59                                                                  07/30/2009 13:57:28 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE 3_59
+OBJECT MODULE PLACED IN 3_59.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_59.C OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /************* 3_59.c ************************
+   2          *動作：取亂數當成擲骰子
+   3          *********************************************/
+   4          #include "../MPC82.h"
+   5          #include <stdlib.h>  //將標準I/O的函數庫包括進來
+   6          #include <stdio.h>   //將標準I/O函數包括進來
+   7          main()
+   8          {
+   9   1        unsigned int i=0;
+  10   1        P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  11   1        while(1)
+  12   1         {
+  13   2             i=rand();   //取亂數0~32767
+  14   2             i=i % 6 + 1; //取亂數當成擲骰子1~6亂數
+  15   2             LED=~i;
+  16   2             Delay_ms(1000);
+  17   2         }
+  18   1        
+  19   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    101    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/get_field"
+        android:title="Channel field"/>
+
+    <item android:id="@+id/get_feed"
+        android:title="Channel feed"/>
+
+    <item android:id="@+id/get_status"
+        android:title="Channel status" />
+</menu>

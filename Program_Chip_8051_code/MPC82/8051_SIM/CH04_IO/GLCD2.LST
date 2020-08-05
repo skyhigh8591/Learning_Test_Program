@@ -1,0 +1,111 @@
+C51 COMPILER V8.17   GLCD2                                                                 08/13/2009 13:19:11 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE GLCD2
+OBJECT MODULE PLACED IN GLCD2.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE GLCD2.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*****GLCD2.C****繪圖型LCD實習板範例******
+   2          *動作：在繪圖型LCD上顯示"應用電子"
+   3          *步驟：用MatrixFont 20個16x16字型.exe，輸入四個中文字,匯出檔案test
+   4          *************************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6          #include "test.H"
+   7          unsigned char i;  //定義計數變數
+   8          unsigned x_page;  //定義LCD顯示X頁位址
+   9          unsigned y_addr;  //定義LCD顯示Y軸位址
+  10          main()
+  11          {
+  12   1        CS1=1;CS2=1;      //開啟繪圖型LCD左右半部
+  13   1        Delay_ms(5);      //等待LCD開機時間
+  14   1        LCD_Cmd(0x3f);    //0011111D，D=1開啟螢幕
+  15   1        LCD_clear();      //清除繪圖型LCD整個畫面
+  16   1      
+  17   1        CS1=1;CS2=0;      //開啟繪圖型LCD左半部
+  18   1        LCD_Cmd(0xb8+0); //10111xxx+0~7，X頁位址=0(字的上半部)
+  19   1        LCD_Cmd(0x40+0); //01xxxxxx+0~63，Y軸位址=0最左邊
+  20   1        for(i=0; i< 16*4 ;i++) //寫入64筆 
+  21   1         {
+  22   2          LCD_Data(test[i*2]);//寫入偶數資料(字的上半部) 
+  23   2              Delay_ms(10);
+  24   2         }
+  25   1        LCD_Cmd(0xb8+1); //10111xxx+0~7，X頁位址=1(字的下半部)
+  26   1        LCD_Cmd(0x40+0); //01xxxxxx+0~63，Y軸位址=0最左邊
+  27   1        for(i=0; i< 16*4 ;i++) //寫入64筆 
+  28   1         {
+  29   2               LCD_Data(test[i*2+1]);//寫入奇數資料(字的下半部)
+  30   2           Delay_ms(10);
+  31   2          }
+  32   1        while(1);     //停止 
+  33   1      }
+  34          /*******************************************
+  35          *函數名稱: LCD_clear()
+  36          *功能描述: 清除繪圖型LCD整個畫面
+  37          *********************************************/
+  38          void LCD_clear(void)
+  39          { 
+  40   1       for(x_page=0;x_page<8;x_page++)//X頁位址=0-7
+  41   1         {  
+  42   2           LCD_Cmd(0xb8+x_page); //10111xxx+0~7，
+  43   2           LCD_Cmd(0x40+0); //01xxxxxx+0~63，Y軸位址=0最左邊
+  44   2           for(i=0; i< 64 ;i++) LCD_Data(0x0);//寫入資料00 
+  45   2         }
+  46   1      }
+  47          /*******************************************
+  48          *函數名稱: LCD_Cmd
+  49          *功能描述: 寫入命令到繪圖型LCD
+  50          *輸入參數：cmd
+  51          *********************************************/
+  52          void LCD_Cmd(unsigned char cmd)
+  53          {
+  54   1              unsigned char dly=40;
+  55   1              Data=cmd;       //輸出命令      
+C51 COMPILER V8.17   GLCD2                                                                 08/13/2009 13:19:11 PAGE 2   
+
+  56   1              D_I=0;RW=0;EN=1;while(dly--);EN=0; //寫入命令
+  57   1              LCD_wait();     //等待忙碌旗標BF
+  58   1      }
+  59          /********************************************
+  60          *函數名稱: LCD_Data
+  61          *功能描述: 寫入資料到繪圖型LCD
+  62          *輸入參數：dat
+  63          *********************************************/
+  64          void LCD_Data(char dat)
+  65          {
+  66   1              unsigned char dly=40;
+  67   1              Data=dat;        //輸出資料
+  68   1              D_I=1;RW=0;EN=1;while(dly--);EN=0;//寫入資料
+  69   1              LCD_wait();     //等待忙碌旗標BF
+  70   1      }
+  71          /**************************************************
+  72          *函數名稱: LCD_wait
+  73          *功能描述: LCD等待忙碌旗標BF
+  74          ****************************************************/
+  75          void LCD_wait(void)
+  76          {
+  77   1        unsigned char status;  //定義LCD讀取狀態
+  78   1        Data=0xff; //P0設定為輸入埠
+  79   1        do
+  80   1        {
+  81   2          D_I=0;RW=1;EN=1;//讀取命令
+  82   2          status= Data;       //輸入LCD的命令
+  83   2          EN=0;                       //禁能LCD
+  84   2        }
+  85   1        while(status & 0x80); //等待忙碌旗標BF=0
+  86   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    308    ----
+   CONSTANT SIZE    =    128    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     14    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

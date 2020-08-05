@@ -1,0 +1,10 @@
+;
+; 兩個8位元數的相加
+;
+VAL1:	EQU	40H
+START:
+	MOV	A,VAL1
+	ADD	A,VAL1+1
+	MOV	VAL1+2,A
+	AJMP	$
+	END

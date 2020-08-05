@@ -1,0 +1,81 @@
+;
+; 配合"文字型LCD實習板"
+;   在文字型LCD上顯示4個"Hello!!",顯示位置分別在第一行的第一位置,第十一位置及
+;                                               第二行的第一位置,第十一位置
+;
+E	EQU	P1.2
+RW	EQU	P1.1
+RS	EQU	P1.0
+
+START:
+	ACALL	DELAY5MS     ; wait for LCD Power-on Ready
+	MOV	A,#0111111B  ;採用8位元資料存取/雙列字/5*10點矩陣字型
+	ACALL	COMMAND
+	MOV	A,#01110B   ;顯示器ON/游標被顯示在位址計數器
+	ACALL	COMMAND
+	MOV	A,#1     ;清除全螢幕
+	ACALL	COMMAND
+
+	MOV	R0,#0
+NEXT1:
+	MOV	DPTR,#LOC
+	MOV	A,R0
+	MOVC	A,@A+DPTR
+	ACALL	COMMAND
+	MOV	DPTR,#MES
+LOOP:
+	CLR	A
+	MOVC	A,@A+DPTR
+	JZ	ENDMES
+	ACALL	SDATA
+	INC	DPTR
+	SJMP	LOOP
+ENDMES:
+	INC	R0
+	CJNE	R0,#4,NEXT1
+
+	SJMP	$
+COMMAND:
+	MOV	P0,A
+	SETB	E
+	CLR	RW
+	CLR	RS
+	CLR	E
+	ACALL	WAITLCD
+	RET
+SDATA:
+	MOV	P0,A
+	SETB	E
+	CLR	RW
+	SETB	RS
+	CLR	E
+WAITLCD:
+	MOV	P0,#0FFH  ; P0設定為輸入埠
+WAITLCD1:
+	CLR	RS
+	SETB	RW
+	SETB	E
+	MOV	A,P0
+	CLR	E
+	ANL	A,#80H
+	JNZ	WAITLCD1
+	RET
+
+DELAY5MS:
+	ACALL	DELAY1MS
+	ACALL	DELAY2MS
+	ACALL	DELAY2MS
+	RET
+DELAY2MS:
+	ACALL	DELAY1MS
+	ACALL	DELAY1MS
+	RET
+
+	$include (delay.inc)
+
+MES:	DB	"Hello!!",0
+LOC:	DB	010000000B
+	DB	010000000B+10
+	DB	010000000B+40H
+	DB	010000000B+40H+10
+	END

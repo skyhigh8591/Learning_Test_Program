@@ -1,0 +1,33 @@
+C51 COMPILER V9.05   QQIO                                                                  11/01/2011 21:31:53 PAGE 1   
+
+
+C51 COMPILER V9.05, COMPILATION OF MODULE QQIO
+OBJECT MODULE PLACED IN qqio.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE qqio.c DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*******************************************
+   2          *函數名稱: Delay
+   3          *功能描述: 延時以1mS為單位，石英晶體為22.1184MHz
+   4          *********************************************/
+   5          void Delay(unsigned int dly) 
+   6          {  
+   7   1        unsigned  char dly1; //內循環變數
+   8   1         while(dly--)         // 外循環，遞減至0
+   9   1         {dly1=950;  while(dly1--);} //內循環，延時1ms
+  10   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     21    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

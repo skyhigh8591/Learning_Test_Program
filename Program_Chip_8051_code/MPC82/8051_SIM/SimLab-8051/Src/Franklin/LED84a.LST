@@ -1,0 +1,322 @@
+C51 COMPILER V4.10,  SN-12345678  LED84A           07/24/02  23:27:55  PAGE 1   
+
+
+DOS C51 COMPILER V4.10, COMPILATION OF MODULE LED84A
+OBJECT MODULE PLACED IN LED84A.OBJ
+COMPILER INVOKED BY: C:\C51\BIN\C51.EXE LED84A.C
+
+stmt level    source
+
+   1          //
+   2          //   °t¦X"8­ÓLED(¦@¶§)¹ê²ßªO"
+   3          //      P0©Ò±µªº8­ÓLED(ªì©lª¬ºA:³Ì¥ª1­Óº¶¡F¨ä¾l7­ÓLED«GµÛ),¨äÅÜ¤Æ¤
+             -è¦¡:
+   4          //         ·íº¶ªºLED¥X²{¦b³Ì¥ªÃä®É,¶i¦æ¥k±Û, 
+   5          //         ¤Ï¤§,·íº¶ªºLED¥X²{¦b³Ì¥kÃä®É,¶i¦æ¥ª±Û
+   6          //
+   7          #pragma oe db pw(80) SM SB CD
+   8          #include <reg51.h>
+   9          #include "Delay.h"
+  10          enum {LEFT,RIGHT} ;
+  11          main()
+  12          {
+  13   1      	unsigned char tP0 ;
+  14   1      	char State ;
+  15   1      	tP0 =0x7f;
+  16   1      	P0= ~tP0 ;
+  17   1      	State=RIGHT ;
+  18   1      	for(;;) {
+  19   2      	    Delay100ms() ;
+  20   2      	    if(State == RIGHT){
+  21   3      		tP0 >>= 1;
+  22   3      		tP0 |=0x80 ;
+  23   3      	    }
+  24   2      	    if(State == LEFT){
+  25   3      		tP0 <<= 1;
+  26   3      		tP0 ++ ;
+  27   3      	    }
+  28   2      	    if((tP0&0x1)==0){
+  29   3      		State= LEFT ;
+  30   3      	    }
+  31   2      	    if((tP0&0x80)==0){
+  32   3      		State= RIGHT ;
+  33   3      	    }
+  34   2      	    P0= ~tP0 ;
+  35   2      	}
+  36   1      }
+C51 COMPILER V4.10,  SN-12345678  LED84A           07/24/02  23:27:55  PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION Delay100us (BEGIN)
+                                           ; SOURCE LINE # 8
+                                           ; SOURCE LINE # 9
+                                           ; SOURCE LINE # 10
+0000 7401          MOV     A,#01H
+                                           ; SOURCE LINE # 11
+0002 D2D5          SETB    F0
+                                           ; SOURCE LINE # 12
+0004 D2D5          SETB    F0
+                                           ; SOURCE LINE # 13
+0006 D2D5          SETB    F0
+                                           ; SOURCE LINE # 14
+0008 22            RET     
+             ; FUNCTION Delay100us (END)
+
+             ; FUNCTION Delay1ms (BEGIN)
+                                           ; SOURCE LINE # 16
+                                           ; SOURCE LINE # 17
+                                           ; SOURCE LINE # 18
+0000 7402          MOV     A,#02H
+                                           ; SOURCE LINE # 19
+0002 D2D5          SETB    F0
+                                           ; SOURCE LINE # 20
+0004 D2D5          SETB    F0
+                                           ; SOURCE LINE # 21
+0006 D2D5          SETB    F0
+                                           ; SOURCE LINE # 22
+0008 22            RET     
+             ; FUNCTION Delay1ms (END)
+
+             ; FUNCTION Delay10ms (BEGIN)
+                                           ; SOURCE LINE # 24
+                                           ; SOURCE LINE # 25
+                                           ; SOURCE LINE # 26
+0000 7403          MOV     A,#03H
+                                           ; SOURCE LINE # 27
+0002 D2D5          SETB    F0
+                                           ; SOURCE LINE # 28
+0004 D2D5          SETB    F0
+                                           ; SOURCE LINE # 29
+0006 D2D5          SETB    F0
+                                           ; SOURCE LINE # 30
+0008 22            RET     
+             ; FUNCTION Delay10ms (END)
+
+             ; FUNCTION Delay100ms (BEGIN)
+                                           ; SOURCE LINE # 32
+                                           ; SOURCE LINE # 33
+                                           ; SOURCE LINE # 34
+0000 7404          MOV     A,#04H
+                                           ; SOURCE LINE # 35
+0002 D2D5          SETB    F0
+                                           ; SOURCE LINE # 36
+0004 D2D5          SETB    F0
+                                           ; SOURCE LINE # 37
+0006 D2D5          SETB    F0
+                                           ; SOURCE LINE # 38
+0008 22            RET     
+             ; FUNCTION Delay100ms (END)
+C51 COMPILER V4.10,  SN-12345678  LED84A           07/24/02  23:27:55  PAGE 3   
+
+
+             ; FUNCTION Delay1s (BEGIN)
+                                           ; SOURCE LINE # 40
+                                           ; SOURCE LINE # 41
+                                           ; SOURCE LINE # 42
+0000 7405          MOV     A,#05H
+                                           ; SOURCE LINE # 43
+0002 D2D5          SETB    F0
+                                           ; SOURCE LINE # 44
+0004 D2D5          SETB    F0
+                                           ; SOURCE LINE # 45
+0006 D2D5          SETB    F0
+                                           ; SOURCE LINE # 46
+0008 22            RET     
+             ; FUNCTION Delay1s (END)
+
+             ; FUNCTION Delay10s (BEGIN)
+                                           ; SOURCE LINE # 48
+                                           ; SOURCE LINE # 49
+                                           ; SOURCE LINE # 50
+0000 7406          MOV     A,#06H
+                                           ; SOURCE LINE # 51
+0002 D2D5          SETB    F0
+                                           ; SOURCE LINE # 52
+0004 D2D5          SETB    F0
+                                           ; SOURCE LINE # 53
+0006 D2D5          SETB    F0
+                                           ; SOURCE LINE # 54
+0008 22            RET     
+             ; FUNCTION Delay10s (END)
+
+             ; FUNCTION Delay100s (BEGIN)
+                                           ; SOURCE LINE # 56
+                                           ; SOURCE LINE # 57
+                                           ; SOURCE LINE # 58
+0000 7407          MOV     A,#07H
+                                           ; SOURCE LINE # 59
+0002 D2D5          SETB    F0
+                                           ; SOURCE LINE # 60
+0004 D2D5          SETB    F0
+                                           ; SOURCE LINE # 61
+0006 D2D5          SETB    F0
+                                           ; SOURCE LINE # 62
+0008 22            RET     
+             ; FUNCTION Delay100s (END)
+
+             ; FUNCTION _Delay100usP (BEGIN)
+0000 8F00    R     MOV     cnt,R7
+                                           ; SOURCE LINE # 64
+                                           ; SOURCE LINE # 65
+                                           ; SOURCE LINE # 66
+0002 D2D5          SETB    F0
+                                           ; SOURCE LINE # 67
+0004 D2D5          SETB    F0
+                                           ; SOURCE LINE # 68
+0006 D2D5          SETB    F0
+                                           ; SOURCE LINE # 69
+0008 22            RET     
+             ; FUNCTION _Delay100usP (END)
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 11
+C51 COMPILER V4.10,  SN-12345678  LED84A           07/24/02  23:27:55  PAGE 4   
+
+                                           ; SOURCE LINE # 12
+                                           ; SOURCE LINE # 15
+;---- Variable 'tP0' assigned to Register 'R7' ----
+0000 7F7F          MOV     R7,#07FH
+                                           ; SOURCE LINE # 16
+0002 EF            MOV     A,R7
+0003 F4            CPL     A
+0004 F580          MOV     P0,A
+                                           ; SOURCE LINE # 17
+;---- Variable 'State' assigned to Register 'R6' ----
+0006 7E01          MOV     R6,#01H
+                                           ; SOURCE LINE # 18
+0008         ?C0009:
+                                           ; SOURCE LINE # 19
+0008 120000  R     LCALL   Delay100ms
+                                           ; SOURCE LINE # 20
+000B BE0107        CJNE    R6,#01H,?C0011
+                                           ; SOURCE LINE # 21
+000E EF            MOV     A,R7
+000F C3            CLR     C
+0010 13            RRC     A
+0011 FF            MOV     R7,A
+                                           ; SOURCE LINE # 22
+0012 430780        ORL     AR7,#080H
+                                           ; SOURCE LINE # 23
+0015         ?C0011:
+                                           ; SOURCE LINE # 24
+0015 EE            MOV     A,R6
+0016 7005          JNZ     ?C0012
+                                           ; SOURCE LINE # 25
+0018 EF            MOV     A,R7
+0019 25E0          ADD     A,ACC
+001B FF            MOV     R7,A
+                                           ; SOURCE LINE # 26
+001C 0F            INC     R7
+                                           ; SOURCE LINE # 27
+001D         ?C0012:
+                                           ; SOURCE LINE # 28
+001D EF            MOV     A,R7
+001E 20E002        JB      ACC.0,?C0013
+                                           ; SOURCE LINE # 29
+0021 E4            CLR     A
+0022 FE            MOV     R6,A
+                                           ; SOURCE LINE # 30
+0023         ?C0013:
+                                           ; SOURCE LINE # 31
+0023 EF            MOV     A,R7
+0024 20E702        JB      ACC.7,?C0014
+                                           ; SOURCE LINE # 32
+0027 7E01          MOV     R6,#01H
+                                           ; SOURCE LINE # 33
+0029         ?C0014:
+                                           ; SOURCE LINE # 34
+0029 EF            MOV     A,R7
+002A F4            CPL     A
+002B F580          MOV     P0,A
+                                           ; SOURCE LINE # 35
+002D 80D9          SJMP    ?C0009
+                                           ; SOURCE LINE # 36
+002F 22            RET     
+             ; FUNCTION main (END)
+
+C51 COMPILER V4.10,  SN-12345678  LED84A           07/24/02  23:27:55  PAGE 5   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+RIGHT. . . . . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+T0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+Delay1ms . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     -----  -----
+T1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+RD . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+Delay1s. . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     -----  -----
+ES . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+INT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+INT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+_Delay100usP . . . . . . . . . . . . .  PUBLIC   CODE   PROC     -----  -----
+  cnt. . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+PS . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+main . . . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     -----  -----
+  tP0. . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  State. . . . . . . . . . . . . . . .  * REG *  DATA   CHAR     0006H  1
+WR . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+LEFT . . . . . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
+Delay10ms. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     -----  -----
+IE0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0089H  1
+IE1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008BH  1
+Delay10s . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     -----  -----
+ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+EX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+IT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0088H  1
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+EX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008AH  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+PT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+PT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+PX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+PX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+Delay100ms . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     -----  -----
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+Delay100us . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     -----  -----
+RXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+TXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+C51 COMPILER V4.10,  SN-12345678  LED84A           07/24/02  23:27:55  PAGE 6   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+Delay100s. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     -----  -----
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    120    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

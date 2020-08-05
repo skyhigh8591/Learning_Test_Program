@@ -1,0 +1,56 @@
+C51 COMPILER V9.56.0.0   DOT8                                                              03/04/2020 10:55:10 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE DOT8
+OBJECT MODULE PLACED IN DOT8.OBJ
+COMPILER INVOKED BY: C:\Keil_v51\C51\BIN\C51.EXE DOT8.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /******* DOT8.C ****8*8彩色點矩陣顯示器字型範例*******
+   2          *動作：輸出陣列字型資料，顯示不同彩色的字型
+   3          *接線：Scan低電位掃描輸出，由Data低電位輸出紅色資料
+   4                ，由Data_G低電位輸出綠色資料
+   5          ************************************************/
+   6          #include "..\MPC82.H"   //暫存器及組態定義
+   7          sfr  Data_G=0xa0; //P2綠色資料輸出
+   8          #include "font.h"  //字型A資料檔
+   9          main() 
+  10          {
+  11   1       unsigned char  i;      //定義陣列資料計數
+  12   1       unsigned char repeat;  //定義重覆掃描次數
+  13   1       unsigned char color=0; //定義彩色，0=紅色、1=綠色、2=黃色
+  14   1       unsigned char scan=0x7F;  //定義掃描變數  
+  15   1       while(1)     
+  16   1       {
+  17   2         for(repeat=0;repeat<200;repeat++)   //重覆掃瞄次數
+  18   2          {   
+  19   3            for(i=0;i<8;i++)  //讀取8筆資料掃瞄8次
+  20   3             {
+  21   4               Scan=0xFF;  //全暗
+  22   4          if(color==0){Data=font[i];Data_G=0xFF;}//輸出紅色字型資料
+  23   4          if(color==1){Data_G=font[i];Data=0xFF;}//輸出綠色字型資料        
+  24   4          if(color==2){Data=Data_G=font[i];}     //輸出黃色字型資料 
+  25   4          Scan=scan;       //掃描輸出
+  26   4          Delay_ms(1);    //延時
+  27   4          scan=RR8(scan); //換掃瞄下一行     
+  28   4             }   
+  29   3          }
+  30   2         color++; //換下一種彩色
+  31   2         if(color > 2) color=0; //限制3種彩色  
+  32   2       } 
+  33   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    173    ----
+   CONSTANT SIZE    =      8    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">listView_04</string>
+
+    <string-array name="country">
+
+        <item>Taiwan</item>
+        <item>Japan</item>
+        <item>Korea</item>
+        <item>Thailand</item>
+        <item>Indonesia</item>
+
+    </string-array>
+
+    <string-array name="country_code">
+
+        <item>+886</item>
+        <item>+81</item>
+        <item>+82</item>
+        <item>+66</item>
+        <item>+62</item>
+
+    </string-array>
+
+
+
+</resources>

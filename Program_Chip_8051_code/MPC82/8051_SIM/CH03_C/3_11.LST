@@ -1,0 +1,38 @@
+C51 COMPILER V8.09   3_11                                                                  07/29/2009 15:20:35 PAGE 1   
+
+
+C51 COMPILER V8.09, COMPILATION OF MODULE 3_11
+OBJECT MODULE PLACED IN 3_11.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_11.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /************** 3_11.c, *********************
+   2          *動作：比較運算子範例 
+   3          ********************************************/
+   4          main()
+   5          {
+   6   1        unsigned char a=4,b=2,i; //宣告變數
+   7   1         loop:
+   8   1           if(a>b)  i=1;    //假如a>b ，執行i=1 
+   9   1           if(a<=b) i=2;    //假如a<=b，執行i=2
+  10   1           if(a!=b) i=3;    //假如a≠b，執行i=3 
+  11   1           if(a==b) i=4;    //假如a=b ，執行i=4 
+  12   1           b++;             //b=b+1
+  13   1           i=0;
+  14   1         goto loop;
+  15   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     21    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

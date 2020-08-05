@@ -1,0 +1,230 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        03/13/2020  15:33:12  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL_V51\C51\BIN\BL51.EXE UART5.obj TO UART RAMSIZE (256) CODE (0X0000-0X1FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  UART5.obj (UART5)
+  C:\KEIL_V51\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V51\C51\LIB\C51S.LIB (?C?SLDIV)
+  C:\KEIL_V51\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL_V51\C51\LIB\C51S.LIB (?C?ULDIV)
+
+
+LINK MAP OF MODULE:  UART (UART5)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?UART5
+            DATA    0009H     0001H     UNIT         _DATA_GROUP_
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0020H                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+                    0026H     07DAH                  *** GAP ***
+            CODE    0800H     00CEH     UNIT         ?C?LIB_CODE
+            CODE    08CEH     008CH     UNIT         ?C_C51STARTUP
+            CODE    095AH     0057H     UNIT         ?PR?SCON_INT?UART5
+            CODE    09B1H     0044H     UNIT         ?PR?MAIN?UART5
+            CODE    09F5H     0044H     UNIT         ?C?LDIV
+            CODE    0A39H     0023H     UNIT         ?PR?_DELAY_MS?UART5
+            CODE    0A5CH     0022H     UNIT         ?PR?_UART_INIT?UART5
+            CODE    0A7EH     0019H     UNIT         ?PR?LCD_INIT?UART5
+            CODE    0A97H     000CH     UNIT         ?PR?_LCD_DATA?UART5
+            CODE    0AA3H     000AH     UNIT         ?PR?_LCD_CMD?UART5
+            CODE    0AADH     0007H     UNIT         ?CO?UART5
+            CODE    0AB4H     0004H     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   UART (UART5)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?PR?SCON_INT?UART5             -----    -----
+  +--> ?PR?_LCD_DATA?UART5
+  +--> ?PR?_LCD_CMD?UART5
+
+?PR?_LCD_DATA?UART5            -----    -----
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/13/2020  15:33:12  PAGE 2
+
+
+  +--> ?PR?_DELAY_MS?UART5
+
+?PR?_LCD_CMD?UART5             -----    -----
+  +--> ?PR?_DELAY_MS?UART5
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?UART5
+  +--> ?C_INITSEG
+
+?PR?MAIN?UART5                 0009H    0001H
+  +--> ?PR?LCD_INIT?UART5
+  +--> ?PR?_LCD_CMD?UART5
+  +--> ?CO?UART5
+  +--> ?PR?_LCD_DATA?UART5
+  +--> ?PR?_UART_INIT?UART5
+
+?PR?LCD_INIT?UART5             -----    -----
+  +--> ?PR?_LCD_CMD?UART5
+
+
+
+SYMBOL TABLE OF MODULE:  UART (UART5)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        UART5
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0094H         PUBLIC        P0M1
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00C0H         PUBLIC        XICON
+  D:00B0H         PUBLIC        P3
+  D:00E8H         PUBLIC        P4
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  B:00E8H.2       PUBLIC        EN
+  B:0080H.7       PUBLIC        P0_7
+  B:00A8H.4       PUBLIC        ES
+  D:00B8H         PUBLIC        IP
+  B:0098H.0       PUBLIC        RI
+  C:0AADH         PUBLIC        Table1
+  D:00D8H         PUBLIC        CCON
+  B:00E8H.0       PUBLIC        RS
+  C:09B1H         PUBLIC        main
+  B:00E8H.1       PUBLIC        RW
+  C:0A97H         PUBLIC        _LCD_Data
+  D:0099H         PUBLIC        SBUF
+  C:0A41H         PUBLIC        _Delay_ms
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  C:0AA3H         PUBLIC        _LCD_Cmd
+  D:008DH         PUBLIC        TH1
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/13/2020  15:33:12  PAGE 3
+
+
+  C:0A5CH         PUBLIC        _UART_init
+  B:0088H.6       PUBLIC        TR1
+  C:095AH         PUBLIC        SCON_int
+  D:00C8H         PUBLIC        T2CON
+  D:0008H         PUBLIC        j
+  C:0A7EH         PUBLIC        LCD_init
+  D:00D0H         PUBLIC        PSW
+  D:0080H         PUBLIC        Data
+  D:0093H         PUBLIC        P0M0
+  -------         PROC          L?0021
+  -------         ENDPROC       L?0021
+  -------         PROC          _DELAY_MS
+  D:0006H         SYMBOL        dly
+  -------         DO            
+  D:0004H         SYMBOL        dly1
+  -------         ENDDO         
+  C:0A41H         LINE#         550
+  C:0A41H         LINE#         551
+  C:0A41H         LINE#         553
+  C:0A4BH         LINE#         554
+  C:0A5BH         LINE#         555
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          MAIN
+  -------         DO            
+  D:0009H         SYMBOL        i
+  -------         ENDDO         
+  C:09B1H         LINE#         8
+  C:09B1H         LINE#         9
+  C:09B1H         LINE#         11
+  C:09B4H         LINE#         12
+  C:09B9H         LINE#         13
+  C:09BCH         LINE#         14
+  C:09DEH         LINE#         15
+  C:09E3H         LINE#         16
+  C:09E8H         LINE#         18
+  C:09EFH         LINE#         19
+  C:09F3H         LINE#         20
+  -------         ENDPROC       MAIN
+  -------         PROC          SCON_INT
+  C:095AH         LINE#         23
+  C:0977H         LINE#         25
+  C:0979H         LINE#         26
+  C:097EH         LINE#         27
+  C:0988H         LINE#         28
+  C:098AH         LINE#         29
+  C:0996H         LINE#         30
+  -------         ENDPROC       SCON_INT
+  -------         PROC          _UART_INIT
+  D:0006H         SYMBOL        bps
+  C:0A5CH         LINE#         36
+  C:0A5CH         LINE#         37
+  C:0A62H         LINE#         38
+  C:0A65H         LINE#         39
+  C:0A68H         LINE#         40
+  C:0A7BH         LINE#         41
+  C:0A7DH         LINE#         42
+  -------         ENDPROC       _UART_INIT
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/13/2020  15:33:12  PAGE 4
+
+
+  -------         PROC          _LCD_DATA
+  D:0007H         SYMBOL        dat
+  C:0A97H         LINE#         48
+  C:0A97H         LINE#         49
+  C:0A97H         LINE#         50
+  C:0A99H         LINE#         51
+  C:0A9BH         LINE#         52
+  C:0A9DH         LINE#         53
+  C:0AA0H         LINE#         54
+  C:0AA2H         LINE#         55
+  -------         ENDPROC       _LCD_DATA
+  -------         PROC          _LCD_CMD
+  D:0007H         SYMBOL        Cmd
+  C:0AA3H         LINE#         61
+  C:0AA3H         LINE#         62
+  C:0AA3H         LINE#         63
+  C:0AA5H         LINE#         64
+  C:0AA7H         LINE#         65
+  C:0AAAH         LINE#         66
+  C:0AACH         LINE#         67
+  -------         ENDPROC       _LCD_CMD
+  -------         PROC          LCD_INIT
+  C:0A7EH         LINE#         72
+  C:0A7EH         LINE#         73
+  C:0A7EH         LINE#         74
+  C:0A83H         LINE#         78
+  C:0A88H         LINE#         82
+  C:0A8DH         LINE#         85
+  C:0A92H         LINE#         86
+  -------         ENDPROC       LCD_INIT
+  -------         ENDMOD        UART5
+
+  -------         MODULE        ?C?SLDIV
+  C:09F5H         PUBLIC        ?C?SLDIV
+  -------         ENDMOD        ?C?SLDIV
+
+  -------         MODULE        ?C?ULDIV
+  C:083CH         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 011CH BYTE (13%) *
+******************************************************************************
+
+Program Size: data=11.0 xdata=0 code=702
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

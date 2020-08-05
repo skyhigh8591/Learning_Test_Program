@@ -1,0 +1,40 @@
+C51 COMPILER V8.16   3_48                                                                  01/13/2009 21:04:15 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE 3_48
+OBJECT MODULE PLACED IN 3_48.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_48.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /************* 3_48.c ************************
+   2          *動作：令由LED=1~7輸出，若超過則停止
+   3          *硬體：修改為反相輸出，SW1-3(P0LED)ON
+   4          **********************************************/
+   5          #include "..\MPC82.H"  //暫存器及組態設定
+   6          main()
+   7          {
+   8   1        char  i=1;   //宣告計數初值
+   9   1        do
+  10   1          {
+  11   2            LED=i;   //計數由LED輸出 
+  12   2            Delay_ms(100); //延時
+  13   2            i++;     //計數遞加
+  14   2          }
+  15   1        while (i<8); //若計數<8，則跳到do執行
+  16   1        while(1);    //若計數=8，自我空轉
+  17   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     49    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

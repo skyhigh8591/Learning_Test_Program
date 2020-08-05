@@ -1,0 +1,24 @@
+;
+; 許多8位元數的相加(和為16位元) 
+;
+	DSEG	AT 40H
+VAL:	DS	10   ;第一位元組為數值的個數
+SUM:	DS	2
+
+	CSEG
+START:
+	MOV	R0,VAL
+	MOV	R1,#VAL+1
+	MOV	A,#0
+	MOV	B,A
+NEXT1:
+	ADD	A,@R1
+	INC	R1
+	JNC	CON1
+	INC	B
+CON1:
+	DJNZ	R0,NEXT1
+	MOV	SUM,B
+	MOV	SUM+1,A
+	AJMP	$
+	END

@@ -1,0 +1,54 @@
+C51 COMPILER V8.17   FRE2                                                                  09/05/2009 15:51:24 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE FRE2
+OBJECT MODULE PLACED IN FRE2.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE FRE2.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********** fre2.c ************************************
+   2          *動作：設定Timer0及Timer1的mode1計時中斷，令P10
+   3          *      及P12輸出指定的頻率
+   4          *硬體：SW2-5(SPK)ON或SW2-6(SPK)ON
+   5          ********************************************************/
+   6          #include "..\MPC82.H"   //暫存器及組態定義
+   7          #define  F0  1000          //定義F0輸出頻率=1KHz
+   8          #define  F1  4000          //定義F1輸出頻率=4KHz
+   9          #define  T   22118400/12/2 //T=Fosc/12/2=基本頻率  
+  10          #define  t0  65536-T/F0   //F0計時器內容
+  11          #define  t1  65536-T/F1   //F1計時器內容
+  12          main()
+  13          {
+  14   1       TMOD = 0x11;      //設定Timer0及Timer1為mode1
+  15   1       EA=1;ET0=1; ET1=1;//致能Timer0及Timer1計時中斷
+  16   1       PT1=1;            //設定較高頻的Timer1計時中斷優先
+  17   1       TR0=1; TR1=1;     //啟動Timer0-1開始計時
+  18   1       while(1);         //空轉，等待計時溢位
+  19   1      }
+  20          /**************************************************/
+  21          void T0_int(void) interrupt 1   //Timer0中斷函數
+  22          {
+  23   1        TL0= t0; TH0=t0 >> 8; //重新設定Timer0時間
+  24   1        P1_0 = !P1_0;     //P10反相輸出
+  25   1      }
+  26          /***************************************************/
+  27          void T1_int(void) interrupt 3    //Timer1中斷函數
+  28          {
+  29   1        TL1= t1; TH1= t1 >> 8; //重新設定Timer1時間  
+  30   1        P1_2 = !P1_2;     //P12反相輸出
+  31   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     81    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

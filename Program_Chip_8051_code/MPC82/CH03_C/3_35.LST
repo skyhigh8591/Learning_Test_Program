@@ -1,0 +1,50 @@
+C51 COMPILER V9.05   3_35                                                                  11/05/2011 13:34:41 PAGE 1   
+
+
+C51 COMPILER V9.05, COMPILATION OF MODULE 3_35
+OBJECT MODULE PLACED IN 3_35.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_35.c ROM(SMALL) OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /***********3_35.c ********************************
+   2          *動作：由LED0-1輸出16-bit的左右移動作
+   3          *硬體：SW1-3(P0LED)及SW1-4(P1LED)ON
+   4          ************************************************/
+   5          #include "..\MPC82.H"  //暫存器及組態設定
+   6          main() 
+   7          {
+   8   1        unsigned int  i=0x0001; //定義整數
+   9   1        P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  10   1        while(1)    //重覆執行 
+  11   1         {
+  12   2           while(i<0x8000)   //判斷是否移到最左邊 
+  13   2           {
+  14   3             LED0=~i;       //低位元組輸出
+  15   3             LED1=~(i>>8);  //高位元組輸出
+  16   3             Delay_ms(100); //延時
+  17   3             i=i << 1 ;     //資料左移
+  18   3           }               
+  19   2           while(i >0x0001)  //判斷是否移到最右邊
+  20   2            {
+  21   3              LED0=~i;       //低位元組輸出
+  22   3              LED1=~(i>>8);  //高位元組輸出
+  23   3              Delay_ms(100); //延時
+  24   3              i=i >> 1 ;     //資料右移 
+  25   3            }
+  26   2        }
+  27   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    144    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

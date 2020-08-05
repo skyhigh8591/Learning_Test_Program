@@ -1,0 +1,32 @@
+;
+; Find the maximum from two 8-bit numbers (signed view)
+;
+VAL1:	EQU	40H
+VAL2:	EQU	VAL1+1
+RES:	EQU	VAL2+1
+
+START:
+	MOV	A,VAL1
+	JB	ACC.7,VAL1N
+; VAL1 is plus
+	MOV	A,VAL2
+	JB	ACC.7,VAL1G
+; VAL1©MVAL2 same sign
+VAL12SS:
+	MOV	A,VAL1
+	CLR	C
+	SUBB	A,VAL2
+	JB	ACC.7,VAL2G
+VAL1G:
+	MOV	A,VAL1
+	MOV	RES,A
+	AJMP	CON
+VAL1N:
+	MOV	A,VAL2
+	JB	ACC.7,VAL12SS
+VAL2G:
+	MOV	A,VAL2
+	MOV	RES,A
+CON:
+	AJMP	$
+	END

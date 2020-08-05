@@ -1,0 +1,59 @@
+C51 COMPILER V8.17   UART4                                                                 05/13/2003 19:48:28 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE UART4
+OBJECT MODULE PLACED IN UART4.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE UART4.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********** UART4.c ********MODE1串列中斷範例****************
+   2          *動作：電腦UART送出字元，由RXD腳以中斷接收，在LED顯示, 同時發射回去
+   3          *硬體：SW1-3(P0LED)及SW3-4(RxD1)ON
+   4          ***********************************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6          main()
+   7          {
+   8   1        UART_init(9600); //設定串列環境及鮑率
+   9   1        EA=1;ES=1;  //致能串列中斷
+  10   1        while(1);   //自我空轉，表示可做其它工作
+  11   1      }
+  12          //***********************************************************
+  13          void SCON_int (void)  interrupt 4  //串列中斷函數 
+  14           {
+  15   1        //unsigned char temp;   
+  16   1        if(RI==1)  //若是因為接收所產生的中斷
+  17   1         { 
+  18   2               RI=0;     //接收完畢，令RI=0
+  19   2           LED=~SBUF;  //將接收到的字元由LED輸出
+  20   2           //temp=SBUF;  //將接收到的字元存到變數
+  21   2           SBUF=~LED; //將接收到的資料，發射回去
+  22   2              }
+  23   1              else TI=0; //若是因為發射所產生的中斷
+  24   1       }
+  25          /***********************************************************
+  26          *函數名稱: UART_init
+  27          *功能描述: UART啟始程式
+  28          *輸入參數：bps
+  29          ************************************************************/
+  30          void UART_init(unsigned int bps)  //UART啟始程式
+  31          {
+  32   1         SCON=0x50;     //設定UART串列傳輸為MODE1及致能接收
+  33   1         TMOD=0x20;     //設定TIMER1為MODE2
+  34   1         TH1=256-(57600/bps);  //設計時器決定串列傳輸鮑率
+  35   1         TR1=1;          //開始計時
+  36   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     93    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

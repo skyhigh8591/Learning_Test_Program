@@ -1,0 +1,3 @@
+TRANSFER
+".\Objects\io.obj" 
+TO ".\Objects\IO_BAK.LIB"

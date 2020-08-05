@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Widget_Ex</string>
+    <string name="textview">TextView</string>
+</resources>

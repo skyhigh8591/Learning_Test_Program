@@ -1,0 +1,44 @@
+C51 COMPILER V9.56.0.0   3_21B                                                             02/25/2020 09:43:49 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE 3_21B
+OBJECT MODULE PLACED IN 3_21B.OBJ
+COMPILER INVOKED BY: C:\Keil_v51\C51\BIN\C51.EXE 3_21B.C ROM(SMALL) OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          //******3_21B.C*************************
+   2          //*功能︰結構(struct)範例
+   3          //*************************************
+   4          struct str_name   //宣告結構變數
+   5          {
+   6            unsigned flag : 1 ;    //宣告1-bit變數
+   7            unsigned no_used : 7 ; //宣告7-bit變數
+   8            unsigned stack : 5 ;   //宣告5-bit變數
+   9          } usage;  //結構變數名稱
+  10          
+  11          void main()
+  12          {
+  13   1          usage.flag=0;     
+  14   1          usage.no_used=0;  
+  15   1          usage.stack=0;    
+  16   1        loop:
+  17   1          usage.flag++;     //數值0~1
+  18   1          usage.no_used++;  //數值0~0x7F(0~127)
+  19   1          usage.stack++;    //數值0~0x1F(0~31)
+  20   1        goto loop;       
+  21   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    135    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

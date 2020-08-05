@@ -1,0 +1,9 @@
+; This file is maintained by HCW. Do not modify this file directly.
+
+[OPTIONS]
+LCID=0x409 0x0 0x0 ; ­^»y (¬ü°ê)
+REPORT=Yes
+HLP=.\logo1.hlp
+
+[FILES]
+.\logo1.RTF

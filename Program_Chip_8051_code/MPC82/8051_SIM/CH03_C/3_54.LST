@@ -1,0 +1,44 @@
+C51 COMPILER V8.17   3_54                                                                  07/30/2009 13:49:12 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE 3_54
+OBJECT MODULE PLACED IN 3_54.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_54.C OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /************* 3_54.c ************************
+   2          *動作：LED遞加輸出，含延時函數
+   3          *硬體：SW1-3(P0LED)ON
+   4          **********************************************/
+   5          #include "..\MPC82.H"  //暫存器及組態設定
+   6          void delay(int count)   //將10000存入count內，但不傳回值
+   7          {
+   8   1         while(count--);  //count遞減到0才退出函數
+   9   1      }
+  10          
+  11          main()  //主程式
+  12          {
+  13   1       unsigned char i=0;//計數值
+  14   1       P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  15   1        loop:
+  16   1          LED=~i;        //計數值由LED輸出
+  17   1          delay(10000); //呼叫自訂延時函數
+  18   1          i++;           //計數值遞加
+  19   1          goto loop;
+  20   1      }
+  21          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     91    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       7
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

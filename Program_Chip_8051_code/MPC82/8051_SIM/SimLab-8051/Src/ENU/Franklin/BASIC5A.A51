@@ -1,0 +1,23 @@
+;
+; Word disassembly
+;
+	DSEG	AT 40H
+VAL1:	DS	1
+HIGH4:	DS	1
+LOW4:	DS	1
+
+	CSEG
+START:
+	MOV	A,VAL1
+	RR	A
+	RR	A
+	RR	A
+	RR	A
+	ANL	A,#0FH
+	MOV	HIGH4,A
+	MOV	A,VAL1
+	ANL	A,#0FH
+	MOV	LOW4,A
+
+	AJMP	$
+	END

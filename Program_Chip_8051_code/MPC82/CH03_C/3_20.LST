@@ -1,0 +1,46 @@
+C51 COMPILER V9.05   3_20                                                                  11/01/2011 18:59:28 PAGE 1   
+
+
+C51 COMPILER V9.05, COMPILATION OF MODULE 3_20
+OBJECT MODULE PLACED IN 3_20.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_20.C OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********3_20.c*************************** 
+   2          *動作：sizeof運算子範例
+   3          ******************************************/
+   4          main()
+   5          {
+   6   1         char   a;        //宣告8-bit整數變數，為1-byte
+   7   1         int    b;        //宣告16-bit整數變數，為2-byte 
+   8   1         float  c;        //宣告浮點變數，為4-byte
+   9   1      
+  10   1         char data *pd;       //指定使用內部RAM的指標變數，為1-byte
+  11   1         char code *pe;       //指定使用ROM的指標變數，為2-byte
+  12   1         char *pf;            //不指定記憶體的指標變數，為3-byte
+  13   1         static char  i;  //宣告輸出變數
+  14   1        loop: 
+  15   1         i=sizeof(a);  //結果i=1-byte
+  16   1         i=sizeof(b);  //結果i=2-byte
+  17   1         i=sizeof(c);  //結果i=4-byte
+  18   1      
+  19   1         i=sizeof(pd); //結果i=1-byte
+  20   1         i=sizeof(pe); //結果i=2-byte
+  21   1         i=sizeof(pf); //結果i=3-byte
+  22   1         goto loop;  
+  23   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     21    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1      13
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

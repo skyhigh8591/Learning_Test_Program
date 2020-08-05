@@ -1,0 +1,21 @@
+;
+; 找出兩個8位元數中的較大值(unsigned view) 
+;
+VAL1:	EQU	40H
+VAL2:	EQU	VAL1+1
+RES:	EQU	VAL2+1
+
+START:
+	CLR	C
+	MOV	A,VAL1
+	SUBB	A,VAL2
+	JNC	VAL1G
+	MOV	A,VAL2
+	MOV	RES,A
+	AJMP	CON
+VAL1G:
+	MOV	A,VAL1
+	MOV	RES,A
+CON:
+	AJMP	$
+	END

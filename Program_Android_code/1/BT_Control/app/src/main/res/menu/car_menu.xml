@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/melody_menu"
+        android:title="Melody"
+        android:icon="@drawable/music_icon"
+        app:showAsAction="always">
+        <menu>
+            <item android:id="@+id/car_songoff"
+                android:title="Song Off"/>
+            <item android:id="@+id/car_song1"
+                android:title="Song 1"/>
+            <item android:id="@+id/car_song2"
+                android:title="Song 2"/>
+            <item android:id="@+id/car_song3"
+                android:title="Song 3"/>
+            <item android:id="@+id/car_song4"
+                android:title="Song 4"/>
+            <item android:id="@+id/car_song5"
+                android:title="Song 5"/>
+
+
+        </menu>
+
+    </item>
+
+</menu>

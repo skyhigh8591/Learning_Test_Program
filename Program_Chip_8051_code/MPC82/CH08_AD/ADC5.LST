@@ -1,0 +1,136 @@
+C51 COMPILER V9.56.0.0   ADC5                                                              03/20/2020 15:07:35 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE ADC5
+OBJECT MODULE PLACED IN ADC5.OBJ
+COMPILER INVOKED BY: C:\Keil_v51\C51\BIN\C51.EXE ADC5.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /************** ADC5.C *******ADC中斷實習範例********
+   2          *動作：輸入兩通道類比電壓，在LCD顯示電壓值
+   3          *硬體：SW3-1~2(Ain0-1)ON，調整Ain0-1的VR
+   4          ****************************************************/
+   5          #include "..\MPC82.H"
+   6          unsigned int ADC(char channel);  //將類比電壓轉換成數位資料
+   7          void LCD_Disp(unsigned int disp); //LCD顯示電壓值
+   8          
+   9          unsigned int value=0; //數位資料變數
+  10          unsigned long temp;   //暫存值
+  11          unsigned long sum=0;  //累加值
+  12          
+  13          char ch=0;  //類比通道
+  14          char i=0;   //轉換次數
+  15          
+  16          void main(void)
+  17          {
+  18   1        LCD_init();        //重置及清除LCD   
+  19   1          
+  20   1        LCD_Cmd(0x80);     //游標由第一行開始顯示字元  
+  21   1        LCD_Data('A'); LCD_Data('i'); LCD_Data('n');
+  22   1        LCD_Data('0'); LCD_Data('=');
+  23   1      
+  24   1        LCD_Cmd(0xC0);     //游標由第二行開始顯示字元  
+  25   1        LCD_Data('A'); LCD_Data('i'); LCD_Data('n');
+  26   1        LCD_Data('1'); LCD_Data('=');
+  27   1        
+  28   1        EA=1; AUXIE = EADC; //致能ADC中斷
+  29   1        ADCTL=ADCON + ADCS + 0 ; //由Ain0進行ADC轉換
+  30   1        AUXR = ADRJ;      //數位資料ADCH向右移
+  31   1        while(1);         //空轉，表示可做其它工作
+  32   1      }
+  33          /***********************************************************
+  34          *函數名稱: ADC中斷函數
+  35          *功能描述: 整合Ain0-1的10-bit數位資料
+  36          ************************************************************/
+  37          void ADC_Interrupt()  interrupt 9 
+  38          { 
+  39   1        ADCTL=0;  //停止ADC工作
+  40   1        temp=(ADCH<<8) + ADCL;  //整合Ain0數位資料
+  41   1        sum=sum+temp;   //類加數位資料
+  42   1        i++; 
+  43   1        if(i>9)   //檢查是否已轉換10次
+  44   1         {
+  45   2           if(ch==0){LCD_Cmd(0x85); ch=1; } //Ain0在第一行顯示，改為Ain1
+  46   2             else   {LCD_Cmd(0xC5); ch=0; } //Ain1在第二行顯示，改為Ain0
+  47   2           value=(sum/10)*5*100/1023;    //累積取平均值轉換成電壓
+  48   2           LCD_Disp(value);          //顯示類比電壓值
+  49   2           i=0; value=0; sum=0;      //恢復各參數
+  50   2         }
+  51   1        ADCTL=ADCON + ADCS + ch;  //重新進行ADC轉換
+  52   1      }
+  53          /********************************************************
+  54          *函數名稱: LCD_Disp(unsigned int disp)
+  55          *功能描述: LCD顯示電壓值
+C51 COMPILER V9.56.0.0   ADC5                                                              03/20/2020 15:07:35 PAGE 2   
+
+  56          *輸入參數：disp
+  57          *******************************************************/
+  58          void LCD_Disp(unsigned int disp) // LCD顯示電壓值 
+  59          {
+  60   1        LCD_Data(disp /100+'0');    //取出百位數字元到LCD顯示
+  61   1        LCD_Data('.');          //顯示小數點
+  62   1        LCD_Data(disp % 100/10+'0'); //取出十位數字元到LCD顯示
+  63   1        LCD_Data(disp % 10+'0');     //取出個位數字元到LCD顯示
+  64   1        LCD_Data('V');          //顯示V
+  65   1      } 
+  66          /***********************************************************
+  67          *函數名稱: LCD_Data
+  68          *功能描述: 傳送資料到文字型LCD
+  69          *輸入參數：dat
+  70          ************************************************************/
+  71          void LCD_Data(char dat)  //傳送資料到LCD
+  72          {
+  73   1          Data=dat; //資料送到BUS
+  74   1          RS=1;RW=0;EN=1;//資料寫入到LCD內
+  75   1          Delay_ms(1);   //LCD等待寫入完成
+  76   1          EN=0;          //禁能LCD    
+  77   1      }
+  78          /***************************************************************
+  79          *函數名稱: LCD_Cmd
+  80          *功能描述: 傳送命令到文字型LCD
+  81          *輸入參數：Cmd
+  82          ************************************************************/
+  83          void LCD_Cmd(unsigned char Cmd) //傳送命令到LCD
+  84          {
+  85   1          Data=Cmd;  //命令送到BUS
+  86   1          RS=0;RW=0;EN=1; //命令寫入到LCD內
+  87   1          Delay_ms(1);    //LCD等待寫入完成     
+  88   1          EN=0;           //禁能LCD
+  89   1      }
+  90          /***************************************************************
+  91          *函數名稱: LCD_init
+  92          *功能描述: 啟始化文字型LCD
+  93          *****************************************************************/
+  94          void LCD_init(void)    //LCD的啟始程式  
+  95          {
+  96   1          LCD_Cmd(0x38);/*0011 1000,8bit傳輸,顯示2行,5*7字型
+  97   1                          bit4:DL=1,8bit傳輸,
+  98   1                          bit3:N=1,顯示2行
+  99   1                          bit2:F=0,5*7字型*/    
+ 100   1          LCD_Cmd(0x0c);/*0000 1100,顯示幕ON,不顯示游標,游標不閃爍
+ 101   1                          bit2:D=1,顯示幕ON
+ 102   1                          bit1:C=0,不顯示游標
+ 103   1                        bit0:B=0,游標不閃爍*/
+ 104   1          LCD_Cmd(0x06);/*0000 0110,//顯示完游標右移,游標移位禁能 
+ 105   1                          bit1:I/D=1,顯示完游標右移,
+ 106   1                          bit0:S=0,游標移位禁能*/  
+ 107   1          LCD_Cmd(0x01); //清除顯示幕  
+ 108   1          LCD_Cmd(0x02); //游標回原位  
+ 109   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    498    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     20    ----
+C51 COMPILER V9.56.0.0   ADC5                                                              03/20/2020 15:07:35 PAGE 3   
+
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,41 @@
+C51 COMPILER V9.56.0.0   3_21C                                                             02/25/2020 09:44:13 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE 3_21C
+OBJECT MODULE PLACED IN 3_21C.OBJ
+COMPILER INVOKED BY: C:\Keil_v51\C51\BIN\C51.EXE 3_21C.C ROM(SMALL) OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          //******3_21.C*************************
+   2          //*单(union)絛ㄒ
+   3          //****************************************
+   4          union union_name //单跑计
+   5          {
+   6            char num_byte ; //ノ1-byte
+   7            int  num_int ;  //ノ2-byte
+   8            long num_long ; //ノ4-byte
+   9          } usage;
+  10          
+  11          void main()
+  12          {
+  13   1        loop:
+  14   1          usage.num_byte++; //单1-byte跑计患
+  15   1          usage.num_int++;  //单2-byte跑计患
+  16   1          usage.num_long++; //单4-byte跑计患
+  17   1        goto loop;       
+  18   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     45    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

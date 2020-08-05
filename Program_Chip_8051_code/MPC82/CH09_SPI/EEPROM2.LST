@@ -1,0 +1,155 @@
+C51 COMPILER V9.03   EEPROM2                                                               11/27/2011 13:42:47 PAGE 1   
+
+
+C51 COMPILER V9.03, COMPILATION OF MODULE EEPROM2
+OBJECT MODULE PLACED IN EEPROM2.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE EEPROM2.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********** EEPROM2.C *****"模擬SPI進行EEPROM存取*********
+   2          *動作：讀取16-bit陣列寫入EEPROM，再重覆讀取到LED輸出
+   3          *硬體：SW1-3(P0LED)、SW1-5~8(93c46)ON及J7(8-bit)OFF
+   4          ***********************************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6          
+   7          unsigned int code Table[] =
+   8          {0x0101,0x0202,0x0404,0x0808,0x1010,0x2020,0x4040,0x8080}; 
+   9          main()
+  10          {
+  11   1        unsigned char i;//資料計數
+  12   1        P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  13   1        DI=1; DO=1; CS=0; SK=0;//設定初值
+  14   1         EWEN();             //致能EEPROM寫入及清除
+  15   1        for(i=0;i<8;i++)    //寫入8筆資料
+  16   1          WRITE_16(i,Table[i]); //寫入位址及資料
+  17   1        EWDS();    //禁能EEPROM寫入及清除
+  18   1       while(1)   //不斷重覆讀取EEPROM的資料
+  19   1        {  
+  20   2          for(i=0;i<8;i++) //讀取8筆資料
+  21   2           {
+  22   3             LED=~READ_16(i);  //讀取EEPROM的16-bit資料低位元組輸出
+  23   3                 Delay_ms(500);    //延時
+  24   3           }
+  25   2        }
+  26   1      }
+  27          /****************************************************
+  28           函數名稱: Clock
+  29           功能描述:送入串列EEPROM時脈信號
+  30          *****************************************************/
+  31          void Clock(void)
+  32           { SK=0; Delay_ms(1); SK=1;Delay_ms(1);}  //時脈正緣觸發
+  33          /****************************************************
+  34           函數名稱: SEND
+  35           功能描述:送入EEPROM串列1-bit位址或資料
+  36           輸入參數：flag
+  37          *****************************************************/
+  38          void SEND(bit flag)
+  39           { DI=flag; Clock(); } 
+  40          /*****************************************************
+  41           函數名稱: SEND8
+  42           功能描述: 串列EEPROM送入8-bit
+  43           輸入參數：Addr
+  44          ******************************************************/
+  45          void SEND8(unsigned char Addr) 
+  46          {
+  47   1        char i;   
+  48   1        for(i=0;i<8;i++)      //bit7~0 
+  49   1         {
+  50   2           DI=Addr & 0x80;     //DI=bit7
+  51   2               Clock();            //串列時脈，bit送入EEPROM
+  52   2           Addr= Addr << 1;    //左移
+  53   2         }
+  54   1      }
+  55          /********************************************
+C51 COMPILER V9.03   EEPROM2                                                               11/27/2011 13:42:47 PAGE 2   
+
+  56           函數名稱:WRITE_16
+  57           功能描述:93C46串列EEPROM送入位址及16-bit資料
+  58           輸入參數：Addr,ch
+  59          *********************************************/
+  60          void WRITE_16(unsigned char Addr,unsigned int ch)
+  61          { 
+  62   1        CS=1;     //開啟EEPROM晶片
+  63   1        SEND(1);          //啟始位元 
+  64   1        SEND8(0x40+Addr); //送入操作碼01及位址  
+  65   1        SEND8(ch>>8);     //寫入高位元組資料
+  66   1        SEND8(ch);        //寫入低位元組資料
+  67   1        CS=0;             //關閉EEPROM晶片 
+  68   1        CS=1; while(!DO) Clock(); CS=0;//等待寫入完畢  
+  69   1      }
+  70          /*************************************************
+  71           函數名稱: READ_16
+  72           功能描述: 讀取93C46串列EEPROM資料
+  73           輸入參數：Addr
+  74           輸出參數：ch
+  75          **************************************************/
+  76          unsigned int READ_16(unsigned char Addr)
+  77          {
+  78   1        char i;
+  79   1        unsigned int ch;   //16-bit資料
+  80   1        CS=1;              //開啟EEPROM晶片  
+  81   1        SEND(1);           //啟始位元 
+  82   1        SEND8(0x80+Addr);  //送入操作碼10及位址  
+  83   1        if(DO==0)
+  84   1        {
+  85   2              ch=0;  //資料=0
+  86   2              for(i=0; i < 16; i++)//讀取16-bit資料
+  87   2               {
+  88   3                 Clock();        //串列資料由DO輸出
+  89   3                 ch=ch << 1;     //資料位元左移
+  90   3                 if(DO==1) ch++; //若DO=1，則ch資料bit0=1
+  91   3               }
+  92   2         }
+  93   1        CS=0;       //關閉EEPROM晶片 
+  94   1        return ch;  //將16-bit資料送回主程式
+  95   1      }
+  96          /****************************************************
+  97           函數名稱: EWEN
+  98           功能描述: 93C46串列EEPROM寫入及清除致能
+  99          ****************************************************/
+ 100          void EWEN(void)   //EEPROM寫入及清除致能
+ 101          {
+ 102   1        CS=1;        //開啟EEPROM晶片
+ 103   1        SEND(1);     //啟始位元
+ 104   1        SEND8(0x30); //送入操作碼00及指令，致能抹除/寫入動作
+ 105   1        CS=0;        //關閉EEPROM晶片
+ 106   1      }
+ 107          /************************************************
+ 108           函數名稱: EWDS
+ 109           功能描述: 93C46串列EEPROM寫入及清除禁能
+ 110          ***********************************************/
+ 111          void EWDS(void)//EEPROM寫入及清除禁能
+ 112          {
+ 113   1        CS=1;        //開啟EEPROM晶片
+ 114   1        SEND(1);     //啟始位元
+ 115   1        SEND8(0x00); //送入操作碼00及指令，禁能抹除/寫入動作
+ 116   1        CS=0;        //關閉EEPROM晶片
+ 117   1      } 
+C51 COMPILER V9.03   EEPROM2                                                               11/27/2011 13:42:47 PAGE 3   
+
+ 118          /*************************************************
+ 119           函數名稱: ERAL
+ 120           功能描述: 93C46串列EEPROM清除全部記憶體
+ 121          **************************************************/
+ 122          void ERAL(void) //EEPROM清除全部記憶體
+ 123          {
+ 124   1        CS=1;        //開啟EEPROM晶片
+ 125   1        SEND(1);     //啟始位元
+ 126   1        SEND8(0x20); //送入操作碼00及指令，清除全部記憶體
+ 127   1        CS=0;        //關閉EEPROM晶片
+ 128   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    366    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     14    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

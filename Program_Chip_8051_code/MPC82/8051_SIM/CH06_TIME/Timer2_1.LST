@@ -1,0 +1,45 @@
+C51 COMPILER V8.10   TIMER2_1                                                              09/12/2009 16:19:54 PAGE 1   
+
+
+C51 COMPILER V8.10, COMPILATION OF MODULE TIMER2_1
+OBJECT MODULE PLACED IN Timer2_1.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE Timer2_1.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********** Timer2_1.c **********************************
+   2          *動作：SPEAK反相輸出，設定Timer2做延時動作溢位重新載入
+   3          *硬體：SW2-5(SPK)ON：高頻SW2-5(SPK)ON,低頻SW1-4(P1LED)ON
+   4          ********************************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6                            //Fosc=22.1184MHz，Timer時脈=Fosc/12=1.8432MHz
+   7          #define T  57600  //Timer延時時間=(1/1.8432MHz)*57600=31250uS
+   8          main()         
+   9          {
+  10   1        PCON2=5; //Fosc=Fosc/32，延時時間=31250uS*32=1秒(軟體模擬無效)
+  11   1        T2CON=0x00; /* 0000 0000，設定為內部計時，溢位重新載入
+  12   1                       bit3:EXEN2=0,不使用外部T2EX接腳
+  13   1                                   bit1:C/T2=0,內部計時 */
+  14   1        RCAP2=T2R=65536-T; //設定Timer2及重新載入時間
+  15   1        TR2=1;      //啟動Timer2開始計時
+  16   1        while (1)   //不斷循環執行
+  17   1         {
+  18   2           SPEAK=!SPEAK;  //SPEAK反相輸出
+  19   2           while(TF2==0); //等待Timer2計時溢位，若TF2=0自我循環
+  20   2           TF2=0; //若計時溢位TF2=1，RCAP2自動重新載入T2，清除TF2=0
+  21   2         }
+  22   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     75    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

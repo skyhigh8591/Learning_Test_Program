@@ -1,0 +1,10 @@
+.\flash\led_nucleo_f072rb.o: C:\Keil_v5\ARM\PACK\Keil\STM32NUCLEO_BSP\1.6.0\Boards\ST\NUCLEO-F072RB\Common\LED_NUCLEO_F072RB.c
+.\flash\led_nucleo_f072rb.o: C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include\stm32f0xx.h
+.\flash\led_nucleo_f072rb.o: C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include\stm32f072xb.h
+.\flash\led_nucleo_f072rb.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm0.h
+.\flash\led_nucleo_f072rb.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\flash\led_nucleo_f072rb.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h
+.\flash\led_nucleo_f072rb.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_compiler.h
+.\flash\led_nucleo_f072rb.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_armcc.h
+.\flash\led_nucleo_f072rb.o: C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include\system_stm32f0xx.h
+.\flash\led_nucleo_f072rb.o: C:\Keil_v5\ARM\PACK\Keil\MDK-Middleware\7.6.0\Board\Board_LED.h

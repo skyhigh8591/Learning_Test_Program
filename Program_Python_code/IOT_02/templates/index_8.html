@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Delete page</title>
+</head>
+<body>
+	<h3>Delete data to MySQL</h3>
+	<br>
+	<form method="post" action="/delete">
+		<label for="uid">User id :</label>
+		<input type="text" id="uid" name="userid_delete" />
+		<br>
+		<br>
+		<!-- <label for="temp">Temperature :</label>
+		<input type="text" id="temp" name="temperature_delete"> -->
+		<!-- <br>
+		<br> -->
+		<input type="submit" value="Submit"/>
+		<br>
+		<br>
+		<p>{{delete_result}}</p>
+	</form>
+	
+</body>
+</html>

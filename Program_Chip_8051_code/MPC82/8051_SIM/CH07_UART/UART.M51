@@ -1,0 +1,152 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/27/2011  20:38:14  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE UART11.obj TO UART RAMSIZE (256) CODE (0X0000-0X1FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  UART11.obj (UART11)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?SLDIV)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?ULDIV)
+
+
+LINK MAP OF MODULE:  UART (UART11)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0060H                  *** GAP ***
+            CODE    0063H     0003H     ABSOLUTE     
+                    0066H     079AH                  *** GAP ***
+            CODE    0800H     00CEH     UNIT         ?C?LIB_CODE
+            CODE    08CEH     0044H     UNIT         ?C?LDIV
+            CODE    0912H     0020H     UNIT         ?PR?_UART2_INIT?UART11
+            CODE    0932H     001CH     UNIT         ?PR?SCON_INT?UART11
+            CODE    094EH     001BH     UNIT         ?PR?_DELAY_MS?UART11
+            CODE    0969H     000EH     UNIT         ?PR?MAIN?UART11
+            CODE    0977H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   UART (UART11)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?UART11
+
+?PR?MAIN?UART11
+  +--> ?PR?_UART2_INIT?UART11
+
+
+
+SYMBOL TABLE OF MODULE:  UART (UART11)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/27/2011  20:38:14  PAGE 2
+
+
+  -------         MODULE        UART11
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0094H         PUBLIC        P0M1
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00C0H         PUBLIC        XICON
+  D:00B0H         PUBLIC        P3
+  D:00E8H         PUBLIC        P4
+  B:00A8H.7       PUBLIC        EA
+  C:0912H         PUBLIC        _UART2_init
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:00D8H         PUBLIC        CCON
+  C:0969H         PUBLIC        main
+  C:094EH         PUBLIC        _Delay_ms
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:0080H         PUBLIC        LED
+  C:0932H         PUBLIC        SCON_int
+  D:009AH         PUBLIC        S2BUF
+  D:00AAH         PUBLIC        S2CON
+  D:00C8H         PUBLIC        T2CON
+  D:00BAH         PUBLIC        S2BRT
+  D:00A6H         PUBLIC        AUXR2
+  D:00D0H         PUBLIC        PSW
+  D:00ADH         PUBLIC        AUXIE
+  D:0093H         PUBLIC        P0M0
+  -------         PROC          _DELAY_MS
+  D:0006H         SYMBOL        dly
+  -------         DO            
+  D:0004H         SYMBOL        dly1
+  -------         ENDDO         
+  C:094EH         LINE#         550
+  C:094EH         LINE#         551
+  C:094EH         LINE#         553
+  C:0958H         LINE#         554
+  C:0968H         LINE#         555
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          MAIN
+  C:0969H         LINE#         8
+  C:0969H         LINE#         9
+  C:0969H         LINE#         10
+  C:0970H         LINE#         11
+  C:0975H         LINE#         12
+  -------         ENDPROC       MAIN
+  -------         PROC          SCON_INT
+  C:0932H         LINE#         15
+  C:0934H         LINE#         17
+  C:0939H         LINE#         18
+  C:0939H         LINE#         19
+  C:093CH         LINE#         20
+  C:0941H         LINE#         21
+  C:0946H         LINE#         22
+  C:0948H         LINE#         23
+  C:094BH         LINE#         24
+  -------         ENDPROC       SCON_INT
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/27/2011  20:38:14  PAGE 3
+
+
+  -------         PROC          _UART2_INIT
+  D:0006H         SYMBOL        bps
+  C:0912H         LINE#         30
+  C:0912H         LINE#         31
+  C:0918H         LINE#         32
+  C:091BH         LINE#         33
+  C:092EH         LINE#         34
+  C:0931H         LINE#         35
+  -------         ENDPROC       _UART2_INIT
+  -------         ENDMOD        UART11
+
+  -------         MODULE        ?C?SLDIV
+  C:08CEH         PUBLIC        ?C?SLDIV
+  -------         ENDMOD        ?C?SLDIV
+
+  -------         MODULE        ?C?ULDIV
+  C:083CH         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?UART11
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0068H BYTE ( 5%) *
+******************************************************************************
+
+Program Size: data=9.0 xdata=0 code=393
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

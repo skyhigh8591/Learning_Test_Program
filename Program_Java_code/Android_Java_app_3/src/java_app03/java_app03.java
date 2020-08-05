@@ -1,0 +1,138 @@
+package java_app03;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+class MyDataInt {
+	private int data;
+
+	public void setData(int value) {
+		data = value;
+	}
+
+	public int getData() {
+		return data;
+	}
+
+}
+
+class MyDataString {
+
+	private String data;
+
+	public void setData(String value) {
+		data = value;
+	}
+
+	public String getData() {
+		return data;
+	}
+
+}
+
+class MyData<T> {
+	private T data;
+
+	public void setData(T value) {
+		data = value;
+	}
+
+	public T getData() {
+		return data;
+	}
+}
+
+public class java_app03 {
+
+	public static void main(String[] args) {
+
+		Integer[] ID = { 11, 12, 13, 14 };
+
+		String[] Name = { "John", "Mary", "Henry", "Jane" };
+
+		List<Integer> myIDList;
+
+		List<String> myNameList;
+
+		MyDataInt data1 = new MyDataInt();
+		data1.setData(100);
+		int value1 = data1.getData();
+		System.out.println("The value 1 is =" + value1);
+
+		MyDataString data2 = new MyDataString();
+		data2.setData("Hello");
+		String value2 = data2.getData();
+		System.out.println("The value 2 is =" + value2);
+
+		MyData<Integer> data3 = new MyData<Integer>();
+		data3.setData(200);
+		value1 = data3.getData();
+		System.out.println("The value 1 is = " + value1);
+
+		MyData<String> data4 = new MyData<String>();
+		data4.setData("Good morning !");
+		value2 = data4.getData();
+		System.out.println("The value 2 = " + value2);
+
+		myIDList = new ArrayList<>();
+		for (int i = 0; i < ID.length; i++)
+			myIDList.add(ID[i]);
+
+		for (int i = 0; i < myIDList.size(); i++)
+			System.out.print(myIDList.get(i) + " , ");
+
+		System.out.println("");
+
+		List<String> myNameData = Arrays.asList(Name);
+		myNameList = new ArrayList<>(myNameData);
+
+		for (int i = 0; i < myNameList.size(); i++)
+			System.out.print(myNameList.get(i) + " , ");
+
+		System.out.println("");
+		myNameList.add("Julia");
+
+		for (int i = 0; i < myNameList.size(); i++)
+			System.out.print(myNameList.get(i) + " , ");
+
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("id", ID[0]);
+		data.put("name", Name[0]);
+
+		System.out.println("");
+
+		List<Map<String, Object>> listData = new ArrayList<>();
+		listData.add(data);
+
+		Map<String, Object> myData = listData.get(0);
+
+		int id = (int) myData.get("id");
+		System.out.println("id = " + id);
+
+		String name = (String) myData.get("name");
+		System.out.println("name = " + name);
+
+		for (int i = 1; i < ID.length; i++) {
+			data = new HashMap<>();
+			data.put("id", ID[i]);
+			data.put("name", Name[i]);
+			listData.add(data);
+		}
+		
+		System.out.println("");
+
+		for (int i = 0; i < listData.size(); i++) {
+			myData = listData.get(i);
+			
+			id = (int) myData.get("id");
+			System.out.println("id = " + id);
+
+			name = (String) myData.get("name");
+			System.out.println("name = " + name);
+		}
+
+	}
+}

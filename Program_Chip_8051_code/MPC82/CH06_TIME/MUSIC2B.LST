@@ -1,0 +1,88 @@
+C51 COMPILER V9.56.0.0   MUSIC2B                                                           03/25/2020 16:03:11 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE MUSIC2B
+OBJECT MODULE PLACED IN MUSIC2B.OBJ
+COMPILER INVOKED BY: C:\Keil_v51\C51\BIN\C51.EXE MUSIC2B.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /********** MUSIC2B.c ****************************
+   2          *動作：設定以Timer0計時中斷，令喇叭輸出音樂，
+   3          *      同時P0LED遞加可調整速度
+   4          *硬體：P10-->BUZZER、P00~7-->低態亮LED、P32-->KEY1及P33-->KEY2整音樂的速度
+   5          ************************************************/
+   6          #include "..\MPC82.H"   //暫存器及組態定義
+   7          
+   8          #include "music.h"  //音頻定義
+   9          code unsigned int Table[] = // 虹彩妹妹
+  10          {
+  11            DO3,  RE3,    MI3,    DO3,    SO4,
+  12            MI3,    RE3,    SO4,
+  13            RE3,    DO3,    LA2,    MI3,    DO3,    SI2,
+  14            SI2,      LA2,
+  15            SI3,      DO3,    RE3,    SO2,    DO3,
+  16            RE3,    MI3,    FA4,    FA4,    MI3,  RE3,    DO3,    RE3,
+  17            DO3,    RE3,    MI3,    DO3,    SO4,
+  18            MI3,    RE3,    SO4,    
+  19            RE3,    DO3,    LA2,    LA2,    SI2,    DO3,    SO3,
+  20            SO2,    LA2,    SI2,      DO3,    RE3,  SO2,    DO3,    RE3,    MI3,    FA4,
+  21            FA4,    MI3,    RE3,    DO3,    DO3,  
+  22          };
+  23          
+  24          code unsigned char Delay[] =   // 節拍延時,以4分音符為1拍
+  25          {
+  26            4,4,4,4,8,
+  27            4,4,8,
+  28            4,4,4,4,4,8
+  29            4,8,
+*** ERROR C141 IN LINE 29 OF MUSIC2B.C: syntax error near '4'
+  30            4,4,4,4,8,
+  31            4,4,4,4,4,4,4,8,
+  32            4,4,4,4,8,
+  33            4,4,8,
+  34            4,4,4,4,4,4,8,
+  35            4,4,4,4,4,4,4,4,4,8,
+  36            4,4,4,4,8,
+  37          };
+  38          unsigned char  i=0,j,k=50;   //資料計數
+  39          main()
+  40          { 
+  41   1       TMOD=0x01;   //設定Timer0為mode1內部計時 
+  42   1       EA=1;ET0=1;  //致能Timer0中斷
+  43   1       while (1)    //不斷循環執行
+  44   1        {
+  45   2         for(i=0; i<sizeof(Table)/2; i++)   //陣列計數遞加  
+*** ERROR C183 IN LINE 45 OF MUSIC2B.C: unmodifiable lvalue
+  46   2          {
+  47   3          
+  48   3         P0=~j++;      //變數i反相送到P0及P1輸出(設中斷點)
+*** ERROR C183 IN LINE 48 OF MUSIC2B.C: unmodifiable lvalue
+  49   3         if(KEY1==0) {k++; if(k>250) k=250;}
+*** ERROR C183 IN LINE 49 OF MUSIC2B.C: unmodifiable lvalue
+*** ERROR C183 IN LINE 49 OF MUSIC2B.C: unmodifiable lvalue
+  50   3         if(KEY2==0) {k--; if(k<5) k=5;}
+C51 COMPILER V9.56.0.0   MUSIC2B                                                           03/25/2020 16:03:11 PAGE 2   
+
+*** ERROR C183 IN LINE 50 OF MUSIC2B.C: unmodifiable lvalue
+*** ERROR C183 IN LINE 50 OF MUSIC2B.C: unmodifiable lvalue
+  51   3       
+  52   3           if(Table[i]==0) TR0=0; //若資料=0為停止Timer0計時
+  53   3          else
+  54   3          { 
+  55   4           TL0=Table[i];TH0=Table[i] >>8; //設定計時值     
+  56   4             TR0=1;            //啟動Timer0開始計時
+  57   4          }
+  58   3           Delay_ms(Delay[i]*k);     //音長 
+  59   3          }
+  60   2        }
+  61   1      }
+  62          /***************************************/
+  63          void T0_int(void) interrupt 1  //Timer0中斷函數
+  64          {
+  65   1        TL0=Table[i] ; TH0=Table[i] >>8; //重新設定計時值
+  66   1        SPEAK=!SPEAK;     //喇叭反相輸出
+  67   1      }
+  68           
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  7 ERROR(S)

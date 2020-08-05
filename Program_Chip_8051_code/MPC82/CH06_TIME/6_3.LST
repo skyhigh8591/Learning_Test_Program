@@ -1,0 +1,56 @@
+C51 COMPILER V8.17   6_3                                                                   09/05/2009 15:22:38 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE 6_3
+OBJECT MODULE PLACED IN 6_3.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 6_3.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********** 6_3.c *****************************
+   2          *動作：LED遞加，設定以Timer1、mode1、由INT1腳啟
+   3          *      動計時的延時動作
+   4          *硬體：SW1-3(P0LED)ON，按KEY2(INT1)停止
+   5          **********************************************/
+   6          #include "..\MPC82.H"   //暫存器及組態定義
+   7          void Delay(void);  //宣告延時函數
+   8                         //Fosc=22.1184MHz，Timer時脈=Fosc/12=1.8432MHz
+   9          #define T  57600  //Timer延時時間=(1/1.8432MHz)*57600=31250uS
+  10          main()         
+  11          {
+  12   1         unsigned char i=0;
+  13   1         P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  14   1         PCON2=5; //Fosc=Fosc/32，延時時間=31250uS*32=1秒(軟體模擬無效)
+  15   1         TMOD=0x90; /*1001 0000,設定Timer1的GATE=1及mode1
+  16   1                      bit7:GATE=1,使用INT1腳啟動計時
+  17   1                                  bit6:C/T=0,內部計時
+  18   1                                  bit5-4:MODE=01，mode1 */                             
+  19   1         TR1=1;       //啟動Timer1
+  20   1         while(1)    //不斷循環執行
+  21   1         {
+  22   2           LED=~i++;   //LED遞加輸出
+  23   2           Delay();    //延時函數
+  24   2         }
+  25   1      }
+  26          /********************************************/
+  27          void Delay(void)  //延時函數
+  28          {
+  29   1        TL1=65536-T;      //將低8位元計數值存入TL1 
+  30   1        TH1=(65536-T)>>8; //將高8位元計數值存入TH1
+  31   1        while(TF1==0);    //等待計時溢位，若TF1=0自我循環
+  32   1        TF1=0;   //若計時溢位TF1=1，清除TF1=0
+  33   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     88    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

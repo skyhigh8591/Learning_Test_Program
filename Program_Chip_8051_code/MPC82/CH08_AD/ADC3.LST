@@ -1,0 +1,84 @@
+C51 COMPILER V9.03   ADC3                                                                  11/27/2011 10:10:52 PAGE 1   
+
+
+C51 COMPILER V9.03, COMPILATION OF MODULE ADC3
+OBJECT MODULE PLACED IN ADC3.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ADC3.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /************** ADC3.C *******ADC中斷實習範例**********
+   2          *動作：輸入類比電壓，由UART發射到電腦顯示數值
+   3          *硬體：SW3-1(Ain0) ON，SW3-3(TxD1) ON，調整Ain0的VR
+   4          ****************************************************/
+   5          #include "..\MPC82.H"
+   6          #define  ch     0 //指定由Ain0進行ADC轉換
+   7          unsigned int ADC(char channel);
+   8          void output(unsigned char Data);
+   9          
+  10          void main(void)
+  11          {
+  12   1          UART_init(9600); //UART啟始程式，設定串列環境及鮑率
+  13   1              EA=1;            //致能所有中斷
+  14   1          AUXIE = EADC;   //致能ADC中斷
+  15   1          AUXR = ADRJ;     //數位資料ADCH向右移
+  16   1          ADCTL=ADCON + ADCS + ch; //ADC工作及指定道通進行ADC轉換
+  17   1              while(1);  //空轉，此時可做其它工作
+  18   1      }
+  19          /***********************************************************
+  20          *函數名稱: ADC中斷函數
+  21          *功能描述: 整合10-bit數位資料
+  22          ************************************************************/
+  23          void ADC_Interrupt()  interrupt 9 
+  24          { 
+  25   1        unsigned int value;
+  26   1        ADCTL=0;                  //停止ADC工作
+  27   1        value=(ADCH<<8) + ADCL;  //整合Ain0數位資料
+  28   1        output('A'); output('i'); output('n'); output('=');//發射字串
+  29   1        output(value/1000+'0');     //發射資料的千位數
+  30   1        output(value%1000/100+'0'); //發射資料的百位數
+  31   1        output(value%100/10+'0');   //發射資料的十位數
+  32   1        output(value%10+'0');       //發射資料的個位數
+  33   1        output('\n'); output('\r'); //跳行及歸位      
+  34   1        Delay_ms(300);              //延時
+  35   1        ADCTL=ADCON + ADCS + ch;    //重新啟動ADC工作
+  36   1      }
+  37          /***********************************************************
+  38          *函數名稱: void output(unsigned char Data)
+  39          *功能描述: 將字元發射出去
+  40          *輸入參數：字元資料
+  41          ************************************************************/
+  42          void output(unsigned char Data)
+  43          {
+  44   1        SBUF=Data;  //轉成字元發射出去
+  45   1        while(TI==0); //若TI=0表示未發射完畢，再繼續檢查
+  46   1        TI=0 ;          //若TI=1表示已發射完畢，令TI=0  
+  47   1      }
+  48          /***********************************************************
+  49          *函數名稱: UART_init
+  50          *功能描述: UART啟始程式
+  51          *輸入參數：bps
+  52          ************************************************************/
+  53          void UART_init(unsigned int bps)  //UART啟始程式
+  54          {
+  55   1         SCON = 0x50;     //設定UART串列傳輸為MODE1及致能接收
+C51 COMPILER V9.03   ADC3                                                                  11/27/2011 10:10:52 PAGE 2   
+
+  56   1         TMOD = 0x20;     //設定TIMER1為MODE2
+  57   1         TH1=TL1=256-(57600/bps);  //設計時器決定串列傳輸鮑率
+  58   1         TR1 = 1;          //開始計時
+  59   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    339    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      9    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

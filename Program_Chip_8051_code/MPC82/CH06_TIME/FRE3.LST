@@ -1,0 +1,50 @@
+C51 COMPILER V8.17   FRE3                                                                  09/05/2009 15:55:28 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE FRE3
+OBJECT MODULE PLACED IN FRE3.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE FRE3.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********** fre3.c ***********************************
+   2          *動作：設定Timer0及Timer1的mode2計時中斷，令P10
+   3          *      及P12輸出指定的頻率
+   4          *硬體：SW2-5(SPK)ON或SW2-6(SPK)ON
+   5          ******************************************************/
+   6          #include "..\MPC82.H"   //暫存器及組態定義
+   7          #define  F0   4000          //定義F0輸出頻率=4KHz
+   8          #define  F1   8000          //定義F1輸出頻率=8KHz
+   9          #define  T    22118400/12/2 //T=Fosc/12/2=基本頻率 
+  10          #define  t0   256-T/F0      //F0計時器內容 
+  11          #define  t1   256-T/F1          //F1計時器內容
+  12          main()
+  13          {
+  14   1       EA=1;ET0=1;ET1=1; //致能Timer0及Timer1計時中斷
+  15   1       PT1=1;            //致能較高頻的Timer1中斷優先
+  16   1       TMOD=0x22;        //設定Timer0-1為mode2  
+  17   1       TH0=t0; TH1=t1;   //設定Timer0-1計時值
+  18   1       TR0=1;  TR1=1;    //啟動Timer0-1開始計時
+  19   1       while(1);         //空轉，等待計時溢位
+  20   1      }
+  21          /******************************************/
+  22          void T0_int(void) interrupt 1  //Timer0中斷函數
+  23          { P1_0 = !P1_0; }    //P10反相輸出
+  24          /********************************************/
+  25          void T1_int(void) interrupt 3  //Timer1中斷函數
+  26          { P1_2 = !P1_2; }    //P12反相輸出
+  27          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     75    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

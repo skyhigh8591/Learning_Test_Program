@@ -1,0 +1,106 @@
+C51 COMPILER V9.56.0.0   4_5C                                                              03/06/2020 16:17:15 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE 4_5C
+OBJECT MODULE PLACED IN 4_5C.OBJ
+COMPILER INVOKED BY: C:\Keil_v51\C51\BIN\C51.EXE 4_5C.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /********** 4_5C.C ****************************
+   2          *動作：每按一次按鍵，令LED有6種變化
+   3          *硬體：SW1-3(P0LED)ON, 按KEY1 
+   4          ***********************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6          char flag=0;    //設定變數 
+   7           #define F     600  //定義音頻常數
+   8          #define T     600 //定義音長常數
+   9          #define STOP  1000  //定義停止時間常數
+  10          unsigned int i,dly;
+  11          main() 
+  12          {
+  13   1        P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  14   1        while(1)       //重覆執行 
+  15   1         {         //若flag=0，直接跳到此處
+  16   2           if(KEY1==0)      //若有按鍵，flag反相
+  17   2          {
+  18   3              Delay_ms(1); //延時，防止機械彈跳    
+  19   3              flag++; if(flag>5) flag=0;   
+  20   3            while(KEY1==0); //若未放開鍵，空轉 
+  21   3          }
+  22   2          switch (flag)
+  23   2          {
+  24   3            case  0:
+  25   3              
+  26   3              for(i=0;i<700;i++) //輸出反相次數，決定音長
+  27   3              {
+  28   4                SPEAK=!SPEAK; //SPEAK反相,令喇叭發出聲音
+  29   4                dly=700; while(dly--);  //音頻延時
+  30   4              }
+  31   3             SPEAK=0; Delay_ms(STOP); //喇叭停止，間隔時間
+  32   3            break;
+  33   3            
+  34   3            case  1:
+  35   3              
+  36   3              for(i=0;i<100;i++) //輸出反相次數，決定音長
+  37   3              {
+  38   4                SPEAK=!SPEAK; //SPEAK反相,令喇叭發出聲音
+  39   4                dly=100; while(dly--);  //音頻延時
+  40   4              }
+  41   3             SPEAK=0; Delay_ms(STOP); //喇叭停止，間隔時間
+  42   3            break;
+  43   3        
+  44   3            case  2:
+  45   3              
+  46   3              for(i=0;i<400;i++) //輸出反相次數，決定音長
+  47   3              {
+  48   4                SPEAK=!SPEAK; //SPEAK反相,令喇叭發出聲音
+  49   4                dly=400; while(dly--);  //音頻延時
+  50   4              }
+  51   3             SPEAK=0; Delay_ms(STOP); //喇叭停止，間隔時間
+  52   3            break;
+  53   3        
+  54   3            case  3:
+  55   3              
+C51 COMPILER V9.56.0.0   4_5C                                                              03/06/2020 16:17:15 PAGE 2   
+
+  56   3              for(i=0;i<200;i++) //輸出反相次數，決定音長
+  57   3              {
+  58   4                SPEAK=!SPEAK; //SPEAK反相,令喇叭發出聲音
+  59   4                dly=550; while(dly--);  //音頻延時
+  60   4              }
+  61   3             SPEAK=0; Delay_ms(STOP); //喇叭停止，間隔時間
+  62   3            break;
+  63   3        
+  64   3            case  4:
+  65   3              
+  66   3              for(i=0;i<800;i++) //輸出反相次數，決定音長
+  67   3              {
+  68   4                SPEAK=!SPEAK; //SPEAK反相,令喇叭發出聲音
+  69   4                dly=320; while(dly--);  //音頻延時
+  70   4              }
+  71   3             SPEAK=0; Delay_ms(STOP); //喇叭停止，間隔時間
+  72   3            break;
+  73   3              
+  74   3            default:
+  75   3               
+  76   3              break;
+  77   3          }
+  78   2          
+  79   2         Delay_ms(100); //延時             
+  80   2         }
+  81   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    418    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      9    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

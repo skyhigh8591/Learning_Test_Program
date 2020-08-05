@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Update page</title>
+</head>
+<body>
+	<h3>Update data to MySQL</h3>
+	<br>
+	<form method="post" action="/update">
+		<label for="uid">User id :</label>
+		<input type="text" id="uid" name="userid_update" />
+		<br>
+		<br>
+		<label for="temp">Temperature :</label>
+		<input type="text" id="temp" name="temperature_update">
+		<br>
+		<br>
+		<input type="submit" value="Submit"/>
+		<br>
+		<br>
+		<p>{{update_result}}</p>
+	</form>
+	
+</body>
+</html>

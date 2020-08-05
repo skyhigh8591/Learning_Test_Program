@@ -1,0 +1,105 @@
+C51 COMPILER V9.03   GLCD1                                                                 11/27/2011 16:41:41 PAGE 1   
+
+
+C51 COMPILER V9.03, COMPILATION OF MODULE GLCD1
+OBJECT MODULE PLACED IN GLCD1.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE GLCD1.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*****GLCD1.C****繪圖型LCD實習板範例******
+   2          *動作：在繪圖型LCD最低下顯示橫線，往上移動 
+   3          *************************************************/
+   4          #include "..\MPC82.H"   //暫存器及組態定義
+   5          unsigned char i;  //定義計數變數
+   6          unsigned x_page;  //定義LCD顯示X頁位址
+   7          main()
+   8          {
+   9   1        RST=0; Delay_ms(1);RST=1; //重置繪圖型LCD
+  10   1        CS1=1;CS2=1;      //開啟繪圖型LCD左右半部
+  11   1        Delay_ms(5);      //等待LCD開機時間
+  12   1        LCD_Cmd(0x3f);    //0011111D，D=1開啟螢幕
+  13   1        LCD_clear();      //清除繪圖型LCD整個畫面
+  14   1              
+  15   1        LCD_Cmd(0xb8+7); //10111xxx+0~7，X頁位址=7最下頁
+  16   1        LCD_Cmd(0x40+0); //01xxxxxx+0~63，Y軸位址=0最左邊
+  17   1        for(i=0; i< 64 ;i++) //寫入64筆 
+  18   1          LCD_Data(0x80);//寫入資料10000000,最低下一橫線 
+  19   1        while(1)
+  20   1        {
+  21   2          for(i=0; i<64 ;i++) //計數=0~63
+  22   2              {
+  23   3                //LCD_Cmd(0xC0+i); //11xxxxxx+0~63，開始行數=0~63往上移
+  24   3                Delay_ms(100);
+  25   3              }
+  26   2        }
+  27   1      }
+  28          /*******************************************
+  29          *函數名稱: LCD_clear()
+  30          *功能描述: 清除繪圖型LCD整個畫面
+  31          *********************************************/
+  32          void LCD_clear(void)
+  33          { 
+  34   1       for(x_page=0;x_page<8;x_page++)//X頁位址=0-7
+  35   1         {  
+  36   2           LCD_Cmd(0xb8+x_page); //10111xxx+0~7，
+  37   2           LCD_Cmd(0x40+0); //01xxxxxx+0~63，Y軸位址=0最左邊
+  38   2           for(i=0; i< 64 ;i++) LCD_Data(0x0);//寫入資料00 
+  39   2         }
+  40   1      }
+  41          /*******************************************
+  42          *函數名稱: LCD_Cmd
+  43          *功能描述: 寫入命令到繪圖型LCD
+  44          *輸入參數：cmd
+  45          *********************************************/
+  46          void LCD_Cmd(unsigned char cmd)
+  47          {
+  48   1              unsigned char dly=40;
+  49   1              Data=cmd;       //輸出命令      
+  50   1              D_I=0;RW=0;EN=1;while(dly--);EN=0; //寫入命令
+  51   1              LCD_wait();     //等待忙碌旗標BF
+  52   1      }
+  53          /********************************************
+  54          *函數名稱: LCD_Data
+  55          *功能描述: 寫入資料到繪圖型LCD
+C51 COMPILER V9.03   GLCD1                                                                 11/27/2011 16:41:41 PAGE 2   
+
+  56          *輸入參數：dat
+  57          *********************************************/
+  58          void LCD_Data(char dat)
+  59          {
+  60   1              unsigned char dly=40;
+  61   1              Data=dat;        //輸出資料
+  62   1              D_I=1;RW=0;EN=1;while(dly--);EN=0;//寫入資料
+  63   1              LCD_wait();     //等待忙碌旗標BF
+  64   1      }
+  65          /**************************************************
+  66          *函數名稱: LCD_wait
+  67          *功能描述: LCD等待忙碌旗標BF
+  68          ****************************************************/
+  69          void LCD_wait(void)
+  70          {
+  71   1        unsigned char status;  //定義LCD讀取狀態
+  72   1        Data=0xff; //P0設定為輸入埠
+  73   1        do
+  74   1        {
+  75   2          D_I=0;RW=1;EN=1;//讀取命令
+  76   2          status= Data;       //輸入LCD的命令
+  77   2          EN=0;                       //禁能LCD
+  78   2        }
+  79   1        while(status & 0x80); //等待忙碌旗標BF=0
+  80   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    263    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     12    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,62 @@
+C51 COMPILER V9.03   UART10                                                                04/27/2011 20:35:19 PAGE 1   
+
+
+C51 COMPILER V9.03, COMPILATION OF MODULE UART10
+OBJECT MODULE PLACED IN UART10.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE UART10.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********** UART10.c *****UART2的MODE1串列發射****************
+   2          *動作：使用UART2，陣列字元由TXD2腳傳輸至個人電腦
+   3          *硬體：SW3-5(TxD2)ON
+   4          **************************************************************/
+   5          #include "..\MPC82.H"
+   6          char code TABLE[]={"歡迎進入Megawin\n\r"};//陣列字元中文資料及跳行
+   7          void UART2_init(unsigned int bps);  //UART2啟始程式
+   8          main()
+   9          {
+  10   1        unsigned char i=0;
+  11   1        char *s ;              //宣告指標變數
+  12   1        UART2_init(9600); //UART啟始程式，設定串列環境及鮑率
+  13   1        while(1)
+  14   1         {
+  15   2               S2BUF=i+'0';   //發射計數值
+  16   2               while((S2CON & S2TI)==0);  //若S2TI=0表示未發射完畢，再繼續檢查
+  17   2               S2CON &= ~S2TI;                //若S2TI=1表示已發射完畢，令S2TI=0  
+  18   2               
+  19   2               for(s=TABLE;*s != '\0' ;)//陣列字元計數值
+  20   2                {
+  21   3                 S2BUF=*s++ ; //陣列字元送到SBUF，開始發射
+  22   3                 while((S2CON & S2TI)==0); //若S2TI=0表示未發射完畢，再繼續檢查
+  23   3                 S2CON &= ~S2TI ;             //若S2TI=1表示已發射完畢，令S2TI=0
+  24   3                }
+  25   2               Delay_ms(500);     //延時
+  26   2               i++; if(i>9) i=0;      //計數值0~9
+  27   2         }
+  28   1      }
+  29          /***********************************************************
+  30          *函數名稱: UART2_init
+  31          *功能描述: UART2啟始程式
+  32          *輸入參數：bps
+  33          ************************************************************/
+  34          void UART2_init(unsigned int bps)  //UART啟始程式
+  35          {  P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  36   1         S2CON=0x50;     //設定UART2串列傳輸為MODE1及致能接收
+  37   1         S2BRT=256-(57600/bps);  //設定UART2傳輸速率
+  38   1         AUXR2=S2TR;      //UART2啟動
+  39   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    149    ----
+   CONSTANT SIZE    =     18    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

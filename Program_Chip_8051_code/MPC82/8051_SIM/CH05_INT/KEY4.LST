@@ -1,0 +1,136 @@
+C51 COMPILER V9.01   KEY4                                                                  07/13/2010 15:42:35 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE KEY4
+OBJECT MODULE PLACED IN KEY4.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE KEY4.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /******** KEY4.C******4*4鍵盤實習範例***************
+   2          *動作：在LCD顯示"KEY="，按鍵由LCD顯示4位數移位動作
+   3          *硬體：按S1~S16
+   4          *****************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6          char code  Table[]="KEY="; //第一行陣列字元
+   7          void LCD_Disp(unsigned int disp);  // LCD顯示4位數
+   8          void dataout(uint8 keyout); //按鍵資料輸出
+   9          unsigned char i=0;      //LCD顯示位置
+  10          unsigned long lcd_count;        //LCD顯示數字
+  11          void main()
+  12          {
+  13   1       char count=0;   //按鍵計數=0
+  14   1       unsigned char scan=0xEF; //按鍵掃描令ROW0=0，其餘為1
+  15   1       LCD_init();            //重置及清除LCD
+  16   1       LCD_Cmd(0x80);     //游標由第一行開始顯示  
+  17   1       for(i=0; i<4; i++) //讀取陣列"KEY= "字元到LCD顯示出來 
+  18   1         LCD_Data(Table[i]);   
+  19   1       LCD_Disp(lcd_count); //LCD顯示4位數十進制數字
+  20   1       while(1)   //重覆執行
+  21   1        {
+  22   2          if(count>15){scan=0xEF;count=0;}//若計數>15，從頭開始
+  23   2          ROW=scan;             //掃描輸出
+  24   2          if(COL0==0) dataout(count);//檢查COL0列，若是計數輸出
+  25   2          count++; Delay_ms(1);      //若不是，計數+1
+  26   2          if(COL1==0) dataout(count);//檢查COL1列，若是計數輸出
+  27   2          count++; Delay_ms(1);      //若不是，計數+1
+  28   2          if(COL2==0) dataout(count);//檢查COL2列，若是計數輸出
+  29   2          count++; Delay_ms(1);      //若不是，計數+1
+  30   2          if(COL3==0) dataout(count);//檢查COL3列，若是計數輸出
+  31   2          count++; Delay_ms(1);      //若不是，計數+1
+  32   2          scan=RL8(scan); //左旋轉，換掃下一列,令ROW0~3輪流為0
+  33   2         }
+  34   1      }
+  35          /***********************************************************
+  36          *函數名稱: dataout
+  37          *功能描述: 按鍵輸出資料送到LCD顯示數字，檢查是否放開按鍵
+  38          *輸入參數：keyout
+  39          ************************************************************/
+  40          void dataout(char keyout) 
+  41          {   
+  42   1        LCD_Cmd(0x84);
+  43   1        if(keyout<=9) //限制輸入0~9鍵
+  44   1         {  
+  45   2          lcd_count=(lcd_count*10)+keyout;  //數字進位
+  46   2                        //若計數超過9999僅顯示後四碼
+  47   2          if(lcd_count>9999) lcd_count=lcd_count % 10000; 
+  48   2          LCD_Disp(lcd_count); //LCD顯示4位數十進制數字
+  49   2         }
+  50   1        Delay_ms(1);          //處理按鍵跳動之延遲
+  51   1        while(!(COL0 & COL1 & COL2 & COL3));//若COL0~3≠1111未放開按鍵
+  52   1        Delay_ms(1);       //處理按鍵跳動之延遲
+  53   1      }
+  54          /*****************************************************
+  55          * 函數名稱: LCD_Disp(unsigned int disp)
+C51 COMPILER V9.01   KEY4                                                                  07/13/2010 15:42:35 PAGE 2   
+
+  56          * 功能描述: LCD顯示4位數十進制數字
+  57          * 輸入參數：disp
+  58          *******************************************************/
+  59          void LCD_Disp(unsigned int disp)  // LCD顯示4位數十進制數字
+  60          {
+  61   1       if(disp>999) LCD_Data(disp /1000+'0');   //顯示千位數
+  62   1       if(disp>99)  LCD_Data(disp%1000/100+'0');//顯示百位數
+  63   1       if(disp>9)   LCD_Data(disp%100/10+'0');  //顯示十位數
+  64   1                    LCD_Data(disp % 10+'0');    //顯示個位數
+  65   1      }
+  66          /***********************************************************
+  67          *函數名稱: LCD_Data
+  68          *功能描述: 傳送資料到文字型LCD
+  69          *輸入參數：dat
+  70          ************************************************************/
+  71          void LCD_Data(char dat)  //傳送資料到LCD
+  72          {
+  73   1          Data=dat;      //資料送到BUS
+  74   1          RS=1;RW=0;EN=1;//資料寫入到LCD內
+  75   1          Delay_ms(1);   //LCD等待寫入完成
+  76   1          EN=0;          //禁能LCD    
+  77   1      }
+  78          /***************************************************************
+  79          *函數名稱: LCD_Cmd
+  80          *功能描述: 傳送命令到文字型LCD
+  81          *輸入參數：Cmd
+  82          ************************************************************/
+  83          void LCD_Cmd(unsigned char Cmd) //傳送命令到LCD
+  84          {
+  85   1          Data=Cmd;       //命令送到BUS
+  86   1          RS=0;RW=0;EN=1; //命令寫入到LCD內
+  87   1          Delay_ms(1);    //LCD等待寫入完成     
+  88   1          EN=0;           //禁能LCD
+  89   1      }
+  90          /***************************************************************
+  91          *函數名稱: LCD_init
+  92          *功能描述: 啟始化文字型LCD
+  93          *****************************************************************/
+  94          void LCD_init(void)    //LCD的啟始程式  
+  95          {
+  96   1          LCD_Cmd(0x38);//0011 1000,8bit傳輸,顯示2行,5*7字型
+  97   1          LCD_Cmd(0x38);//bit4:DL=1,8bit傳輸,
+  98   1          LCD_Cmd(0x38);//bit3:N=1,顯示2行
+  99   1                        //bit2:F=0,5*7字型    
+ 100   1          LCD_Cmd(0x0f);/*0000 1100,顯示幕ON,顯示游標,游標閃爍
+ 101   1                          bit2:D=1,顯示幕ON
+ 102   1                          bit1:C=1,顯示游標
+ 103   1                              bit0:B=1,游標閃爍*/
+ 104   1          LCD_Cmd(0x06);/*0000 0110,//顯示完游標右移,游標移位禁能 
+ 105   1                          bit1:I/D=1,顯示完游標右移,
+ 106   1                          bit0:S=0,游標移位禁能*/  
+ 107   1          LCD_Cmd(0x01); //清除顯示幕  
+ 108   1          LCD_Cmd(0x02); //游標回原位  
+ 109   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    567    ----
+   CONSTANT SIZE    =      5    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     16    ----
+C51 COMPILER V9.01   KEY4                                                                  07/13/2010 15:42:35 PAGE 3   
+
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

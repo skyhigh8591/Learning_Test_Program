@@ -1,0 +1,36 @@
+C51 COMPILER V9.05   3_3B                                                                  11/05/2011 09:30:13 PAGE 1   
+
+
+C51 COMPILER V9.05, COMPILATION OF MODULE 3_3B
+OBJECT MODULE PLACED IN 3_3B.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_3B.c OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********* 3_3B.C *********************
+   2          * 動作：外部變數
+   3          * 附加：3_3B_1.C
+   4          **************************************/
+   5          extern void test(void);  //宣告函數在外面
+   6          char i;   //宣告全域變數
+   7          main()    //主程式
+   8          {
+   9   1       loop:       //標記名稱 
+  10   1        i=i+1;         //變數遞加
+  11   1        test();     //執行遞加外面的函數
+  12   1        goto loop; //跳到標記loop
+  13   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =      8    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,38 @@
+;
+; 配合"8*8單色點矩陣LED實習板"
+;   在8*8單色點矩陣LED上顯示中文字---"大"
+;
+START:
+	MOV	R2,#0
+	MOV	R4,#07FH
+	MOV	DPTR,#DAI
+LOOP:
+	MOV	P1,#0FFH   ;  關閉共陽
+	MOV	A,R2
+	MOVC	A,@A+DPTR
+	MOV	P0,A
+	INC	R2
+
+	MOV	A,R4
+	MOV	P1,A
+
+	RR	A
+	MOV	R4,A
+
+	CJNE	R2,#8,DELAY
+	MOV	R2,#0
+
+DELAY:
+	MOV	R3,#3
+NEXT2:
+	ACALL	DELAY1MS
+	DJNZ	R3,NEXT2
+
+	AJMP  LOOP
+
+	$include	(delay.inc)
+
+DAI:
+	DB	0FDH,0DBH,0D7H,00FH,0D7H
+	DB	0DBH,0DDH,0FFH
+	END

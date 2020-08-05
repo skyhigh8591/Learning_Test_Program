@@ -1,0 +1,157 @@
+Intel-8051 Macro Assembler - Version 1.00
+
+      1    0000                           ;
+      2    0000                           ; 配合"8個LED(共陽)實習板"
+      3    0000                           ;   P0所接的8個LED(初始狀態:最左1個熄；其餘7個LED亮著),其變化方式:
+      4    0000                           ;         當熄的LED出現在最左邊時,進行右旋, 
+      5    0000                           ;         反之,當熄的LED出現在最右邊時,進行左旋
+      6    0000                           ;
+      7    0000                           TP0:	EQU	020H
+      8    0000     75 20 7F              	MOV	TP0,#01111111B
+      9    0003     E5 20                 	MOV	A,TP0
+     10    0005     F4                    	CPL	A
+     11    0006     F5 80                 	MOV	P0,A
+     12    0008                           RIGHT:
+     13    0008     30 00 0C              	JNB	TP0.0,LEFT
+     14    000B     11 66                 	ACALL	DELAY100MS
+     15    000D     E5 20                 	MOV	A,TP0
+     16    000F     03                    	RR	A
+     17    0010     F5 20                 	MOV	TP0,A
+     18    0012     F4                    	CPL	A
+     19    0013     F5 80                 	MOV	P0,A
+     20    0015     80 F1                 	SJMP	RIGHT
+     21    0017                           LEFT:
+     22    0017     11 66                 	ACALL	DELAY100MS
+     23    0019     30 07 EC              	JNB	TP0.7,RIGHT
+     24    001C     E5 20                 	MOV	A,TP0
+     25    001E     23                    	RL	A
+     26    001F     F5 20                 	MOV	TP0,A
+     27    0021     F4                    	CPL	A
+     28    0022     F5 80                 	MOV	P0,A
+     29    0024     80 F1                 	SJMP	LEFT
+     30    0026                           
+     31    0026                           	include delay.inc
+I1    1    0026                            include RDelay.inc
+I2    1    0026                           ;Simulator 專用副程式
+I2    2    0026                           ;使用R0, R1, R2, R3
+I2    3    0026                           ;
+I2    4    0026                           DELAY100US:
+I2    5    0026     C0 E0                 	PUSH	ACC
+I2    6    0028     E9                    	MOV	A,R1
+I2    7    0029     C0 E0                 	PUSH	ACC
+I2    8    002B     79 2C                 	MOV	R1,#44
+I2    9    002D     D9 FE                 	DJNZ	R1,$
+I2   10    002F     D0 E0                 	POP	ACC
+I2   11    0031     F9                    	MOV	R1,A
+I2   12    0032     D0 E0                 	POP	ACC
+I2   13    0034     22                    	RET
+I2   14    0035                           ;
+I2   15    0035                           DELAY1MS:
+I2   16    0035     C0 E0                 	PUSH	ACC
+I2   17    0037     E9                    	MOV	A,R1
+I2   18    0038     C0 E0                 	PUSH	ACC
+I2   19    003A     79 FF                 	MOV	R1,#255
+I2   20    003C     D9 FE                 	DJNZ	R1,$
+I2   21    003E     79 EC                 	MOV	R1,#236
+I2   22    0040     D9 FE                 	DJNZ	R1,$
+I2   23    0042     D0 E0                 	POP	ACC
+I2   24    0044     F9                    	MOV	R1,A
+I2   25    0045     D0 E0                 	POP	ACC
+I2   26    0047     22                    	RET
+I2   27    0048                           ;
+I2   28    0048                           DELAY10MS:
+I2   29    0048     C0 E0                 	PUSH	ACC
+I2   30    004A     E8                    	MOV	A,R0
+I2   31    004B     C0 E0                 	PUSH	ACC
+I2   32    004D     E9                    	MOV	A,R1
+I2   33    004E     C0 E0                 	PUSH	ACC
+I2   34    0050     78 13                 	MOV	R0,#19
+I2   35    0052                           DELAY10ms_1:
+I2   36    0052     79 FF                 	MOV	R1,#255
+I2   37    0054     D9 FE                 	DJNZ	R1,$
+I2   38    0056     D8 FA                 	DJNZ	R0,DELAY10ms_1
+I2   39    0058     79 71                 	MOV	R1,#113
+I2   40    005A     D9 FE                 	DJNZ	R1,$
+I2   41    005C     00                    	NOP
+I2   42    005D     D0 E0                 	POP	ACC
+I2   43    005F     F9                    	MOV	R1,A
+I2   44    0060     D0 E0                 	POP	ACC
+I2   45    0062     F8                    	MOV	R0,A
+I2   46    0063     D0 E0                 	POP	ACC
+I2   47    0065     22                    	RET
+I2   48    0066                           ;
+I2   49    0066                           DELAY100MS:
+I2   50    0066     C0 E0                 	PUSH	ACC
+I2   51    0068     E8                    	MOV	A,R0
+I2   52    0069     C0 E0                 	PUSH	ACC
+I2   53    006B     E9                    	MOV	A,R1
+I2   54    006C     C0 E0                 	PUSH	ACC
+I2   55    006E     78 C2                 	MOV	R0,#194
+I2   56    0070                           DELAY100ms_1:
+I2   57    0070     79 FF                 	MOV	R1,#255
+I2   58    0072     D9 FE                 	DJNZ	R1,$
+I2   59    0074     D8 FA                 	DJNZ	R0,DELAY100ms_1
+I2   60    0076     D0 E0                 	POP	ACC
+I2   61    0078     F9                    	MOV	R1,A
+I2   62    0079     D0 E0                 	POP	ACC
+I2   63    007B     F8                    	MOV	R0,A
+I2   64    007C     D0 E0                 	POP	ACC
+I2   65    007E     22                            RET
+I2   66    007F                           ;
+I2   67    007F                           DELAY1S:
+I2   68    007F     C0 E0                 	PUSH	ACC
+I2   69    0081     EA                    	MOV	A,R2
+I2   70    0082     C0 E0                 	PUSH	ACC
+I2   71    0084     7A 0A                 	MOV	R2,#10
+I2   72    0086                           DELAY1s_1:
+I2   73    0086     12 00 66              	LCALL	DELAY100MS
+I2   74    0089     DA FB                 	DJNZ	R2,DELAY1s_1
+I2   75    008B     D0 E0                 	POP	ACC
+I2   76    008D     FA                    	MOV	R2,A
+I2   77    008E     D0 E0                 	POP	ACC
+I2   78    0090     22                    	RET
+I2   79    0091                           ;
+I2   80    0091                           DELAY10S:
+I2   81    0091     C0 E0                 	PUSH	ACC
+I2   82    0093     EA                    	MOV	A,R2
+I2   83    0094     C0 E0                 	PUSH	ACC
+I2   84    0096     7A 64                 	MOV	R2,#100
+I2   85    0098                           DELAY10s_1:
+I2   86    0098     12 00 66              	LCALL	DELAY100MS
+I2   87    009B     DA FB                  	DJNZ	R2,DELAY10s_1
+I2   88    009D     D0 E0                 	POP	ACC
+I2   89    009F     FA                    	MOV	R2,A
+I2   90    00A0     D0 E0                 	POP	ACC
+I2   91    00A2     22                    	RET
+I2   92    00A3                           ;
+I2   93    00A3                           DELAY100S:
+I2   94    00A3     C0 E0                 	PUSH	ACC
+I2   95    00A5     EB                    	MOV	A,R3
+I2   96    00A6     C0 E0                 	PUSH	ACC
+I2   97    00A8     7B 0A                 	MOV	R3,#10
+I2   98    00AA                           DELAY100s_1:
+I2   99    00AA     12 00 91              	LCALL	DELAY10S
+I2  100    00AD     DB FB                 	DJNZ	R3,DELAY100s_1
+I2  101    00AF     D0 E0                 	POP	ACC
+I2  102    00B1     FA                    	MOV	R2,A
+I2  103    00B2     D0 E0                 	POP	ACC
+I2  104    00B4     22                    	RET
+I2  105    00B5                           ;
+I2  106    00B5                           DELAY100USP:
+I2  107    00B5     C0 E0                 	PUSH	ACC
+I2  108    00B7     E9                    	MOV	A,R1
+I2  109    00B8     C0 E0                 	PUSH	ACC
+I2  110    00BA     EF                    	MOV	A, R7
+I2  111    00BB                           DELAY100usP_1:
+I2  112    00BB     79 2C                 	MOV	R1,#44
+I2  113    00BD     D9 FE                 	DJNZ	R1,$
+I2  114    00BF     D5 E0 F9              	DJNZ	ACC,DELAY100usP_1    
+I2  115    00C2     D0 E0                 	POP	ACC
+I2  116    00C4     F9                    	MOV	R1,A
+I2  117    00C5     D0 E0                 	POP	ACC
+I2  118    00C7     22                    	RET
+I2  119    00C8                           ;
+I1    2    00C8                           
+     32    00C8                           
+     33    00C8                           
+     34    00C8                           	END

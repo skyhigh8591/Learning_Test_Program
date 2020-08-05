@@ -1,0 +1,23 @@
+;
+;   各種組譯指引(Directive)
+;       配合BSEG,EQU,DBIT,示範位元的安置及位址設定
+;
+;
+	BSEG	AT 30H
+DT1:	DBIT	3
+DT2:	DBIT	1
+TDT1	EQU	30H
+ADT1	EQU	26h.0
+TDT2	EQU	33H
+ADT2	EQU	26h.3
+
+	CSEG
+	MOV	C,DT1
+	MOV	C,TDT1
+	MOV	C,ADT1
+	MOV	C,26h.0
+	MOV	C,DT2
+	MOV	C,TDT2
+	MOV	C,ADT2
+	MOV	C,26h.3
+	END

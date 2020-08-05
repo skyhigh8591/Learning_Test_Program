@@ -1,0 +1,56 @@
+C51 COMPILER V9.56.0.0   UART1                                                             03/13/2020 10:13:59 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE UART1
+OBJECT MODULE PLACED IN UART1.OBJ
+COMPILER INVOKED BY: C:\Keil_v51\C51\BIN\C51.EXE UART1.C OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /********** UART1.c *****MODE1串列發射****************
+   2          *動作：陣列字元由TXD腳以UART格式傳輸至個人電腦
+   3          *硬體：SW3-3(TxD1)ON
+   4          *****************************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6          char code TABLE[]={"笙泉科技\n\r"};//陣列字元中文資料及跳行
+   7          main()
+   8          {
+   9   1        char *s ;    //宣告指標變數
+  10   1        UART_init(9600); //UART啟始程式，設定串列環境及鮑率
+  11   1        while(1)
+  12   1         {
+  13   2         for(s=TABLE;*s != '\0' ;  )//陣列字元計數值
+  14   2          {
+  15   3           SBUF=*s++ ;  //陣列字元送到SBUF，開始發射
+  16   3           while(TI==0); //若TI=0表示未發射完畢，再繼續檢查
+  17   3           TI=0 ;   //若TI=1表示已發射完畢，令TI=0  
+  18   3          }
+  19   2         Delay_ms(100);     //延時
+  20   2         }
+  21   1      }
+  22          /***********************************************************
+  23          *函數名稱: UART_init
+  24          *功能描述: UART啟始程式
+  25          *輸入參數：bps
+  26          ************************************************************/
+  27          void UART_init(unsigned int bps)  //UART啟始程式
+  28          {  P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  29   1         SCON = 0x50;     //設定UART串列傳輸為MODE1及致能接收
+  30   1         TMOD = 0x20;     //設定TIMER1為MODE2
+  31   1         TH1=TL1=256-(57600/bps);  //設計時器決定串列傳輸鮑率
+  32   1         TR1 = 1;          //開始計時
+  33   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    121    ----
+   CONSTANT SIZE    =     11    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

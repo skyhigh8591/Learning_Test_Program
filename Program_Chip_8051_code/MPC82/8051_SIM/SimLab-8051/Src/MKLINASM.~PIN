@@ -1,0 +1,57 @@
+Machine Code IN1
+P0.0
+P0.0
+Machine Code IN2
+P0.1
+P0.1
+Machine Code IN3
+P0.2
+P0.2
+Machine Code IN4
+P0.3
+P0.3
+Machine Code IN5
+P0.4
+P0.4
+Machine Code IN6
+P0.5
+P0.5
+Machine Code IN7
+P0.6
+P0.6
+Machine Code IN8
+P0.7
+P0.7
+ASCII Code OUT1
+P1.0
+P1.0
+ASCII Code OUT2
+P1.1
+P1.1
+ASCII Code OUT3
+P1.2
+P1.2
+ASCII Code OUT4
+P1.3
+P1.3
+ASCII Code OUT5
+P1.4
+P1.4
+ASCII Code OUT6
+P1.5
+P1.5
+ASCII Code OUT7
+P1.6
+P1.6
+ASCII Code OUT8
+P1.7
+P1.7
+IN TRIGGER
+P2.0
+P2.0
+OUT TRIGGER
+P2.1
+P2.1
+STOP
+P2.2
+P2.2

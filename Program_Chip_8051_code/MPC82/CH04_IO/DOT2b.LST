@@ -1,0 +1,72 @@
+C51 COMPILER V9.00   DOT2B                                                                 12/16/2007 11:31:46 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE DOT2B
+OBJECT MODULE PLACED IN DOT2b.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE DOT2b.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /***** DOT2A.c ******8*8點矩陣固定字型上下鏡射範例*****
+   2          *動作：輸出陣列字型資料，顯示字型-A,利用位元定址區(bdata)
+   3                 將BMP2Code.exe產生之上下鏡射的字型資料檔調整回來
+   4          *接線：Scan低電位掃描輸出，由Data低電位輸出資料
+   5          *硬體：SW1-2(LED8X8)ON
+   6          ************************************************/
+   7          #include "..\MPC82.H"   //暫存器及組態定義
+   8          #include "font.h"  //字型資料檔
+   9          
+  10          char bdata j;   //宣告變數在位元定址區
+  11          
+  12          sbit b0=j^0;    //設定位元變數
+  13          sbit b1=j^1;
+  14          sbit b2=j^2;
+  15          sbit b3=j^3;
+  16          sbit b4=j^4;
+  17          sbit b5=j^5;
+  18          sbit b6=j^6;
+  19          sbit b7=j^7;
+  20          
+  21          main() 
+  22          { 
+  23   1        char i; //定義陣列資料計數
+  24   1        Scan=0x7F;       //由com1開始掃瞄輸出  
+  25   1      
+  26   1        while(1)                
+  27   1        {
+  28   2          for(i=0;i<8;i++)   //讀取8筆資料掃瞄8次
+  29   2           {
+  30   3             j=font[i]; //將字型陣列資料讀出，放入j中
+  31   3                            
+  32   3             P0_0 = b7; //P0_0~P0_7直接對應 位元定址區的 b7~b0 輸出
+  33   3             P0_1 = b6;
+  34   3             P0_2 = b5;
+  35   3             P0_3 = b4;
+  36   3             P0_4 = b3;
+  37   3             P0_5 = b2;
+  38   3             P0_6 = b1;
+  39   3             P0_7 = b0;       
+  40   3      
+  41   3           //Data=font[i];//若將字型資料直接由P0輸出時，會有上下鏡射的情形
+  42   3             Delay_ms(1);    //延時
+  43   3             Data=0xFF;      //全暗          
+  44   3             Scan=RR8(Scan); //換掃瞄下一行
+  45   3           } 
+  46   2        } 
+  47   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    145    ----
+   CONSTANT SIZE    =      8    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6    ----
+C51 COMPILER V9.00   DOT2B                                                                 12/16/2007 11:31:46 PAGE 2   
+
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

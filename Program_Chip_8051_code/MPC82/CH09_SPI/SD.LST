@@ -1,0 +1,296 @@
+C51 COMPILER V9.03   SD                                                                    11/27/2011 14:06:57 PAGE 1   
+
+
+C51 COMPILER V9.03, COMPILATION OF MODULE SD
+OBJECT MODULE PLACED IN SD.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE SD.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //********SD.C********SD記憶卡函數式*************
+   2          #include "MPC82.H"
+   3          #include "SD.H"
+   4          #include "SD_define.h"
+   5          
+   6          char SDGetResponse(void);        //讀取SD記憶卡回應
+   7          unsigned char SDGetXXResponse(const char resp); //讀取SD記憶卡回應
+   8          char SDCheckBusy(void);  //檢查SD記憶卡忙碌
+   9          unsigned char spiSendByte(const unsigned char dat);      //由SPI設定SD記憶卡命令
+  10          
+  11          //---------寫入SD記憶卡命令----------------------------------------------
+  12          void SDSendCmd (const char cmd, unsigned long dat, const char crc)
+  13          {
+  14   1        char frame[6];//SD記憶卡命令為6-byte(48-bit)
+  15   1        char temp;
+  16   1        char i;
+  17   1        frame[0]=(cmd|0x40); //設定命令的bit6=1(host命令)並存入frame[0]
+  18   1      
+  19   1        for(i=3;i>=0;i--)      //將4-byte的資料分別存入frame[1-4]
+  20   1         {
+  21   2          temp=(char)(dat>>(8*i));//將資料的bit31~24存入frame[1]
+  22   2          frame[4-i]=(temp);          //將資料的bit7~0存入frame[4]
+  23   2         }
+  24   1        frame[5]=(crc); //將檢核碼存入frame[5]
+  25   1        for(i=0;i<6;i++) spiSendByte(frame[i]); //由SPI界面將frame[0-5]寫入SD記憶卡
+  26   1      }
+  27          //--------------- 設定SD記憶卡區塊長度= 2^n -----------------------------
+  28          char SDSetBlockLength (const unsigned long blocklength)
+  29          {
+  30   1        CS = 0;  //開啟SPI晶片選擇
+  31   1        // Set the block length to read
+  32   1        SDSendCmd(SD_SET_BLOCKLEN, blocklength, 0xFF); //設定SD記憶卡區塊長度
+  33   1      
+  34   1        // get response from SD - make sure that its 0x00 (R1 ok response format)
+  35   1        if(SDGetResponse()!=0x00)       //讀取SD記憶卡回應，若未完成(回應不等於0)，再做一次
+  36   1        { 
+  37   2          initSD();    //初始化SD記憶卡
+  38   2          SDSendCmd(SD_SET_BLOCKLEN, blocklength, 0xFF);//設定SD記憶卡區塊長度
+  39   2          SDGetResponse();  //讀取SD記憶卡回應
+  40   2        }
+  41   1      
+  42   1        CS=1; //若已完成(回應0)關閉SPI晶片選擇
+  43   1        spiSendByte(0xff); //由SPI設定SD記憶卡為 8 Clock pulses of delay.
+  44   1      
+  45   1        return SD_SUCCESS; //回應完成
+  46   1      } // Set block_length
+  47          
+  48          //--------------- SPI發射1-byte資料-----------------------------
+  49          unsigned char spiSendByte(const unsigned char dat)
+  50          {
+  51   1              SPDAT = dat;            //SPI發射1-byte資料
+  52   1              while(SPSTAT != SPIF);  //若中斷旗標SPIF=0未傳輸完畢，等待之
+  53   1              SPSTAT = SPIF;          //若SPIF=1已傳輸完畢，須清除SPIF=0
+  54   1              return SPDAT;           //將SPI資料回傳
+  55   1      }
+C51 COMPILER V9.03   SD                                                                    11/27/2011 14:06:57 PAGE 2   
+
+  56          //--------------- SD記憶卡進入SPI模式 -----------------------------
+  57          char SD_GoIdle()
+  58          {
+  59   1        char response=0x01;
+  60   1        CS = 0;  //開啟SPI晶片選擇
+  61   1        
+  62   1        SDSendCmd(SD_GO_IDLE_STATE,0,0x95);//送出命令CMD0，SD卡進SPI模式
+  63   1        
+  64   1        if(SDGetResponse()!=0x01)//等待SD卡備妥回應
+  65   1          return SD_INIT_ERROR; //response不等於0x01，則回應錯誤
+  66   1      
+  67   1        while(response==0x01)  //若SD卡回應未備妥
+  68   1        {
+  69   2          CS = 1; //關閉SPI晶片選擇
+  70   2          spiSendByte(0xff); //由SPI設定SD記憶卡命令
+  71   2          CS = 0;     //開啟SPI晶片選擇
+  72   2          SDSendCmd(SD_SEND_OP_COND,0x00,0xff); //送出CMD1設定操作電壓
+  73   2          response=SDGetResponse();
+  74   2        }
+  75   1        CS=1;  //關閉SPI晶片選擇
+  76   1        spiSendByte(0xff);//由SPI設定SD記憶卡命令
+  77   1        return (SD_SUCCESS);
+  78   1      }
+  79          //--------------- 初始化SD記憶卡-----------------------------
+  80          char initSD (void)
+  81          {
+  82   1        //raise SS and MOSI for 80 clock cycles
+  83   1        //SendByte(0xff) 10 times with SS high
+  84   1        //raise SS
+  85   1        char i;
+  86   1      
+  87   1        SPCTL = SSIG+SPEN+MSTR; //致能SPI為Master，bit7先傳輸,忽略SS腳晶片選擇
+  88   1       
+  89   1        //  initSPI();
+  90   1        IFADRL = 0x01;               //ISP/IAP的flash低位址
+  91   1        if((SCMD & 0xf0)!=0xf0)  //ISP/IAP順序命令
+  92   1          return SD_INIT_ERROR;
+  93   1      
+  94   1        //initialization sequence on PowerUp
+  95   1        CS=1; //關閉SPI晶片選擇
+  96   1        for(i=0;i<=9;i++) spiSendByte(0xff); //由SPI設定SD記憶卡開機順序動作
+  97   1        return (SD_GoIdle());  //進入SPI模式，並回歸response
+  98   1      }
+  99          //--------------- 讀取SD記憶卡回應-----------------------------
+ 100          // SD Get Responce
+ 101          char SDGetResponse(void)
+ 102          {
+ 103   1        //Response comes 1-8 bytes after command
+ 104   1        //the first bit will be a 0
+ 105   1        //followed by an error code
+ 106   1        //data will be 0xff until response
+ 107   1        char i=0;        //計數值
+ 108   1        char response;//回應值
+ 109   1      
+ 110   1        while(i<=64)  //重覆讀取64次SD記憶卡的回應
+ 111   1        {
+ 112   2          response=spiSendByte(0xff);//由SPI設定SD記憶卡命令，讀取回應
+ 113   2          if(response==0x00)break;   //若回應response=0x00，SD卡備妥
+ 114   2          if(response==0x01)break;   //若回應response=0x01，SD卡未備妥
+ 115   2          i++;  //計數值遞加
+ 116   2        }
+ 117   1        return response; //回歸response
+C51 COMPILER V9.03   SD                                                                    11/27/2011 14:06:57 PAGE 3   
+
+ 118   1      }
+ 119          //--------------- 讀取SD記憶卡回應-----------------------------
+ 120          unsigned char SDGetXXResponse(const unsigned char resp)
+ 121          {
+ 122   1        //Response comes 1-8 bytes after command
+ 123   1        //the first bit will be a 0
+ 124   1        //followed by an error code
+ 125   1        //data will be 0xff until response
+ 126   1        unsigned int i=0;
+ 127   1        unsigned char response;
+ 128   1      
+ 129   1        while(i<=1000)        //重覆1000次
+ 130   1        {
+ 131   2          response=spiSendByte(0xff);  //由SPI設定SD記憶卡命令
+ 132   2          if(response==resp)break;
+ 133   2          i++;
+ 134   2        }
+ 135   1        return response;
+ 136   1      }
+ 137          //--------------- 檢查SD記憶卡忙碌----------------------------
+ 138          char SDCheckBusy(void)
+ 139          {
+ 140   1        //Response comes 1-8 bytes after command
+ 141   1        //the first bit will be a 0
+ 142   1        //followed by an error code
+ 143   1        //data will be 0xff until response
+ 144   1        char i=0;
+ 145   1      
+ 146   1        char response;
+ 147   1        char rvalue;
+ 148   1        while(i<=64)
+ 149   1        {
+ 150   2          response=spiSendByte(0xff); //由SPI設定SD記憶卡命令
+ 151   2          response &= 0x1f;
+ 152   2          switch(response)
+ 153   2          {
+ 154   3            case 0x05: rvalue=SD_SUCCESS;break;
+ 155   3            case 0x0b: return(SD_CRC_ERROR);
+ 156   3            case 0x0d: return(SD_WRITE_ERROR);
+ 157   3            default:
+ 158   3              rvalue = SD_OTHER_ERROR;
+ 159   3              break;
+ 160   3          }
+ 161   2          if(rvalue==SD_SUCCESS)break;
+ 162   2          i++;
+ 163   2        }
+ 164   1        i=0;
+ 165   1        do
+ 166   1        {
+ 167   2          response=spiSendByte(0xff); //由SPI設定SD記憶卡命令
+ 168   2          i++;
+ 169   2        }while(response==0);
+ 170   1        return response; //回歸response
+ 171   1      }
+ 172          //--------------- 讀取SD記憶卡區塊內容-----------------------------
+ 173          char SDReadBlock(const unsigned int sector, unsigned char *pBuffer)
+ 174          {
+ 175   1          unsigned int i = 0;
+ 176   1          char rvalue = SD_RESPONSE_ERROR;
+ 177   1          unsigned long address = (unsigned long)sector * 512;
+ 178   1        // Set the block length to read
+ 179   1         if (SDSetBlockLength (512) == SD_SUCCESS) //設定SD記憶卡區塊長度，並回應完成
+C51 COMPILER V9.03   SD                                                                    11/27/2011 14:06:57 PAGE 4   
+
+ 180   1          {
+ 181   2            CS = 0;   //開啟SPI晶片選擇
+ 182   2          // send read command SD_READ_SINGLE_BLOCK=CMD17
+ 183   2            SDSendCmd (SD_READ_SINGLE_BLOCK,address, 0xFF);
+ 184   2          // Send 8 Clock pulses of delay, check if the SD acknowledged the read block command
+ 185   2          // it will do this by sending an affirmative response
+ 186   2          // in the R1 format (0x00 is no errors)
+ 187   2            if (SDGetResponse() == 0x00) //SD卡回應無錯誤
+ 188   2            {
+ 189   3            // now look for the data token to signify the start of
+ 190   3            // the data
+ 191   3             if (SDGetXXResponse(SD_START_DATA_BLOCK_TOKEN) == SD_START_DATA_BLOCK_TOKEN) //開始單一區塊讀取
+ 192   3              {
+ 193   4                 // clock the actual data transfer and receive the bytes; spi_read automatically finds the Data 
+             -Block
+ 194   4                for (i = 0; i < 512; i++)  pBuffer[i] = spiSendByte(0xff);  //讀取512-byte存入緩衝器
+ 195   4              
+ 196   4                        // get CRC bytes (not really needed by us, but required by SD)
+ 197   4                 spiSendByte(0xff);   //由SPI設定SD記憶卡命令
+ 198   4                 spiSendByte(0xff);   //由SPI設定SD記憶卡命令
+ 199   4                 rvalue = SD_SUCCESS; //回歸讀取成功
+*** WARNING C329 IN LINE 199 OF SD.c: single-line comment contains line-continuation
+ 200   4                      
+ 201   4                       }
+ 202   3            else  rvalue = SD_DATA_TOKEN_ERROR;  // 3 回歸讀取錯誤the data token was never received
+ 203   3          } 
+ 204   2          else rvalue = SD_RESPONSE_ERROR;  // 2      回歸SD卡回應錯誤the SD never acknowledge the read command
+ 205   2        }
+ 206   1        else    rvalue = SD_BLOCK_SET_ERROR;  // 1 回歸設定SD記憶卡區塊長度錯誤
+ 207   1        CS=1; //關閉SPI晶片選擇
+ 208   1        spiSendByte(0xff);  //由SPI設定SD記憶卡命令
+ 209   1        return rvalue;
+ 210   1      }// SD_read_block
+ 211          
+ 212          //--------------- 寫入SD記憶卡區塊-----------------------------
+ 213          char SDWriteBlock (const unsigned int sector,unsigned char *pBuffer)
+ 214          {
+ 215   1        unsigned int i = 0;
+ 216   1        char rvalue = SD_RESPONSE_ERROR;         // SD_SUCCESS;
+ 217   1        unsigned long address = (unsigned long)sector * 512;
+ 218   1      
+ 219   1        // Set the block length to read
+ 220   1        if (SDSetBlockLength (512) == SD_SUCCESS)   //設定SD記憶卡區塊長度，並回應完成
+ 221   1        {
+ 222   2          CS = 0;     //開啟SPI晶片選擇
+ 223   2          // send write command
+ 224   2          SDSendCmd (SD_WRITE_BLOCK,address, 0xFF); //下命令寫入單一區塊
+ 225   2      
+ 226   2          // check if the SD acknowledged the write block command
+ 227   2          // it will do this by sending an affirmative response
+ 228   2          // in the R1 format (0x00 is no errors)
+ 229   2          if (SDGetXXResponse(SD_R1_RESPONSE) == SD_R1_RESPONSE) //開始單一區塊寫入
+ 230   2          {
+ 231   3            spiSendByte(0xff); //由SPI設定SD記憶卡命令
+ 232   3            // send the data token to signify the start of the data
+ 233   3            spiSendByte(0xfe);  //由SPI設定SD記憶卡命令
+ 234   3            // clock the actual data transfer and transmitt the bytes
+ 235   3            for (i = 0; i < 512; i++)
+ 236   3              spiSendByte(pBuffer[i]);            
+ 237   3            // put CRC bytes (not really needed by us, but required by SD)
+ 238   3            spiSendByte(0xff); //由SPI設定SD記憶卡命令
+ 239   3            spiSendByte(0xff); //由SPI設定SD記憶卡命令
+C51 COMPILER V9.03   SD                                                                    11/27/2011 14:06:57 PAGE 5   
+
+ 240   3            // read the data response xxx0<status>1 : status 010: Data accected, status 101: Data
+ 241   3            //   rejected due to a crc error, status 110: Data rejected due to a Write error.
+ 242   3            SDCheckBusy();
+ 243   3            rvalue = SD_SUCCESS;
+ 244   3          }
+ 245   2          else
+ 246   2          {
+ 247   3            // the SD never acknowledge the write command
+ 248   3            rvalue = SD_RESPONSE_ERROR;   // 2
+ 249   3          }
+ 250   2        }
+ 251   1        else
+ 252   1        {
+ 253   2          rvalue = SD_BLOCK_SET_ERROR;   // 1
+ 254   2        }
+ 255   1        // give the SD the required clocks to finish up what ever it needs to do
+ 256   1        //  for (i = 0; i < 9; ++i)
+ 257   1        //    spiSendByte(0xff);       //由SPI設定SD記憶卡命令
+ 258   1      
+ 259   1        CS=1; //關閉SPI晶片選擇
+ 260   1        
+ 261   1        spiSendByte(0xff); //由SPI設定SD記憶卡命令Send 8 Clock pulses of delay.
+ 262   1        return rvalue;
+ 263   1      } // SD_write_block
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    675    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      38
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

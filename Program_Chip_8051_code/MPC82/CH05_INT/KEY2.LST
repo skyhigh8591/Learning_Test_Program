@@ -1,0 +1,69 @@
+C51 COMPILER V8.16   KEY2                                                                  02/10/2009 15:15:40 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE KEY2
+OBJECT MODULE PLACED IN KEY2.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE KEY2.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*************** KEY2.C*****4*4鍵盤實習範例********
+   2          *動作：ROW0~3掃描輸出,COL0~3按鍵輸入,在七段顯示器輸出
+   3          *硬體：將SW1-1(SEG7)短路，按S1~S16 
+   4          ***********************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6          void dataout(char keyout); //按鍵資料輸出
+   7          
+   8          unsigned char code Table[] //七段顯示器0~F的資料
+   9           ={ 0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,
+  10              0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x71};
+  11          
+  12          void dataout(char keyout); //按鍵資料輸出
+  13          void main()
+  14          {
+  15   1       char count=0;   //按鍵計數=0
+  16   1       unsigned char scan=0xEF;  //按鍵掃描令ROW0=0，其餘為1
+  17   1       S0=0; Data=~Table[0];  //七段顯示器，顯示0
+  18   1       while(1)   //重覆執行
+  19   1        {
+  20   2          if(count>15){scan=0xEF;count=0;}//若計數>15，從頭開始
+  21   2          ROW=scan;             //掃描輸出
+  22   2          if(COL0==0) dataout(count);//檢查COL0列，若是計數輸出
+  23   2          count++; Delay_ms(1);      //若不是，計數+1
+  24   2          if(COL1==0) dataout(count);//檢查COL1列，若是計數輸出
+  25   2          count++; Delay_ms(1);      //若不是，計數+1
+  26   2          if(COL2==0) dataout(count);//檢查COL2列，若是計數輸出
+  27   2          count++; Delay_ms(1);      //若不是，計數+1
+  28   2          if(COL3==0) dataout(count);//檢查COL3列，若是計數輸出
+  29   2          count++; Delay_ms(1);      //若不是，計數+1
+  30   2          scan=RL8(scan); //左旋轉，換掃下一列,令ROW0~3輪流為0
+  31   2        }
+  32   1      }
+  33          /***********************************************************
+  34          *函數名稱: dataout
+  35          *功能描述: 按鍵輸出資料送到七段顯示器顯示數字，檢查是否放開按鍵
+  36          *輸入參數：keyout
+  37          ************************************************************/
+  38          void dataout(char keyout) 
+  39          {
+  40   1        Data=~Table[keyout];  //送到七段顯示器輸出
+  41   1        Delay_ms(1);          //處理按鍵跳動之延遲   
+  42   1        while(!(COL0 & COL1 & COL2 & COL3));//若COL0~3≠1111未放開按鍵
+  43   1        Delay_ms(1);          //處理按鍵跳動之延遲
+  44   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    217    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      7    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+C51 COMPILER V8.16   KEY2                                                                  02/10/2009 15:15:40 PAGE 2   
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,42 @@
+C51 COMPILER V8.09   3_8                                                                   07/29/2009 15:16:28 PAGE 1   
+
+
+C51 COMPILER V8.09, COMPILATION OF MODULE 3_8
+OBJECT MODULE PLACED IN 3_8.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_8.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*********** 3_8.c **********************************
+   2          * 動作：一元運算子範例
+   3          ******************************************************/
+   4          #include "..\MPC82.H"  //暫存器及組態設定
+   5          main()
+   6          {
+   7   1        char  a=-3,b=0,c=5; //宣告輸入變數的初值
+   8   1        unsigned char  d=0x0f;
+   9   1        static  char  i;  //宣告輸出變數
+  10   1       loop:  
+  11   1         i=-a;      //負負得正，i=3
+  12   1         i=-c;      //i=-5
+  13   1         P1_0=!P1_0;//令P10反相
+  14   1         i=!b;      //b=0，反相後為i=1
+  15   1         i=!c;      //c=5不為0，故反相後i=0
+  16   1         P1=~d;     //d=0x0f，由P1反相輸出為0xf0
+  17   1       goto loop;
+  18   1      }
+  19          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     75    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

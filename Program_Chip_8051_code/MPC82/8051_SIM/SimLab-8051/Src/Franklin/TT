@@ -1,0 +1,221 @@
+{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe1028{\fonttbl{\f0\fnil\fcharset136 MS Sans Serif;}}
+{\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+\viewkind4\uc1\pard\cf1\lang1028\f0\fs16 70,6200---FF 0B 43 35 31 20 4C 45 44 38 31 2E 43 00 00 A8 09 6F 3D 09 4C 45 44 38 31 2E 4F 42 4A 01 00 A8 09 6F 3D 07 4C 45 44 38 31 2E 43 02 00 84 D6 A2 2D 12 43 3A 5C 43 35 31 5C 49 4E 43 5C 52 45 47 35 31 2E 48 02 00 A8 09 6F 3D 07 44 45 4C 41 59 2E 48 02 00 A0 23 44 3D 08 53 44 45 4C 41 59 2E 48 0F   C51 LED81.C    o= LED81.OBJ    o= LED81.C     - C:\\C51\\INC\\REG51.H    o= DELAY.H   #D= SDELAY.H 
+\par 70,5800---FF 1B 4C 35 31 20 4C 45 44 38 31 2E 6F 62 6A 20 74 6F 20 4C 45 44 38 31 2E 61 62 73 20 00 00 A8 09 6F 3D 09 4C 45 44 38 31 2E 41 42 53 04 00 A8 09 6F 3D 09 4C 45 44 38 31 2E 4F 42 4A 04 00 22 E7 B6 2D 13 43 3A 5C 43 35 31 5C 4C 49 42 5C 43 35 31 53 2E 4C 49 42 52   L51 LED81.obj to LED81.abs     o= LED81.ABS    o= LED81.OBJ  "  - C:\\C51\\LIB\\C51S.LIBR
+\par 02,0900---05 4C 45 44 38 31 FF 00 B3  LED81   
+\par 10,0800---00 05 4C 45 44 38 31 A5   LED81 
+\par \cf2\b\fs22     Start Module----\{\{\{\{\{\{\{\{\{LED81
+\par \cf1\b0\fs16 24,0C00---00 00 00 07 4C 45 44 38 31 2E 43 1A     LED81.C 
+\par 22,1300---00 00 00 00 00 05 0B 5F 49 43 45 5F 44 55 4D 4D 59 5F 41        _ICE_DUMMY_A
+\par \cf2\b\fs22     LOCAL Variable----C:0000----_ICE_DUMMY_   DataType:unsigned int 
+\par \cf1\b0\fs16 20,2600---23 0B 00 23 0B 00 20 01 00 00 00 03 03 63 6E 74 23 0B 22 23 04 00 23 0B 00 23 0B 00 23 0B 00 23 0B 00 23 0B 00 95 #  #         cnt# "#  #  #  #  #  #   
+\par \cf2\b\fs22       New DataType:20function return:    DataType:UnKnown 4
+\par       New DataType:21function return:    DataType:UnKnown 4
+\par       New DataType:22Field Name description\{
+\par                  Offset:0   DataType:unsigned char---cnt
+\par           \}
+\par       New DataType:23function return:    DataType:UnKnown 4
+\par       New DataType:24function return:    DataType:int
+\par       New DataType:25function return:    DataType:UnKnown 4
+\par       New DataType:26function return:    DataType:UnKnown 4
+\par       New DataType:27function return:    DataType:UnKnown 4
+\par       New DataType:28function return:    DataType:UnKnown 4
+\par       New DataType:29function return:    DataType:UnKnown 4
+\par \cf1\b0\fs16 22,0302---01 00 02 80 00 03 02 50 30 00 04 B4 00 01 02 54 30 00 04 D6 00 01 02 41 43 00 00 0C 00 20 08 44 65 6C 61 79 31 6D 73 00 04 B5 00 01 02 54 31 00 04 AF 00 01 02 45 41 00 04 B7 00 01 02 52 44 00 00 27 00 21 07 44 65 6C 61 79 31 73 00 04 AC 00 01 02 45 53 00 04 98 00 01 02 52 49 00 04 B2 00 01 04 49 4E 54 30 00 04 D7 00 01 02 43 59 00 04 99 00 01 02 54 49 00 04 B3 00 01 04 49 4E 54 31 00 00 42 00 23 0C 5F 44 65 6C 61 79 31 30 30 75 73 50 00 04 BC 00 01 02 50 53 00 04 D2 00 01 02 4F 56 00 00 4B 00 24 04 6D 61 69 6E 00 04 B6 00 01 02 57 52 00 00 15 00 25 09 44 65 6C 61 79 31 30 6D 73 00 04 89 00 01 03 49 45 30 00 04 8B 00 01 03 49 45 31 00 00 30 00 26 08 44 65 6C 61 79 31 30 73 00 02 E0 00 03 03 41 43 43 00 04 A9 00 01 03 45 54 30 00 04 AB 00 01 03 45 54 31 00 04 8D 00 01 03 54 46 30 00 04 8F 00 01 03 54 46 31 00 04 9A 00 01 03 52 42 38 00 04 A8 00 01 03 45 58 30 00 04 88 00 01 03 49 54 30 00 04 9B 00 01 03 54 42 38 00 04 AA 00 01 03 45 58 31 00 04 8A 00 01 03 49 54 31 00 04 D0 00 01 01 50 00 04 9F 00 01 03 53 4D 30 00 04 9E 00 01 03 53 4D 31 00 04 9D 00 01 03 53 4D 32 00 04 B9 00 01 03 50 54 30 00 04 BB 00 01 03 50 54 31 00 04 D3 00 01 03 52 53 30 00 04 8C 00 01 03 54 52 30 00 04 D4 00 01 03 52 53 31 00 04 8E 00 01 03 54 52 31 00 04 B8 00 01 03 50 58 30 00 04 BA 00 01 03 50 58 31 00 00 1E 00 27 0A 44 65 6C 61 79 31 30 30 6D 73 00 04 9C 00 01 03 52 45 4E 00 00 03 00 28 0A 44 65 6C 61 79 31 30 30 75 73 00 04 B0 00 01 03 52 58 44 00 04 B1 00 01 03 54 58 44 00 04 D5 00 01 02 46 30 00 00 39 00 29 09 44 65 6C 61 79 31 30 30 73 49        P0      T0      AC      Delay1ms      T1      EA      RD  ' ! Delay1s      ES      RI      INT0      CY      TI      INT1  B # _Delay100usP      PS      OV  K $ main      WR    % Delay10ms      IE0      IE1  0 & Delay10s      ACC      ET0      ET1      TF0      TF1      RB8      EX0      IT0      TB8      EX1      IT1      P      SM0      SM1      SM2      PT0      PT1      RS0      TR0      RS1      TR1      PX0      PX1    ' Delay100ms      REN    ( Delay100us      RXD      TXD      F0  9 ) Delay100sI
+\par \cf2\b\fs22     GLOBAL Variable----D:0080----P0   DataType:unsigned char
+\par     GLOBAL Variable----bdata:00B4----T0   DataType:bit
+\par     GLOBAL Variable----bdata:00D6----AC   DataType:bit
+\par     GLOBAL Variable----C:000C----Delay1ms   DataType:20
+\par     GLOBAL Variable----bdata:00B5----T1   DataType:bit
+\par     GLOBAL Variable----bdata:00AF----EA   DataType:bit
+\par     GLOBAL Variable----bdata:00B7----RD   DataType:bit
+\par     GLOBAL Variable----C:0027----Delay1s   DataType:21
+\par     GLOBAL Variable----bdata:00AC----ES   DataType:bit
+\par     GLOBAL Variable----bdata:0098----RI   DataType:bit
+\par     GLOBAL Variable----bdata:00B2----INT0   DataType:bit
+\par     GLOBAL Variable----bdata:00D7----CY   DataType:bit
+\par     GLOBAL Variable----bdata:0099----TI   DataType:bit
+\par     GLOBAL Variable----bdata:00B3----INT1   DataType:bit
+\par     GLOBAL Variable----C:0042----_Delay100usP   DataType:23
+\par     GLOBAL Variable----bdata:00BC----PS   DataType:bit
+\par     GLOBAL Variable----bdata:00D2----OV   DataType:bit
+\par     GLOBAL Variable----C:004B----main   DataType:24
+\par     GLOBAL Variable----bdata:00B6----WR   DataType:bit
+\par     GLOBAL Variable----C:0015----Delay10ms   DataType:25
+\par     GLOBAL Variable----bdata:0089----IE0   DataType:bit
+\par     GLOBAL Variable----bdata:008B----IE1   DataType:bit
+\par     GLOBAL Variable----C:0030----Delay10s   DataType:26
+\par     GLOBAL Variable----D:00E0----ACC   DataType:unsigned char
+\par     GLOBAL Variable----bdata:00A9----ET0   DataType:bit
+\par     GLOBAL Variable----bdata:00AB----ET1   DataType:bit
+\par     GLOBAL Variable----bdata:008D----TF0   DataType:bit
+\par     GLOBAL Variable----bdata:008F----TF1   DataType:bit
+\par     GLOBAL Variable----bdata:009A----RB8   DataType:bit
+\par     GLOBAL Variable----bdata:00A8----EX0   DataType:bit
+\par     GLOBAL Variable----bdata:0088----IT0   DataType:bit
+\par     GLOBAL Variable----bdata:009B----TB8   DataType:bit
+\par     GLOBAL Variable----bdata:00AA----EX1   DataType:bit
+\par     GLOBAL Variable----bdata:008A----IT1   DataType:bit
+\par     GLOBAL Variable----bdata:00D0----P   DataType:bit
+\par     GLOBAL Variable----bdata:009F----SM0   DataType:bit
+\par     GLOBAL Variable----bdata:009E----SM1   DataType:bit
+\par     GLOBAL Variable----bdata:009D----SM2   DataType:bit
+\par     GLOBAL Variable----bdata:00B9----PT0   DataType:bit
+\par     GLOBAL Variable----bdata:00BB----PT1   DataType:bit
+\par     GLOBAL Variable----bdata:00D3----RS0   DataType:bit
+\par     GLOBAL Variable----bdata:008C----TR0   DataType:bit
+\par     GLOBAL Variable----bdata:00D4----RS1   DataType:bit
+\par     GLOBAL Variable----bdata:008E----TR1   DataType:bit
+\par     GLOBAL Variable----bdata:00B8----PX0   DataType:bit
+\par     GLOBAL Variable----bdata:00BA----PX1   DataType:bit
+\par     GLOBAL Variable----C:001E----Delay100ms   DataType:27
+\par     GLOBAL Variable----bdata:009C----REN   DataType:bit
+\par     GLOBAL Variable----C:0003----Delay100us   DataType:28
+\par     GLOBAL Variable----bdata:00B0----RXD   DataType:bit
+\par     GLOBAL Variable----bdata:00B1----TXD   DataType:bit
+\par     GLOBAL Variable----bdata:00D5----F0   DataType:bit
+\par     GLOBAL Variable----C:0039----Delay100s   DataType:29
+\par \cf1\b0\fs16 10,0D00---02 0A 44 45 4C 41 59 31 30 30 55 53 2F   DELAY100US/
+\par \cf2\b\fs22     Start Function\{DELAY100US
+\par \cf1\b0\fs16 06,0D00---00 03 00 74 01 D2 D5 D2 D5 D2 D5 22 5E    t       "^
+\par \cf2\b\fs22      Machine Code:0003-000B
+\par \cf1\b0\fs16 12,2500---03 00 03 00 08 00 00 03 00 09 00 00 03 00 0A 00 00 05 00 0B 00 00 07 00 0C 00 00 09 00 0D 00 00 0B 00 0E 00 50                                     P
+\par \cf2\b\fs22         ADDR:0003    Line:8
+\par         ADDR:0003    Line:9
+\par         ADDR:0003    Line:10
+\par         ADDR:0005    Line:11
+\par         ADDR:0007    Line:12
+\par         ADDR:0009    Line:13
+\par         ADDR:000B    Line:14
+\par \cf1\b0\fs16 10,0D00---05 0A 44 45 4C 41 59 31 30 30 55 53 2C   DELAY100US,
+\par \cf2\b\fs22     End Function\}DELAY100US
+\par \cf1\b0\fs16 10,0B00---02 08 44 45 4C 41 59 31 4D 53 9B   DELAY1MS 
+\par \cf2\b\fs22     Start Function\{DELAY1MS
+\par \cf1\b0\fs16 06,0D00---00 0C 00 74 02 D2 D5 D2 D5 D2 D5 22 54    t       "T
+\par \cf2\b\fs22      Machine Code:000C-0014
+\par \cf1\b0\fs16 12,2500---03 00 0C 00 10 00 00 0C 00 11 00 00 0C 00 12 00 00 0E 00 13 00 00 10 00 14 00 00 12 00 15 00 00 14 00 16 00 D9                                      
+\par \cf2\b\fs22         ADDR:000C    Line:16
+\par         ADDR:000C    Line:17
+\par         ADDR:000C    Line:18
+\par         ADDR:000E    Line:19
+\par         ADDR:0010    Line:20
+\par         ADDR:0012    Line:21
+\par         ADDR:0014    Line:22
+\par \cf1\b0\fs16 10,0B00---05 08 44 45 4C 41 59 31 4D 53 98   DELAY1MS 
+\par \cf2\b\fs22     End Function\}DELAY1MS
+\par \cf1\b0\fs16 10,0C00---02 09 44 45 4C 41 59 31 30 4D 53 69   DELAY10MSi
+\par \cf2\b\fs22     Start Function\{DELAY10MS
+\par \cf1\b0\fs16 06,0D00---00 15 00 74 03 D2 D5 D2 D5 D2 D5 22 4A    t       "J
+\par \cf2\b\fs22      Machine Code:0015-001D
+\par \cf1\b0\fs16 12,2500---03 00 15 00 18 00 00 15 00 19 00 00 15 00 1A 00 00 17 00 1B 00 00 19 00 1C 00 00 1B 00 1D 00 00 1D 00 1E 00 62                                     b
+\par \cf2\b\fs22         ADDR:0015    Line:24
+\par         ADDR:0015    Line:25
+\par         ADDR:0015    Line:26
+\par         ADDR:0017    Line:27
+\par         ADDR:0019    Line:28
+\par         ADDR:001B    Line:29
+\par         ADDR:001D    Line:30
+\par \cf1\b0\fs16 10,0C00---05 09 44 45 4C 41 59 31 30 4D 53 66   DELAY10MSf
+\par \cf2\b\fs22     End Function\}DELAY10MS
+\par \cf1\b0\fs16 10,0D00---02 0A 44 45 4C 41 59 31 30 30 4D 53 37   DELAY100MS7
+\par \cf2\b\fs22     Start Function\{DELAY100MS
+\par \cf1\b0\fs16 06,0D00---00 1E 00 74 04 D2 D5 D2 D5 D2 D5 22 40    t       "@
+\par \cf2\b\fs22      Machine Code:001E-0026
+\par \cf1\b0\fs16 12,2500---03 00 1E 00 20 00 00 1E 00 21 00 00 1E 00 22 00 00 20 00 23 00 00 22 00 24 00 00 24 00 25 00 00 26 00 26 00 EB          !    "    #  " $  $ %  & &  
+\par \cf2\b\fs22         ADDR:001E    Line:32
+\par         ADDR:001E    Line:33
+\par         ADDR:001E    Line:34
+\par         ADDR:0020    Line:35
+\par         ADDR:0022    Line:36
+\par         ADDR:0024    Line:37
+\par         ADDR:0026    Line:38
+\par \cf1\b0\fs16 10,0D00---05 0A 44 45 4C 41 59 31 30 30 4D 53 34   DELAY100MS4
+\par \cf2\b\fs22     End Function\}DELAY100MS
+\par \cf1\b0\fs16 10,0A00---02 07 44 45 4C 41 59 31 53 EA   DELAY1S 
+\par \cf2\b\fs22     Start Function\{DELAY1S
+\par \cf1\b0\fs16 06,0D00---00 27 00 74 05 D2 D5 D2 D5 D2 D5 22 36  ' t       "6
+\par \cf2\b\fs22      Machine Code:0027-002F
+\par \cf1\b0\fs16 12,2500---03 00 27 00 28 00 00 27 00 29 00 00 27 00 2A 00 00 29 00 2B 00 00 2B 00 2C 00 00 2D 00 2D 00 00 2F 00 2E 00 74   ' (  ' )  ' *  ) +  + ,  - -  / . t
+\par \cf2\b\fs22         ADDR:0027    Line:40
+\par         ADDR:0027    Line:41
+\par         ADDR:0027    Line:42
+\par         ADDR:0029    Line:43
+\par         ADDR:002B    Line:44
+\par         ADDR:002D    Line:45
+\par         ADDR:002F    Line:46
+\par \cf1\b0\fs16 10,0A00---05 07 44 45 4C 41 59 31 53 E7   DELAY1S 
+\par \cf2\b\fs22     End Function\}DELAY1S
+\par \cf1\b0\fs16 10,0B00---02 08 44 45 4C 41 59 31 30 53 B8   DELAY10S 
+\par \cf2\b\fs22     Start Function\{DELAY10S
+\par \cf1\b0\fs16 06,0D00---00 30 00 74 06 D2 D5 D2 D5 D2 D5 22 2C  0 t       ",
+\par \cf2\b\fs22      Machine Code:0030-0038
+\par \cf1\b0\fs16 12,2500---03 00 30 00 30 00 00 30 00 31 00 00 30 00 32 00 00 32 00 33 00 00 34 00 34 00 00 36 00 35 00 00 38 00 36 00 FD   0 0  0 1  0 2  2 3  4 4  6 5  8 6  
+\par \cf2\b\fs22         ADDR:0030    Line:48
+\par         ADDR:0030    Line:49
+\par         ADDR:0030    Line:50
+\par         ADDR:0032    Line:51
+\par         ADDR:0034    Line:52
+\par         ADDR:0036    Line:53
+\par         ADDR:0038    Line:54
+\par \cf1\b0\fs16 10,0B00---05 08 44 45 4C 41 59 31 30 53 B5   DELAY10S 
+\par \cf2\b\fs22     End Function\}DELAY10S
+\par \cf1\b0\fs16 10,0C00---02 09 44 45 4C 41 59 31 30 30 53 86   DELAY100S 
+\par \cf2\b\fs22     Start Function\{DELAY100S
+\par \cf1\b0\fs16 06,0D00---00 39 00 74 07 D2 D5 D2 D5 D2 D5 22 22  9 t       ""
+\par \cf2\b\fs22      Machine Code:0039-0041
+\par \cf1\b0\fs16 12,2500---03 00 39 00 38 00 00 39 00 39 00 00 39 00 3A 00 00 3B 00 3B 00 00 3D 00 3C 00 00 3F 00 3D 00 00 41 00 3E 00 86   9 8  9 9  9 :  ; ;  = <  ? =  A >  
+\par \cf2\b\fs22         ADDR:0039    Line:56
+\par         ADDR:0039    Line:57
+\par         ADDR:0039    Line:58
+\par         ADDR:003B    Line:59
+\par         ADDR:003D    Line:60
+\par         ADDR:003F    Line:61
+\par         ADDR:0041    Line:62
+\par \cf1\b0\fs16 10,0C00---05 09 44 45 4C 41 59 31 30 30 53 83   DELAY100S 
+\par \cf2\b\fs22     End Function\}DELAY100S
+\par \cf1\b0\fs16 10,0F00---02 0C 5F 44 45 4C 41 59 31 30 30 55 53 50 7C   _DELAY100USP|
+\par \cf2\b\fs22     Start Function\{_DELAY100USP
+\par \cf1\b0\fs16 22,0B00---00 00 02 08 00 03 03 63 6E 74 7E        cnt~
+\par \cf2\b\fs22     LOCAL Variable----D:0008----cnt   DataType:unsigned char
+\par \cf1\b0\fs16 06,0D00---00 42 00 8F 08 D2 D5 D2 D5 D2 D5 22 FD  B         " 
+\par \cf2\b\fs22      Machine Code:0042-004A
+\par \cf1\b0\fs16 12,2000---03 00 42 00 40 00 00 44 00 41 00 00 44 00 42 00 00 46 00 43 00 00 48 00 44 00 00 4A 00 45 00 9A   B @  D A  D B  F C  H D  J E  
+\par \cf2\b\fs22         ADDR:0042    Line:64
+\par         ADDR:0044    Line:65
+\par         ADDR:0044    Line:66
+\par         ADDR:0046    Line:67
+\par         ADDR:0048    Line:68
+\par         ADDR:004A    Line:69
+\par \cf1\b0\fs16 10,0F00---05 0C 5F 44 45 4C 41 59 31 30 30 55 53 50 79   _DELAY100USPy
+\par \cf2\b\fs22     End Function\}_DELAY100USP
+\par \cf1\b0\fs16 10,0700---02 04 4D 41 49 4E BE   MAIN 
+\par \cf2\b\fs22     Start Function\{MAIN
+\par \cf1\b0\fs16 06,2300---00 4B 00 75 80 C0 12 00 1E E5 80 30 E0 0B E5 80 C3 13 F5 80 43 80 80 80 ED E5 80 C3 13 F5 80 80 E5 22 90  K u       0        C            " 
+\par \cf2\b\fs22      Machine Code:004B-0069
+\par \cf1\b0\fs16 12,4800---03 00 4B 00 09 00 00 4B 00 0A 00 00 4B 00 0B 00 00 4E 00 0C 00 00 4E 00 0D 00 00 51 00 0E 00 00 56 00 0F 00 00 5C 00 10 00 00 5F 00 11 00 00 61 00 12 00 00 61 00 13 00 00 67 00 14 00 00 67 00 15 00 00 69 00 16 00 F2   K    K    K    N    N    Q    V    \\    _    a    a    g    g    i    
+\par \cf2\b\fs22         ADDR:004B    Line:9
+\par         ADDR:004B    Line:10
+\par         ADDR:004B    Line:11
+\par         ADDR:004E    Line:12
+\par         ADDR:004E    Line:13
+\par         ADDR:0051    Line:14
+\par         ADDR:0056    Line:15
+\par         ADDR:005C    Line:16
+\par         ADDR:005F    Line:17
+\par         ADDR:0061    Line:18
+\par         ADDR:0061    Line:19
+\par         ADDR:0067    Line:20
+\par         ADDR:0067    Line:21
+\par         ADDR:0069    Line:22
+\par \cf1\b0\fs16 10,0700---05 04 4D 41 49 4E BB   MAIN 
+\par \cf2\b\fs22     End Function\}MAIN
+\par \cf1\b0\fs16 10,0800---03 05 4C 45 44 38 31 A2   LED81 
+\par \cf2\b\fs22     End Module------\}\}\}\}\}\}\}\}\}LED81
+\par \cf1\b0\fs16 06,0700---00 00 00 02 00 6A 87      j 
+\par \cf2\b\fs22      Machine Code:0000-0002
+\par \cf1\b0\fs16 06,1000---00 6A 00 78 7F E4 F6 D8 FD 75 81 08 02 00 4B 8F  j x     u    K 
+\par \cf2\b\fs22      Machine Code:006A-0075
+\par \cf1\b0\fs16 04,0B00---05 4C 45 44 38 31 00 00 01 00 AD  LED81     
+\par \cf0\fs18 
+\par }
+ 

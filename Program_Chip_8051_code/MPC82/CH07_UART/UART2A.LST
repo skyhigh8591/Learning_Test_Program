@@ -1,0 +1,60 @@
+C51 COMPILER V9.03   UART2A                                                                04/27/2011 19:41:06 PAGE 1   
+
+
+C51 COMPILER V9.03, COMPILATION OF MODULE UART2A
+OBJECT MODULE PLACED IN UART2A.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE UART2A.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /**********UART2A.c *******MODE1串列自我或兩台傳輸******************
+   2          *動作：計數值由TXD發射並在LED0顯示，同時由RXD腳接收在LED1顯示
+   3          *硬體：SW1-3(P0LED)及SW1-4(P1LED)ON，自我或兩台P31(TxD1)連接P30(RxD1)
+   4          *********************************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6          main()
+   7          {
+   8   1        unsigned char i;      //計數值
+   9   1        P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  10   1        UART_init(9600); //設定串列環境及鮑率
+  11   1        while(1)      //重覆執行
+  12   1        {
+  13   2              LED0=~i++;       //計數值由LED0輸出
+  14   2              SBUF=i;      //計數值串列發射出去
+  15   2              while(TI==0);//若TI=0表示未發射完畢，再繼續檢查
+  16   2              TI=0;            //若TI=1表示已發射完畢，令TI=0
+  17   2      
+  18   2              while(RI==0);//若RI=0表示未接收完畢，再繼續檢查
+  19   2          RI=0 ;           //若RI=1表示已接收完畢，令RI=0
+  20   2              LED1=~SBUF;      //將接收到的計數值由LED1輸出
+  21   2              Delay_ms(100);
+  22   2        }
+  23   1      }
+  24          /***********************************************************
+  25          *函數名稱: UART_init
+  26          *功能描述: UART啟始程式
+  27          *輸入參數：bps
+  28          ************************************************************/
+  29          void UART_init(unsigned int bps)  //UART啟始程式
+  30          {
+  31   1         SCON = 0x50;     //設定UART串列傳輸為MODE1及致能接收
+  32   1         TMOD = 0x20;     //設定TIMER1為MODE2
+  33   1         TH1 = 256-(57600/bps);  //設計時器決定串列傳輸鮑率
+  34   1         TR1 = 1;          //開始計時
+  35   1         PCON |= SMOD0;
+  36   1      
+  37   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    107    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

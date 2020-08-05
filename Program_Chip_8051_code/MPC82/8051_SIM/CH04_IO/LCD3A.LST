@@ -1,0 +1,139 @@
+C51 COMPILER V8.17   LCD3A                                                                 08/13/2009 11:50:23 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE LCD3A
+OBJECT MODULE PLACED IN LCD3A.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE LCD3A.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //************* LCD3A.c *********************
+   2          //*動作：在LCD顯示上下午12小時電子鐘的變化
+   3          //*******************************************
+   4          #include "..\MPC82.H"   //暫存器及組態定義
+   5          main()
+   6          {
+   7   1         char hor=12,min=58,sec=52;//設定時、分、秒初值
+   8   1         LCD_init();           //重置及清除LCD    
+   9   1         while(1)
+  10   1         {
+  11   2          LCD_Cmd(0x82);        //由第一行開始顯示 
+  12   2              if (hor<13) {LCD_Data('A');LCD_Data('M');}
+  13   2              else  {LCD_Data('P');LCD_Data('M');}
+  14   2              LCD_Data(' ');
+  15   2          LCD_Data(hor%13/10+'0'); //時的十位數到LCD顯示
+  16   2          LCD_Data(hor%13%10+'0'); //時的個位數到LCD顯示
+  17   2          LCD_Data(':');
+  18   2          
+  19   2          LCD_Data(min/10+'0'); //分的十位數到LCD顯示
+  20   2          LCD_Data(min%10+'0'); //分的個位數到LCD顯示
+  21   2          LCD_Data(':');
+  22   2          
+  23   2          LCD_Data(sec/10+'0'); //秒的十位數到LCD顯示
+  24   2          LCD_Data(sec%10+'0'); //秒的個位數到LCD顯示
+  25   2          
+  26   2              Delay_ms(500);
+  27   2          sec++;              //秒加一
+  28   2          if (sec < 60) continue; //若秒小於60到loop處   
+  29   2          sec=0; min++;       //秒等於60則令秒=0，分加一
+  30   2          if (min < 60) continue; //若分小於60到loop處   
+  31   2          min=0; hor++;       //若分等於60則令分=0，時加一
+  32   2          if (hor <25)  continue; //若時小於25到loop處
+  33   2          hor=1;min=0; sec=0;//若時=25則令時=1、分=0、秒=0 
+  34   2              
+  35   2         }
+  36   1      }
+  37          /***********************************************************
+  38          *函數名稱: LCD_Data
+  39          *功能描述: 傳送資料到文字型LCD
+  40          *輸入參數：dat
+  41          ************************************************************/
+  42          void LCD_Data(unsigned char dat)  //傳送資料到LCD
+  43          {
+  44   1          unsigned char dly=2;
+  45   1              Data=dat;      //資料送到BUS
+  46   1          RS=1;RW=0;EN=1;//資料寫入到LCD內
+  47   1          while(dly--);
+  48   1              EN=0;          //禁能LCD 
+  49   1              LCD_wait();    //LCD等待寫入完成  
+  50   1      }
+  51          /***************************************************************
+  52          *函數名稱: LCD_Cmd
+  53          *功能描述: 傳送命令到文字型LCD
+  54          *輸入參數：Cmd
+  55          ************************************************************/
+C51 COMPILER V8.17   LCD3A                                                                 08/13/2009 11:50:23 PAGE 2   
+
+  56          void LCD_Cmd(unsigned char Cmd) //傳送命令到LCD
+  57          {
+  58   1          unsigned char dly=2;
+  59   1              Data=Cmd;       //命令送到BUS
+  60   1          RS=0;RW=0;EN=1; //命令寫入到LCD內
+  61   1          while(dly--);
+  62   1          EN=0;           //禁能LCD
+  63   1              LCD_wait(); //LCD等待寫入完成 
+  64   1      }
+  65          /***************************************************************
+  66          *函數名稱: LCD_Cmd
+  67          *功能描述: 傳送命令到文字型LCD
+  68          *輸入參數：Cmd
+  69          ************************************************************/
+  70          void LCD_Cmd_Init(unsigned char Cmd) //傳送命令到LCD
+  71          {
+  72   1              Data=Cmd;       //命令送到BUS
+  73   1          RS=0;RW=0;EN=1; //命令寫入到LCD內
+  74   1          Delay_ms(1);
+  75   1          EN=0;           //禁能LCD
+  76   1      }
+  77          /***************************************************************
+  78          *函數名稱: LCD_init
+  79          *功能描述: 啟始化文字型LCD
+  80          *****************************************************************/
+  81          void LCD_init(void)    //LCD的啟始程式  
+  82          {
+  83   1          LCD_Cmd_Init(0x38);//0011 1000,8bit傳輸,顯示2行,5*7字型
+  84   1          LCD_Cmd_Init(0x38);//bit4:DL=1,8bit傳輸,
+  85   1          LCD_Cmd_Init(0x38);//bit3:N=1,顯示2行
+  86   1                             //bit2:F=0,5*7字型    
+  87   1          LCD_Cmd(0x0c);/*0000 1100,顯示幕ON,不顯示游標,游標不閃爍
+  88   1                          bit2:D=1,顯示幕ON
+  89   1                          bit1:C=0,不顯示游標
+  90   1                              bit0:B=0,游標不閃爍*/
+  91   1          LCD_Cmd(0x06);/*0000 0110,//顯示完游標右移,游標移位禁能 
+  92   1                          bit1:I/D=1,顯示完游標右移,
+  93   1                          bit0:S=0,游標移位禁能*/  
+  94   1          LCD_Cmd(0x01); //清除顯示幕  
+  95   1          LCD_Cmd(0x02); //游標回原位  
+  96   1      }
+  97          /**************************************************
+  98          *函數名稱: LCD_wait
+  99          *功能描述: LCD等待忙碌旗標BF
+ 100          ****************************************************/
+ 101          void LCD_wait(void)
+ 102          {
+ 103   1        unsigned char status;  //定義LCD讀取狀態
+ 104   1        Data=0xff; //P0設定為輸入埠
+ 105   1        do
+ 106   1        {
+ 107   2          RS=0;RW=1;EN=1;//讀取命令
+ 108   2          status= Data;       //輸入LCD的命令
+ 109   2          EN=0;                       //禁能LCD
+ 110   2        }
+ 111   1        while(status & 0x80); //等待忙碌旗標BF=0
+ 112   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    424    ----
+   CONSTANT SIZE    =   ----    ----
+C51 COMPILER V8.17   LCD3A                                                                 08/13/2009 11:50:23 PAGE 3   
+
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     13    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

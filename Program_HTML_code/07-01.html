@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Document</title>
+</head>
+<body>
+	<form method="get" action="">
+		姓&nbsp;名:<input type="text" name="username" id="username" size="40" autocomplete="off"><br>
+		公&nbsp;司:<input type="text" name="userjop" id="userjop" size="40"><br>
+		姓E-mail:<input type="text" name="usermail" id="usermail" size="40" required>
+		<br>
+
+		年齡:
+		<input type="radio" name="userage" value="age1">未滿20歲
+		<input type="radio" name="userage" value="age2">20~29
+		<input type="radio" name="userage" value="age3">30~39
+		<input type="radio" name="userage" value="age4">40~49
+		<input type="radio" name="userage" value="age5">50以上
+		<br>
+
+		使用過那些廠牌的手機?
+		<input type="checkbox" name="userphone[]" value="htc">htc
+		<input type="checkbox" name="userphone[]" value="apple">apple
+		<input type="checkbox" name="userphone[]" value="samsung">samsung
+		<input type="checkbox" name="userphone[]" value="sony">sony
+		<br>
+
+		<textarea name="usertrouble" cols="45" rows="4">速度不夠快</textarea>
+		<br>
+
+		您使用過哪家業者的門號?(單選)
+		<select name="usernumber">
+			<option value="中華" > 中華 </option>
+			<option value="台大" > 台大 </option>
+			<option value="遠傳" > 遠傳 </option>
+			<option value="亞太" > 亞太 </option>
+		</select>
+		<br>
+
+
+		<input type="submit" value="提交">
+		<input type="reset" value="重新輸入">
+		
+	</form>
+
+	
+</body>
+</html>

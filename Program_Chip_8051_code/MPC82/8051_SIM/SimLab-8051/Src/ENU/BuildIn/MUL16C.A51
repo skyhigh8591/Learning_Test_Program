@@ -1,0 +1,66 @@
+;
+; A(16bit)*B(16bit) Binary unsigned view
+;
+MA:	EQU	40H
+MB:	EQU	MA+2
+MP:	EQU	MB+2
+
+START:
+; test data  1234H*5678H=? (6260060H)
+
+	MOV	MA,#12H
+	MOV	MA+1,#34H
+	MOV	MB,#56H
+	MOV	MB+1,#78H
+	SETB	F0
+;   P<----0
+	MOV	MP,#0
+	MOV	MP+1,#0
+	MOV	MP+2,#0
+	MOV	MP+3,#0
+
+	MOV	R7,#16     ; repeat 16 times
+LOOP1:
+;   t <-t*2
+	CLR	C
+	MOV	A,MP+3
+	RLC	A
+	MOV	MP+3,A
+	MOV	A,MP+2
+	RLC	A
+	MOV	 MP+2,A
+	MOV	A,MP+1
+	RLC	A
+	MOV	MP+1,A
+	MOV	A,MP
+	RLC	A
+	MOV	MP,A
+; B <-- shl B
+	MOV	A,MB+1
+	RLC	A
+	MOV	MB+1,A
+	MOV	A,MB
+	RLC	A
+	MOV	MB,A
+
+	JNC	NEXT3
+;   P<----P+A
+	MOV	A,MA+1
+	ADD	A,MP+3
+	MOV	MP+3,A
+	MOV	A,MA+0
+	ADDC	A,MP+2
+	MOV	MP+2,A
+	MOV	A,#0
+	ADDC	A,MP+1
+	MOV	MP+1,A
+	MOV	A,#0
+	ADDC	A,MP+0
+	MOV	MP+0,A
+NEXT3:
+	DJNZ	R7,LOOP1
+
+	SETB	F0
+
+	AJMP	$
+	END

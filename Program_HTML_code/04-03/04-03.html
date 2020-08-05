@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/*div內的img class*/
+div.img {
+    margin: 5px;/*邊界 (margin) 是在邊框之外*/
+    padding: 5px;/*留白*/
+    border: 1px solid #0000ff;/*外框*/
+    height: auto;/*高*/
+    width: auto;/*寬*/
+    float: left;/*float浮動:圖案浮動於左邊*/
+    text-align: center;/*對齊:圖案置左*/
+}	
+
+/*div內img class內的img標籤*/
+div.img img {
+    display: inline;/*同一行呈現(元素連在一起會在同一行，不會換行)*/
+    margin: 5px;/*邊界*/
+    border: 1px solid #ffffff;/*邊框*/
+}
+
+/*在控制當滑鼠移至某元件時，某元件該如何反應*/
+div.img a:hover img {
+    border: 1px solid #000000;
+}
+
+div.desc {
+  text-align: center;
+  font-weight: normal; /*預設字體厚度，其實可以不用特別寫出來*/
+  width: 120px; /*div的寬度*/
+  margin: 5px;
+}
+</style>
+</head>
+<body>
+
+<div class="img">
+ <a target="_blank" href="klematis1_big.jpg"><img src="klematis1_small.jpg" alt="Klematis" width="110" height="90"></a>
+ <div class="desc">Add a description of the image here</div>
+</div>
+<div class="img">
+ <a target="_blank" href="klematis2_big.jpg"><img src="klematis2_small.jpg" alt="Klematis" width="110" height="90"></a>
+ <div class="desc">Add a description of the image here</div>
+</div>
+<div class="img">
+ <a target="_blank" href="klematis3_big.jpg"><img src="klematis3_small.jpg" alt="Klematis" width="110" height="90"></a>
+ <div class="desc">Add a description of the image here</div>
+</div>
+<div class="img">
+ <a target="_blank" href="klematis4_big.jpg"><img src="klematis4_small.jpg" alt="Klematis" width="110" height="90"></a>
+ <div class="desc">Add a description of the image here</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+C51 COMPILER V9.56.0.0   EINT1A_RYG3                                                       03/06/2020 11:06:31 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE EINT1A_RYG3
+OBJECT MODULE PLACED IN EINT1A_RYG3.OBJ
+COMPILER INVOKED BY: C:\Keil_v51\C51\BIN\C51.EXE EINT1A_RYG3.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /********** EINT1.c ********外部中斷範例***************
+   2          * 動作：LED0遞加，INT0腳輸入0準位或負緣觸發時，LED1閃爍5次
+   3          * 硬體：SW1-3(P0LED)及SW1-4(P1LED)ON，按KEY1(INT0) 
+   4          *****************************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6          char code light[]=   //紅黃綠燈的變化資料
+   7          {0x21,0x01,0x21,0x01,0x21,0x01,0x21,0x11,
+   8           0x0C,0x08,0x0C,0x08,0x0C,0x08,0x0C,0x0A};
+   9          
+  10          char code time[] =   //每一個變化的時間
+  11          {30,1,1,1,1,1,1,4,30,1,1,1,1,1,1,4};
+  12          
+  13          main() 
+  14          {
+  15   1        unsigned char i=0; //定義變數=0
+  16   1        P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  17   1        EA=1;      //致能整體中斷
+  18   1        EX0=1;     //致能外部INT0中斷
+  19   1        IT0=0;   //0=0準位輸入，1=負緣觸發輸入
+  20   1        while(1)   //不斷循環，等待INT0外部中斷
+  21   1         {
+  22   2            for (i=0;i<16;i++) //設定0~15個變化
+  23   2            {
+  24   3              if(KEY1==0) break;//若當KEY1=0時，跳出迴圈，黃燈互閃
+  25   3              LED=light[i];  //紅黃綠燈資料反相輸出
+  26   3              Delay_ms(time[i]*100);//將每一個變化的時間送到延時函數
+  27   3            }
+  28   2         }
+  29   1      }
+  30          //********INT0中斷函數，使用暫存器庫1**********
+  31          void EX0_int(void) interrupt 0  using 1
+  32           {
+  33   1           unsigned int  dly; //定義延時變數
+  34   1         char i=5;
+  35   1          while(i--)  //閃爍次數
+  36   1           {
+  37   2             LED=~0x10;  dly=50000;  while(dly--);    //黃燈互閃
+  38   2             LED=~0x02;  dly=50000;  while(dly--); 
+  39   2          } 
+  40   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    187    ----
+   CONSTANT SIZE    =     32    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

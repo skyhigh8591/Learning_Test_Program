@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">listView_03</string>
+
+    <string-array name="food_name">
+        <item>COCA Light</item>
+        <item>COCA Zero</item>
+        <item>COCA</item>
+        <item>French Fries</item>
+        <item>Hamburger</item>
+        <item>KFC</item>
+    </string-array>
+
+    <integer-array name="food_price">
+        <item>40</item>
+        <item>45</item>
+        <item>30</item>
+        <item>50</item>
+        <item>100</item>
+        <item>120</item>
+    </integer-array>
+
+</resources>

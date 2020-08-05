@@ -1,0 +1,34 @@
+C51 COMPILER V9.56.0.0   3_18                                                              02/25/2020 08:54:47 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE 3_18
+OBJECT MODULE PLACED IN 3_18.OBJ
+COMPILER INVOKED BY: C:\Keil_v51\C51\BIN\C51.EXE 3_18.C ROM(SMALL) OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /*********** 3_18.c***指標應用範例*********
+   2          *動作：由RAM位址0x10以後填入資料0xFF
+   3          *******************************************/
+   4          main() 
+   5          {
+   6   1          unsigned char *point; //定義指標變數
+   7   1          point=0x10;     //設定RAM開始位址
+   8   1       loop:
+   9   1          *point++=0xFF; //填入資料到RAM內，RAM位址遞加
+  10   1           goto loop;
+  11   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     33    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

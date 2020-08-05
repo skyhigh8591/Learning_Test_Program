@@ -1,0 +1,56 @@
+
+8051 Macro Assembler  Copyright (C) 1990 by 2500AD Software Inc. Version 5.03b
+
+
+                         ***** Active Commands *****
+
+                           Ctrl S = Stop Output
+                           Ctrl Q = Start Output
+                           Esc  C = Stop Assembly
+                           Esc  T = Terminal Output
+                           Esc  D = Disk Output
+                           Esc  M = Multiple Output
+                           Esc  N = No Output
+
+
+
+
+               2500 A.D. 8051 Macro Assembler  -  Version 5.03b
+               ------------------------------------------------
+
+                       Input  Filename : LED83.a51
+                       Output Filename : LED83.OBJ
+
+
+
+
+             Lines Assembled : 140                  Errors : 0
+
+
+
+
+
+2500 A.D. Linker  Copyright (C) 1990 by 2500AD Software Inc. Version 5.03d
+Input   Filename : LED83
+    Enter Hex Offset For 'CODE'                     : 
+Input   Filename : 
+
+Output  Filename : 
+
+Library Filename : 
+
+Options (D,G,P  A,R,S[U] C,M,N,SM,Z  E,H,T,X,1,2,3  <CR> = Default) : M
+
+
+No 'SYMBOLS' Directive in File : LED83.OBJ
+
+                  Linker Output Filename : LED83.HEX
+                  Disk Listing  Filename : <None Specified>
+                  Symbol Table  Filename : LED83.SYM
+                                Format   : Microtek
+
+
+         Link Errors :  0                Output Format :  Intel Hex
+
+
+

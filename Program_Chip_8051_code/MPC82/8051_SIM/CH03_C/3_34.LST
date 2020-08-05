@@ -1,0 +1,48 @@
+C51 COMPILER V8.09   3_34                                                                  07/29/2009 15:26:49 PAGE 1   
+
+
+C51 COMPILER V8.09, COMPILATION OF MODULE 3_34
+OBJECT MODULE PLACED IN 3_34.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_34.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /************** 3_34.c **********************************
+   2          *動作：令LED來回輸出霹靂燈，不斷的循環
+   3          *硬體：SW1-3(P0LED)ON
+   4          *****************************************************/
+   5          #include "..\MPC82.H"  //暫存器及組態設定
+   6          main()
+   7          {
+   8   1       unsigned char i;
+   9   1       while (1)   //不斷的循環
+  10   1        {
+  11   2          i=0x01;          //i=0x01
+  12   2              while (i<0x80)   //繼續左移到bit7=1
+  13   2           {
+  14   3             LED=i; Delay_ms(100);  
+  15   3             i=i<<1 ;    //左移1-bit
+  16   3           }
+  17   2          
+  18   2              i=0x80;          //i為0x80
+  19   2          while (i>0x01)   //繼續右移到bit1=1
+  20   2           {
+  21   3             LED=i; Delay_ms(100);   
+  22   3             i=i>>1 ;   //右移1-bit
+  23   3           }
+  24   2        }
+  25   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     66    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

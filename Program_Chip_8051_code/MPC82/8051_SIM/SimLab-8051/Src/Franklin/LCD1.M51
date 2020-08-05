@@ -1,0 +1,341 @@
+BL51 BANKED LINKER/LOCATER V4.03                                                        12/13/2001  22:53:01  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V4.03, INVOKED BY:
+C:\C51\BIN\L51 LCD1.OBJ TO LCD1.ABS
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  LCD1.OBJ (LCD1)
+  C:\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\C51\LIB\C51S.LIB (?C?SLCMP)
+
+
+LINK MAP OF MODULE:  LCD1.ABS (LCD1)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0004H     UNIT         ?DT?DELAY100MS?LCD1
+            DATA    000CH     0003H     UNIT         _DATA_GROUP_
+            DATA    000FH     0001H     UNIT         ?DT?DELAY1S?LCD1
+            DATA    0010H     0001H     UNIT         ?DT?DELAY10S?LCD1
+            DATA    0011H     0001H     UNIT         ?DT?DELAY100S?LCD1
+            IDATA   0012H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     3FFDH                  *** GAP ***
+            CODE    4000H     0042H     UNIT         ?PR?DELAY100MS?LCD1
+            CODE    4042H     0040H     UNIT         ?PR?MAIN?LCD1
+            CODE    4082H     0016H     UNIT         ?C?LIB_CODE
+            CODE    4098H     0012H     UNIT         ?PR?DELAY1S?LCD1
+            CODE    40AAH     0012H     UNIT         ?PR?DELAY10S?LCD1
+            CODE    40BCH     0012H     UNIT         ?PR?DELAY100S?LCD1
+            CODE    40CEH     0011H     UNIT         ?PR?DELAY1MS?LCD1
+            CODE    40DFH     000FH     UNIT         ?PR?DELAY40US?LCD1
+            CODE    40EEH     000EH     UNIT         ?PR?_DELAY100USP?LCD1
+            CODE    40FCH     000CH     UNIT         ?C_C51STARTUP
+            CODE    4108H     000BH     UNIT         ?PR?_COMMAND?LCD1
+            CODE    4113H     000BH     UNIT         ?PR?_DATA?LCD1
+            CODE    411EH     000AH     UNIT         ?PR?DELAY10MS?LCD1
+            CODE    4128H     0009H     UNIT         ?PR?DELAY5MS?LCD1
+            CODE    4131H     0008H     UNIT         ?PR?DELAY100US?LCD1
+            CODE    4139H     0008H     UNIT         ?CO?LCD1
+            CODE    4141H     0006H     UNIT         ?PR?DELAY2MS?LCD1
+
+
+
+OVERLAY MAP OF MODULE:   LCD1.ABS (LCD1)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+BL51 BANKED LINKER/LOCATER V4.03                                                      12/13/2001  22:53:01  PAGE 2
+
+
+  +--> ?PR?MAIN?LCD1
+
+?PR?MAIN?LCD1                  000CH    0002H
+  +--> ?CO?LCD1
+  +--> ?PR?DELAY5MS?LCD1
+  +--> ?PR?_COMMAND?LCD1
+  +--> ?PR?DELAY2MS?LCD1
+  +--> ?PR?_DATA?LCD1
+
+?PR?DELAY5MS?LCD1              -----    -----
+  +--> ?PR?DELAY2MS?LCD1
+  +--> ?PR?DELAY1MS?LCD1
+
+?PR?DELAY2MS?LCD1              -----    -----
+  +--> ?PR?DELAY1MS?LCD1
+
+?PR?DELAY1MS?LCD1              000EH    0001H
+
+?PR?_COMMAND?LCD1              -----    -----
+  +--> ?PR?DELAY40US?LCD1
+
+?PR?_DATA?LCD1                 -----    -----
+  +--> ?PR?DELAY40US?LCD1
+
+
+
+SYMBOL TABLE OF MODULE:  LCD1.ABS (LCD1)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        LCD1
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  B:00B0H.4       PUBLIC        T0
+  B:00D0H.6       PUBLIC        AC
+  C:40CEH         PUBLIC        Delay1ms
+  B:00B0H.5       PUBLIC        T1
+  B:00A8H.7       PUBLIC        EA
+  B:00B0H.7       PUBLIC        RD
+  C:4098H         PUBLIC        Delay1s
+  B:00A8H.4       PUBLIC        ES
+  B:0098H.0       PUBLIC        RI
+  B:00B0H.2       PUBLIC        INT0
+  B:00D0H.7       PUBLIC        CY
+  B:0098H.1       PUBLIC        TI
+  B:00B0H.3       PUBLIC        INT1
+  C:40EEH         PUBLIC        _Delay100usP
+  C:4108H         PUBLIC        _Command
+  B:00B8H.4       PUBLIC        PS
+  B:00D0H.2       PUBLIC        OV
+  C:4141H         PUBLIC        delay2ms
+  C:4042H         PUBLIC        main
+  C:4128H         PUBLIC        delay5ms
+  B:00B0H.6       PUBLIC        WR
+  C:411EH         PUBLIC        Delay10ms
+BL51 BANKED LINKER/LOCATER V4.03                                                      12/13/2001  22:53:01  PAGE 3
+
+
+  B:0088H.1       PUBLIC        IE0
+  B:0088H.3       PUBLIC        IE1
+  C:4139H         PUBLIC        mes
+  C:40AAH         PUBLIC        Delay10s
+  B:00A8H.1       PUBLIC        ET0
+  B:00A8H.3       PUBLIC        ET1
+  B:0088H.5       PUBLIC        TF0
+  B:0088H.7       PUBLIC        TF1
+  B:0098H.2       PUBLIC        RB8
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  B:0098H.3       PUBLIC        TB8
+  B:00A8H.2       PUBLIC        EX1
+  B:0088H.2       PUBLIC        IT1
+  B:00D0H.0       PUBLIC        P
+  B:0098H.7       PUBLIC        SM0
+  B:0098H.6       PUBLIC        SM1
+  B:0098H.5       PUBLIC        SM2
+  B:00B8H.1       PUBLIC        PT0
+  B:00B8H.3       PUBLIC        PT1
+  B:00D0H.3       PUBLIC        RS0
+  B:0088H.4       PUBLIC        TR0
+  B:00D0H.4       PUBLIC        RS1
+  B:0088H.6       PUBLIC        TR1
+  B:00B8H.0       PUBLIC        PX0
+  B:00B8H.2       PUBLIC        PX1
+  C:4113H         PUBLIC        _Data
+  C:40DFH         PUBLIC        delay40us
+  C:4000H         PUBLIC        Delay100ms
+  B:0098H.4       PUBLIC        REN
+  C:4131H         PUBLIC        Delay100us
+  B:00B0H.0       PUBLIC        RXD
+  B:00B0H.1       PUBLIC        TXD
+  B:00D0H.5       PUBLIC        F0
+  C:40BCH         PUBLIC        Delay100s
+  -------         PROC          DELAY100US
+  -------         DO            DELAY100US
+  D:0007H         SYMBOL        i
+  -------         ENDDO         i
+  C:4131H         LINE#         72
+  C:4131H         LINE#         73
+  C:4131H         LINE#         75
+  C:4137H         LINE#         76
+  C:4138H         LINE#         77
+  -------         ENDPROC       DELAY100US
+  -------         PROC          DELAY1MS
+  -------         DO            DELAY1MS
+  D:0006H         SYMBOL        i
+  D:000EH         SYMBOL        j
+  -------         ENDDO         j
+  C:40CEH         LINE#         79
+  C:40CEH         LINE#         80
+  C:40CEH         LINE#         83
+  C:40DCH         LINE#         84
+  C:40DEH         LINE#         85
+  -------         ENDPROC       DELAY1MS
+  -------         PROC          DELAY10MS
+BL51 BANKED LINKER/LOCATER V4.03                                                      12/13/2001  22:53:01  PAGE 4
+
+
+  -------         DO            DELAY10MS
+  D:0005H         SYMBOL        i
+  -------         ENDDO         i
+  C:411EH         LINE#         87
+  C:411EH         LINE#         88
+  C:411EH         LINE#         90
+  C:4120H         LINE#         91
+  C:4123H         LINE#         92
+  C:4127H         LINE#         93
+  -------         ENDPROC       DELAY10MS
+  -------         PROC          DELAY100MS
+  -------         DO            DELAY100MS
+  D:0008H         SYMBOL        i
+  D:0007H         SYMBOL        j
+  -------         ENDDO         j
+  C:4000H         LINE#         95
+  C:4000H         LINE#         96
+  C:4000H         LINE#         99
+  C:4039H         LINE#         100
+  C:403FH         LINE#         101
+  C:4040H         LINE#         102
+  C:4041H         LINE#         103
+  -------         ENDPROC       DELAY100MS
+  -------         PROC          DELAY1S
+  -------         DO            DELAY1S
+  D:000FH         SYMBOL        i
+  -------         ENDDO         i
+  C:4098H         LINE#         105
+  C:4098H         LINE#         106
+  C:4098H         LINE#         108
+  C:409BH         LINE#         109
+  C:409EH         LINE#         110
+  C:40A9H         LINE#         111
+  -------         ENDPROC       DELAY1S
+  -------         PROC          DELAY10S
+  -------         DO            DELAY10S
+  D:0010H         SYMBOL        i
+  -------         ENDDO         i
+  C:40AAH         LINE#         113
+  C:40AAH         LINE#         114
+  C:40AAH         LINE#         116
+  C:40ADH         LINE#         117
+  C:40B0H         LINE#         118
+  C:40BBH         LINE#         119
+  -------         ENDPROC       DELAY10S
+  -------         PROC          DELAY100S
+  -------         DO            DELAY100S
+  D:0011H         SYMBOL        i
+  -------         ENDDO         i
+  C:40BCH         LINE#         121
+  C:40BCH         LINE#         122
+  C:40BCH         LINE#         124
+  C:40BFH         LINE#         125
+  C:40C2H         LINE#         126
+  C:40CDH         LINE#         127
+  -------         ENDPROC       DELAY100S
+  -------         PROC          _DELAY100USP
+BL51 BANKED LINKER/LOCATER V4.03                                                      12/13/2001  22:53:01  PAGE 5
+
+
+  D:0007H         SYMBOL        cnt
+  -------         DO            cnt
+  D:0006H         SYMBOL        i
+  -------         ENDDO         i
+  C:40EEH         LINE#         129
+  C:40EEH         LINE#         130
+  C:40EEH         LINE#         133
+  C:40F1H         LINE#         134
+  C:40F7H         LINE#         135
+  C:40F8H         LINE#         136
+  C:40F9H         LINE#         137
+  C:40FBH         LINE#         138
+  -------         ENDPROC       _DELAY100USP
+  -------         PROC          DELAY2MS
+  C:4141H         LINE#         9
+  C:4141H         LINE#         10
+  C:4141H         LINE#         11
+  C:4144H         LINE#         12
+  -------         ENDPROC       DELAY2MS
+  -------         PROC          DELAY5MS
+  C:4128H         LINE#         14
+  C:4128H         LINE#         15
+  C:4128H         LINE#         16
+  C:412BH         LINE#         17
+  C:412EH         LINE#         18
+  -------         ENDPROC       DELAY5MS
+  -------         PROC          DELAY40US
+  -------         DO            DELAY40US
+  D:0006H         SYMBOL        i
+  -------         ENDDO         i
+  C:40DFH         LINE#         20
+  C:40DFH         LINE#         21
+  C:40DFH         LINE#         23
+  C:40EDH         LINE#         24
+  -------         ENDPROC       DELAY40US
+  -------         PROC          _COMMAND
+  D:0006H         SYMBOL        cmd
+  C:4108H         LINE#         25
+  C:4108H         LINE#         26
+  C:410AH         LINE#         27
+  C:410DH         LINE#         28
+  C:4110H         LINE#         29
+  -------         ENDPROC       _COMMAND
+  -------         PROC          _DATA
+  D:0007H         SYMBOL        data1
+  C:4113H         LINE#         31
+  C:4113H         LINE#         32
+  C:4115H         LINE#         33
+  C:4118H         LINE#         34
+  C:411BH         LINE#         35
+  -------         ENDPROC       _DATA
+  -------         PROC          MAIN
+  -------         DO            MAIN
+  D:000CH         SYMBOL        code1
+  D:000DH         SYMBOL        i
+  D:0004H         SYMBOL        pp
+  -------         ENDDO         pp
+BL51 BANKED LINKER/LOCATER V4.03                                                      12/13/2001  22:53:01  PAGE 6
+
+
+  C:4042H         LINE#         37
+  C:4042H         LINE#         38
+  C:4042H         LINE#         41
+  C:4046H         LINE#         42
+  C:4049H         LINE#         43
+  C:4050H         LINE#         44
+  C:4057H         LINE#         45
+  C:405EH         LINE#         46
+  C:4061H         LINE#         47
+  C:4068H         LINE#         48
+  C:4070H         LINE#         49
+  C:407EH         LINE#         50
+  C:4080H         LINE#         51
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        LCD1
+
+  -------         MODULE        ?C?SLCMP
+  C:4082H         PUBLIC        ?C?SLCMP
+  -------         ENDMOD        ?C?SLCMP
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY100US?LCD1
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY10MS?LCD1
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY100S?LCD1
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY100USP?LCD1
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0125H BYTE (14%) *
+******************************************************************************
+
+LINK/LOCATE RUN COMPLETE.  4 WARNING(S),  0 ERROR(S)

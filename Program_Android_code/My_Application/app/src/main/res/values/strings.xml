@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">New APP</string>
+
+    <string name="myString_1">Good morning</string>
+    <string name="myString_2">This is Android project</string>
+
+</resources>

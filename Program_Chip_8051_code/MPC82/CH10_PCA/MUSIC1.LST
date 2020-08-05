@@ -1,0 +1,76 @@
+C51 COMPILER V9.03   MUSIC1                                                                11/27/2011 15:01:13 PAGE 1   
+
+
+C51 COMPILER V9.03, COMPILATION OF MODULE MUSIC1
+OBJECT MODULE PLACED IN MUSIC1.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE MUSIC1.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*** MUSIC1.C*********PCA高速輸出音樂範例************
+   2          *動作：PCA高速輸出，PCA中斷控制CEX0(P12)腳輸出音樂
+   3          *硬體：SW2-6(SPK)ON
+   4          ***********************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6          #define  T      22118400/12/2 //基本頻率T=Fosc/12/2=921600Hz
+   7          #define  DO     T/523   //各種音頻的計時器內容
+   8          #define  RE     T/587
+   9          #define  MI     T/659
+  10          #define  FA     T/698
+  11          #define  SO     T/785
+  12          #define  LA     T/880
+  13          #define  TI     T/998        
+  14          
+  15          unsigned int  code Table[] //音頻的陣列資料 
+  16                  = { DO,RE,MI,FA,SO,LA,TI };
+  17          char i;   //資料計數         
+  18          unsigned int  Temp;
+  19          main()         
+  20          {
+  21   1        CCAPM0 = ECOM+MAT+TOG+ECCF; //MAT=1，PAC計數與CCAP0匹配時，令CCF0=1
+  22   1                                    //ECOM=1，致能比較器功能
+  23   1                                                        //TOG=1，(CH:CL)=CCAP0時，令CEX0腳反相
+  24   1                                                            //ECCF=1，致能有匹配(CCF0=1)時，產生中斷
+  25   1       
+  26   1        EA = 1;       //致能所有中斷
+  27   1        AUXIE = EPCA; //致能PCA中斷
+  28   1        CCF0 = 0;             //清除模組0的比較旗標
+  29   1        while(1)      //重覆執行
+  30   1        {
+  31   2         for(i=0;i<7;i++) //輸出7個音階
+  32   2          {
+  33   3            Temp=Table[i];  //讀取陣列音頻資料
+  34   3            CCAP0L=Temp;        //設定比較暫存器低位元組
+  35   3            CCAP0H=Temp>>8; //設定比較暫存器高位元組
+  36   3            CR = 1;         //啟動PCA計數，開始發音
+  37   3                Delay_ms(500);  //延時，發音的時間，等待(CH:CL)=CCAP0產生中斷
+  38   3            CR = 0;         //停止PCA計數，停止發音
+  39   3          }
+  40   2          Delay_ms(1000);   //延時，停止發音的時間
+  41   2        }
+  42   1      }
+  43          /***********************************************************
+  44          *函數名稱: PCA中斷函數
+  45          *功能描述: 自動令CEX0反相
+  46          ************************************************************/
+  47          void PCA_Interrupt() interrupt 10
+  48          {
+  49   1        CCF0 = 0;         //清除模組0的比較旗標
+  50   1        CL = CH =0;   //PCA計數器由0開始上數
+  51   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    144    ----
+C51 COMPILER V9.03   MUSIC1                                                                11/27/2011 15:01:13 PAGE 2   
+
+   CONSTANT SIZE    =     14    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      7    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

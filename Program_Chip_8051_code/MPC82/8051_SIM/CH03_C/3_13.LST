@@ -1,0 +1,46 @@
+C51 COMPILER V8.16   3_13                                                                  01/29/2009 07:37:37 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE 3_13
+OBJECT MODULE PLACED IN 3_13.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_13.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /************** 3_13.c, *********************
+   2          *動作：位元邏輯運算子範例
+   3          *****************************************/
+   4          main()
+   5          {
+   6   1        unsigned char  a=0x0f;   //a=0000 1111
+   7   1        unsigned char  b=0x33;   //b=0011 0011
+   8   1        char   c=-2;   //c=-2=0xFE=1111 1110
+   9   1        static unsigned char  i; //輸出變數
+  10   1        loop:
+  11   1          i=~a;       //a=0000 1111取補數,     i=1111 000=0xf0;
+  12   1      
+  13   1              i=a & 0xfe; //a=0000 1111令bit0=0，  i=0000 1110=0x0e 
+  14   1          i=b ^ 0x01; //b=0011 0011令bit0=反相,i=0011 0010=0x32 
+  15   1          i=a | 0x80; //a=0000 1111令bit7=1，  i=1000 1111=0x8f
+  16   1      
+  17   1          i=a << 3;   //a=0000 1111左移3-bit,  i=0111 1000=0x78
+  18   1          i=b >> 1;   //b=0011 0011右移1-bit,  i=0001 1001=0x19
+  19   1          
+  20   1          i=c>>1;  //i=0xFF==1111 1111,將符號位元複製右移  
+  21   1          i=c<<1;  //i=0xFC==1111 1100,符號位元保留，由0遞補左移    
+  22   1        goto loop;
+  23   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     51    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

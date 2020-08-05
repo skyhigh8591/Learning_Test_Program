@@ -1,0 +1,118 @@
+C51 COMPILER V8.17   KEY3                                                                  08/27/2009 21:25:49 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE KEY3
+OBJECT MODULE PLACED IN KEY3.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE KEY3.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*******KEY3.C*******4*4鍵盤實習範例**********
+   2          *動作：在LCD顯示"KEY="，按鍵由LCD顯示4位數
+   3          *硬體：按S1~S16
+   4          *****************************************/
+   5          #include "..\MPC82.H"   //暫存器及組態定義
+   6          char code  Table[]="KEY="; //第一行陣列字元
+   7          
+   8          void dataout(uint8 keyout); //按鍵資料輸出
+   9          char i=0;  //LCD顯示位置
+  10          void main()
+  11          {
+  12   1       char count=0;   //按鍵計數=0
+  13   1       unsigned char scan=0xEF;  //按鍵掃描令ROW0=0，其餘為1
+  14   1       LCD_init();            // 重置及清除LCD
+  15   1       LCD_Cmd(0x80);     //游標由第一行開始顯示  
+  16   1       for(i=0; i<4; i++) //讀取陣列"KEY= "字元到LCD顯示出來 
+  17   1         LCD_Data(Table[i]);   
+  18   1       while(1)   //重覆執行
+  19   1        {
+  20   2          if(count>15){scan=0xEF;count=0;}//若計數>15，從頭開始
+  21   2          ROW=scan;             //掃描輸出
+  22   2              if(COL0==0) dataout(count);//檢查COL0列，若是計數輸出
+  23   2          count++; Delay_ms(1);      //若不是，計數+1
+  24   2          if(COL1==0) dataout(count);//檢查COL1列，若是計數輸出
+  25   2          count++; Delay_ms(1);      //若不是，計數+1
+  26   2          if(COL2==0) dataout(count);//檢查COL2列，若是計數輸出
+  27   2          count++; Delay_ms(1);      //若不是，計數+1
+  28   2          if(COL3==0) dataout(count);//檢查COL3列，若是計數輸出
+  29   2          count++; Delay_ms(1);      //若不是，計數+1
+  30   2          scan=RL8(scan); //左旋轉，換掃下一列,令ROW0~3輪流為0
+  31   2         }
+  32   1      }
+  33          /***********************************************************
+  34          *函數名稱: dataout
+  35          *功能描述: 按鍵輸出資料送到LCD顯示數字，檢查是否放開按鍵
+  36          *輸入參數：keyout
+  37          ************************************************************/
+  38          void dataout(char keyout) 
+  39          {
+  40   1        if(i>=4){i=0;LCD_Cmd(0x84);} //LCD顯示4個數字
+  41   1        if(keyout>9) keyout=keyout+7; //數字超過9修正顯示A~F
+  42   1        LCD_Data(keyout+'0');  //送到七段顯示器輸出
+  43   1        Delay_ms(1);          //處理按鍵跳動之延遲
+  44   1        while(!(COL0 & COL1 & COL2 & COL3));//若COL0~3≠1111未放開按鍵
+  45   1        Delay_ms(1);       //處理按鍵跳動之延遲
+  46   1        i++;
+  47   1        
+  48   1      }
+  49          /***********************************************************
+  50          *函數名稱: LCD_Data
+  51          *功能描述: 傳送資料到文字型LCD
+  52          *輸入參數：dat
+  53          ************************************************************/
+  54          void LCD_Data(char dat)  //傳送資料到LCD
+  55          {
+C51 COMPILER V8.17   KEY3                                                                  08/27/2009 21:25:49 PAGE 2   
+
+  56   1          Data=dat; //資料送到BUS
+  57   1          RS=1;RW=0;EN=1;//資料寫入到LCD內
+  58   1          Delay_ms(1);   //LCD等待寫入完成
+  59   1          EN=0;          //禁能LCD    
+  60   1      }
+  61          /***************************************************************
+  62          *函數名稱: LCD_Cmd
+  63          *功能描述: 傳送命令到文字型LCD
+  64          *輸入參數：Cmd
+  65          ************************************************************/
+  66          void LCD_Cmd(unsigned char Cmd) //傳送命令到LCD
+  67          {
+  68   1          Data=Cmd;  //命令送到BUS
+  69   1          RS=0;RW=0;EN=1; //命令寫入到LCD內
+  70   1          Delay_ms(1);    //LCD等待寫入完成     
+  71   1          EN=0;           //禁能LCD
+  72   1      }
+  73          /***************************************************************
+  74          *函數名稱: LCD_init
+  75          *功能描述: 啟始化文字型LCD
+  76          *****************************************************************/
+  77          void LCD_init(void)    //LCD的啟始程式  
+  78          {
+  79   1          LCD_Cmd(0x38);//0011 1000,8bit傳輸,顯示2行,5*7字型
+  80   1          LCD_Cmd(0x38);//bit4:DL=1,8bit傳輸,
+  81   1          LCD_Cmd(0x38);//bit3:N=1,顯示2行
+  82   1                        //bit2:F=0,5*7字型    
+  83   1          LCD_Cmd(0x0c);/*0000 1100,顯示幕ON,不顯示游標,游標不閃爍
+  84   1                          bit2:D=1,顯示幕ON
+  85   1                          bit1:C=0,不顯示游標
+  86   1                              bit0:B=0,游標不閃爍*/
+  87   1          LCD_Cmd(0x06);/*0000 0110,//顯示完游標右移,游標移位禁能 
+  88   1                          bit1:I/D=1,顯示完游標右移,
+  89   1                          bit0:S=0,游標移位禁能*/  
+  90   1          LCD_Cmd(0x01); //清除顯示幕  
+  91   1          LCD_Cmd(0x02); //游標回原位  
+  92   1      }
+  93          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    348    ----
+   CONSTANT SIZE    =      5    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     10    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

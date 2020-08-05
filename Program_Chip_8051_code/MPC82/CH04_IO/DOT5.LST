@@ -1,0 +1,72 @@
+C51 COMPILER V9.56.0.0   DOT5                                                              03/04/2020 10:27:43 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE DOT5
+OBJECT MODULE PLACED IN DOT5.OBJ
+COMPILER INVOKED BY: C:\Keil_v51\C51\BIN\C51.EXE DOT5.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /***** DOT5.c ****點矩陣顯示器左移位字型*********
+   2          *動作：顯示左移位字型
+   3          *接線：Scan低電位掃描輸出，由Data低電位輸出資料
+   4          *硬體：SW1-2(LED8X8)ON
+   5          *************************************************/
+   6          #include "..\MPC82.H"   //暫存器及組態定義
+   7          #include "font.h"  //字型A資料檔
+   8          main() 
+   9          { 
+  10   1        unsigned char scan=0x80;//定義掃瞄變數
+  11   1        unsigned char i;       //定義陣列資料計數
+  12   1        unsigned char repeat;  //定義重覆掃描次數 
+  13   1        unsigned char shift;   //定義移位計數 
+  14   1        P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01) 
+  15   1       while(1)
+  16   1       {
+  17   2         for(shift=7;shift>0;shift--) //移位計數=7~0
+  18   2          {
+  19   3          for(repeat=0;repeat<200;repeat++)//重覆掃瞄次數
+  20   3           {
+  21   4            for(i=0;i<8;i++)   //讀取8筆資料掃瞄8次
+  22   4             {
+  23   5               Data=font[i];   //讀取陣列資料輸出
+  24   5               Delay_ms(1);    //延時
+  25   5         Data=0xff;      //全暗
+  26   5               scan=RR8(scan); //換掃瞄下一行
+  27   5               Scan=~(scan>>shift); //掃瞄右移後輸出
+  28   5             }
+  29   4           } 
+  30   3          }
+  31   2        //----------------------------------------------   
+  32   2         for(shift=0;shift<7;shift++)  //移位計數=0~7
+  33   2          {
+  34   3           for(repeat=0;repeat<100;repeat++)//重覆掃瞄次數
+  35   3           {                       
+  36   4            for(i=0;i<8;i++)   //讀取8筆資料掃瞄8次
+  37   4             {
+  38   5               Data=font[i];   //讀取陣列資料輸出
+  39   5               Delay_ms(1);    //延時
+  40   5               Data=0xff;      //全暗
+  41   5               scan=RR8(scan); //換掃瞄下一行
+  42   5         Scan=~(scan<<shift);//掃瞄左移後輸出
+  43   5             }
+  44   4           }    
+  45   3          }             
+  46   2        } 
+  47   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    246    ----
+   CONSTANT SIZE    =      8    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+C51 COMPILER V9.56.0.0   DOT5                                                              03/04/2020 10:27:43 PAGE 2   
+
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

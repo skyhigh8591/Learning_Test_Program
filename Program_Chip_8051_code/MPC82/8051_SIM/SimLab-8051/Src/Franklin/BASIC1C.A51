@@ -1,0 +1,13 @@
+;
+; 兩個8位元數的相加
+;
+	DSEG	AT 40H
+VAL1:	DS	3
+
+	CSEG
+START:
+	MOV	A,VAL1
+	ADD	A,VAL1+1
+	MOV	VAL1+2,A
+	AJMP	$
+	END

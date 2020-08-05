@@ -1,0 +1,65 @@
+;
+;   Display number(DIP Switch setting (on DIPSW15~0)) on 4 pieces of Seven-Segment LED;
+;¨ä±½ºË¶¡¹j¬°7ms;   the scanning interval is 7ms
+;
+START:
+	MOV	R2,#0
+	MOV	DPTR,#SSTBL
+LOOP:
+	MOV	P1,#0FFH   ;  OFF common anode
+
+	CJNE	R2,#0,LOC1
+	INC	R2
+	MOV	A,P2
+	CPL	A
+	SWAP	A
+	ANL	A,#0FH
+	MOVC	A,@A+DPTR
+	MOV	P0,A
+	MOV	P1,#0F7H
+	SJMP	DELAY
+LOC1:
+	CJNE	R2,#1,LOC2
+	INC	R2
+	MOV	A,P2
+	CPL	A
+	ANL	A,#0FH
+	MOVC	A,@A+DPTR
+	MOV	P0,A
+	MOV	P1,#0FBH
+	SJMP	DELAY
+LOC2:
+	CJNE	R2,#2,LOC3
+	INC	R2
+	MOV	A,P3
+	CPL	A
+	SWAP	A
+	ANL	A,#0FH
+	MOVC	A,@A+DPTR
+	MOV	P0,A
+	MOV	P1,#0FDH
+	SJMP	DELAY
+LOC3:
+	MOV	R2,#0
+	MOV	A,P3
+	CPL	A
+	ANL	A,#0FH
+	MOVC	A,@A+DPTR
+	MOV	P0,A
+	MOV	P1,#0FEH
+	SJMP	DELAY
+DELAY:
+
+	MOV	R3,#7
+NEXT2:
+	ACALL	DELAY1MS
+	DJNZ	R3,NEXT2
+
+	AJMP	LOOP
+
+	include delay.inc
+
+SSTBL:
+	DB	0C0H,0F9H,0A4H,0B0H,099H
+	DB	092H,082H,0F8H,080H,090H
+	END

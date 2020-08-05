@@ -1,0 +1,115 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        11/27/2011  09:47:46  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE DAC4.obj TO DAC RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  DAC4.obj (DAC4)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  DAC (DAC4)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0006H     UNIT         ?DT?DAC4
+            IDATA   000EH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     0168H     UNIT         ?CO?DAC4
+            CODE    0968H     0095H     UNIT         ?PR?MAIN?DAC4
+            CODE    09FDH     001BH     UNIT         ?PR?_DELAY_MS?DAC4
+            CODE    0A18H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   DAC (DAC4)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?DAC4
+
+?PR?MAIN?DAC4
+  +--> ?CO?DAC4
+
+
+
+SYMBOL TABLE OF MODULE:  DAC (DAC4)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        DAC4
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00C0H         PUBLIC        XICON
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/27/2011  09:47:46  PAGE 2
+
+
+  D:00B0H         PUBLIC        P3
+  D:00E8H         PUBLIC        P4
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:00D8H         PUBLIC        CCON
+  C:0968H         PUBLIC        main
+  C:09FDH         PUBLIC        _Delay_ms
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:0800H         PUBLIC        sin_table
+  D:00C8H         PUBLIC        T2CON
+  D:0008H         PUBLIC        u
+  D:000AH         PUBLIC        v
+  D:000CH         PUBLIC        w
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          _DELAY_MS
+  D:0006H         SYMBOL        dly
+  -------         DO            
+  D:0004H         SYMBOL        dly1
+  -------         ENDDO         
+  C:09FDH         LINE#         550
+  C:09FDH         LINE#         551
+  C:09FDH         LINE#         553
+  C:0A07H         LINE#         554
+  C:0A17H         LINE#         555
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          MAIN
+  C:0968H         LINE#         7
+  C:0968H         LINE#         8
+  C:0968H         LINE#         9
+  C:0968H         LINE#         10
+  C:0968H         LINE#         11
+  C:096DH         LINE#         12
+  C:096DH         LINE#         13
+  C:0991H         LINE#         14
+  C:09B5H         LINE#         15
+  C:09C5H         LINE#         16
+  C:09D5H         LINE#         17
+  C:09E5H         LINE#         18
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        DAC4
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?DAC4
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0218H BYTE (26%) *
+******************************************************************************
+
+Program Size: data=15.0 xdata=0 code=551
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

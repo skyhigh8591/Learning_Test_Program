@@ -1,0 +1,39 @@
+C51 COMPILER V8.16   3_2D                                                                  01/13/2009 23:01:16 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE 3_2D
+OBJECT MODULE PLACED IN 3_2D.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_2D.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //******** 3_2D.c *********************************
+   2          //*動作：使用暫存器名稱定義檔
+   3          //*硬體：SW1-3(P0LED)及SW1-4(P1LED)ON
+   4          //*************************************************
+   5          #include "..\MPC82.H"  //暫存器及組態設定
+   6          void main()
+   7          {  
+   8   1         unsigned char i=0;
+   9   1         P0=0; P1=0;
+  10   1         loop:
+  11   1         P1_1=0;  Delay_ms(100);
+  12   1         P1_1=1;  Delay_ms(100);
+  13   1         LED=~i;  Delay_ms(100);
+  14   1         i=i+1;
+  15   1         goto loop;  //跳到loop處 
+  16   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     57    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,59 @@
+package java_app03;
+
+public class java_app03 {
+
+	class MyDataInt {
+		private int data;
+
+		public void setData(int value) {
+			data = value;
+		}
+
+		public int getData() {
+			return data;
+		}
+
+	}
+
+	class MyDataString {
+
+		private String data;
+
+		public void setData(String value) {
+			data = value;
+		}
+
+		public String getData() {
+			return data;
+		}
+
+	}
+	
+	class MyData<T>{
+		private T data;
+		
+		public void setData(T value) {
+			data = value;
+		}
+		public T getData() {
+			return data;
+		}
+	}
+
+	public static void main(String[] args) {
+		
+		
+		MyDataInt data1 = new MyDataInt();
+		data1.setData(100);
+		int value1 = data1.getData();
+		System.out.println("The value 1 is =" + value1);
+		
+		
+		MyDataString data2 = new MyDataString();
+		data2.setData("Hello");
+		int value2 = data1.getData();
+		System.out.println("The value 2 is =" + value2);
+
+	}
+
+}

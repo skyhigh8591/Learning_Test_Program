@@ -1,0 +1,54 @@
+C51 COMPILER V8.16   DOT6                                                                  02/12/2009 15:35:45 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE DOT6
+OBJECT MODULE PLACED IN DOT6.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE DOT6.C OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /***** DOT6.c ****點矩陣顯示器左移位字型********
+   2          *動作：顯示左移位四個字
+   3          *接線：Scan低電位掃描輸出，由Data低電位輸出資料
+   4          *硬體：SW1-2(LED8X8)ON
+   5          //**********************************************/
+   6          #include "..\MPC82.H"   //暫存器及組態定義
+   7          #include "font4.h"  //字型ABCD資料檔
+   8          main() 
+   9          { 
+  10   1        unsigned char i;     //定義陣列資料計數
+  11   1        unsigned char repeat;//定義重覆掃描次數       
+  12   1        unsigned char start; //定義左移位字型開始讀取計數 
+  13   1        
+  14   1         Scan=0x7F; //由com1開始掃瞄  
+  15   1       while(1)
+  16   1       {
+  17   2         for(start=0;start<24;start++) //開始計數限定4個字型
+  18   2         {
+  19   3              for(repeat=0;repeat<200;repeat++)  //重覆掃瞄次數
+  20   3           {
+  21   4             for(i=0;i<8;i++)   //讀取8筆資料掃瞄8次
+  22   4             {
+  23   5               Data=font4[start+i];//讀取開始計數之後的陣列資料輸出
+  24   5                       Delay_ms(1);       //延時
+  25   5                       Data=0xff;       //全暗
+  26   5               Scan=RR8(Scan); //換掃瞄下一行
+  27   5             }
+  28   4           } 
+  29   3         }
+  30   2       } 
+  31   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    130    ----
+   CONSTANT SIZE    =     32    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      7    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

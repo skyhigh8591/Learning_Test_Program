@@ -1,0 +1,53 @@
+C51 COMPILER V8.17   3_58                                                                  07/30/2009 13:54:28 PAGE 1   
+
+
+C51 COMPILER V8.17, COMPILATION OF MODULE 3_58
+OBJECT MODULE PLACED IN 3_58.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 3_58.C OPTIMIZE(2,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1            /********* 3_58.C*****指標函數範例***********
+   2          *動作：以指標方式讀取256筆資料，由LED輸出後，停止執行
+   3          *硬體：SW1-3(P0LED)ON
+   4          ******************************************************/
+   5          #include "..\MPC82.H"  //暫存器及組態設定
+   6          #include "TABLE8.H" 
+   7          /******************************************************
+   8          *名稱︰Send()
+   9          *功能︰由LED輸出陣列資料
+  10          *進入參數︰point要輸出的資料指標變數
+  11          ******************************************************/
+  12          void  Send(uint8 code *point)//陣列TABLE的開始位址放入指標變數
+  13          {  
+  14   1       while(1)  //重覆執行
+  15   1        {  
+  16   2          LED=~*point++;            //由LED輸出一筆資料，再換下一筆
+  17   2          if(point > (TABLE+255)) break; //若陣列資料結束，則跳出迴圈
+  18   2          Delay_ms(100);            //延時
+  19   2        }
+  20   1      }
+  21          /*******************************************************
+  22          * 名稱︰main()
+  23          * 功能︰輸出陣列字串資料
+  24          ********************************************************/
+  25          void main(void)
+  26          {
+  27   1        P0M0=0; P0M1=0xFF; //設定P0為推挽式輸出(M0-1=01)
+  28   1        Send(TABLE); //輸出所有陣列資料
+  29   1        while(1);        //資料結束，停止執行
+  30   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    111    ----
+   CONSTANT SIZE    =    256    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

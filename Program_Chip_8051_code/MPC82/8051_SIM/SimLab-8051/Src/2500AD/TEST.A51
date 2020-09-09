@@ -1,4 +1,0 @@
-LOOP:
-	MOV	P0,P1
-	AJMP	LOOP
-	END

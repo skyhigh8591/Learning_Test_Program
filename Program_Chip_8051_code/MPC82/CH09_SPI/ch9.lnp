@@ -1,4 +1,0 @@
-"SPI_SD1.obj",
-".\SD.LIB" 
-TO "ch9" 
-RAMSIZE(256) 
